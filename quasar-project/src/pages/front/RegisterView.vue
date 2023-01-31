@@ -1,9 +1,8 @@
 <template lang="pug">
 #register
-  div.row.column
-    div.col-12
+  .row.column
+    .col-12
       h1.text-center 註冊
-    //- q-separator
     .col.text-left(cols="12")
       q-form( @submit="register")
         //- 需要哪些規則再引進
@@ -12,7 +11,7 @@
         q-input(v-model="form.password" type="password" :rules="[rules.required, rules.length]" label="密碼" counter maxlength="20")
         q-input(v-model="form.passwordConfirm" type="password" :rules="[rules.required, rules.length, rules.passwordConfirm]" label="確認密碼" counter maxlength="20")
         .text-center.my-5
-          q-btn(color="success" type="submit" size="large" :loading="loading") 註冊
+          q-btn(color="primary" type="submit" size="large" :loading="loading" text-color="white" label="註冊")
 </template>
 
 <script setup>

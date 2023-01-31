@@ -1,9 +1,8 @@
 <template lang="pug">
 #home
   q-page
-    div.col-12
-      h1.text-center 購物網
-    q-divider
+    .col-12
+      h4.text-center 我是首頁
     //- q-col(v-for="product in products" :key="product._id" cols="12" md="6" lg="3")
     //-   ProductCard(v-bind="product")
 

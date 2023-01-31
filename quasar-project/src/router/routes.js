@@ -3,7 +3,7 @@ import FrontHomeView from '@/pages/front/HomeView.vue'
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/MainLayout.vue'),
+    component: () => import('src/layouts/FrontLayout.vue'),
     children: [
       {
         //  children的 path 前面不用加 '/'
@@ -29,7 +29,7 @@ const routes = [
       {
         path: 'login',
         name: 'login',
-        component: () => import('@/views/front/LoginView.vue'),
+        component: () => import('@/pages/front/LoginView.vue'),
         meta: {
           title: '購物網 | 登入',
           login: false,
@@ -39,7 +39,7 @@ const routes = [
       {
         path: 'products/:id',
         name: 'product',
-        component: () => import('@/views/front/ProductView.vue'),
+        component: () => import('@/pages/front/ProductView.vue'),
         meta: {
           title: '購物網 | 商品',
           login: false,
@@ -49,7 +49,7 @@ const routes = [
       {
         path: 'cart',
         name: 'cart',
-        component: () => import('@/views/front/CartView.vue'),
+        component: () => import('@/pages/front/CartView.vue'),
         meta: {
           title: '購物網 | 購物車',
           login: true,
@@ -59,7 +59,7 @@ const routes = [
       {
         path: 'orders',
         name: 'orders',
-        component: () => import('@/views/front/OrdersView.vue'),
+        component: () => import('@/pages/front/OrdersView.vue'),
         meta: {
           title: '購物網 | 訂單',
           login: true,
@@ -70,12 +70,12 @@ const routes = [
   },
   {
     path: '/admin',
-    component: () => import('@/layouts/AdminLayout.vue'),
+    component: () => import('@/pages/admin/AdminLayout.vue'),
     children: [
       {
         path: '',
         name: 'admin-home',
-        component: () => import('@/views/admin/HomeView.vue'),
+        component: () => import('@/pages/admin/HomeView.vue'),
         meta: {
           title: '購物網 | 管理',
           login: true,
@@ -85,7 +85,7 @@ const routes = [
       {
         path: 'products',
         name: 'admin-products',
-        component: () => import('@/views/admin/ProductsView.vue'),
+        component: () => import('@/pages/admin/ProductsView.vue'),
         meta: {
           title: '購物網 | 商品管理',
           login: true,
@@ -95,7 +95,7 @@ const routes = [
       {
         path: 'orders',
         name: 'admin-orders',
-        component: () => import('@/views/admin/OrdersView.vue'),
+        component: () => import('@/pages/admin/OrdersView.vue'),
         meta: {
           title: '購物網 | 訂單管理',
           login: true,

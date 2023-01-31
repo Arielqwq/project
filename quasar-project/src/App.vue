@@ -1,11 +1,13 @@
-<template>
-  <router-view />
+<template lang="pug">
+v-app
+  //- 這裡的router-view是 router.js裡，的根目錄 component
+  router-view
 </template>
 
-<script>
-import { defineComponent } from 'vue'
+<script set-up>
+// import { defineComponent } from 'vue'
 
-export default defineComponent({
+// export default defineComponent({
 
-})
+// })
 </script>

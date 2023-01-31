@@ -1,15 +1,14 @@
 <template lang="pug">
 #login
-  v-row
-    v-col(cols="12")
+  .row
+    .col-12
       h1.text-center 登入
-    v-divider
-    v-col(cols="12")
-      v-form(v-model="valid" @submit.prevent="login")
-        v-text-field(v-model="form.account" type="text" :rules="[rules.required, rules.length]" label="帳號" counter="20" maxlength="20")
-        v-text-field(v-model="form.password" type="password" :rules="[rules.required, rules.length]" label="密碼" counter="20" maxlength="20")
+    .col-12
+      q-form(@submit="login")
+        q-input(v-model="form.account" type="text" :rules="[rules.required, rules.length]" label="帳號" counter maxlength="20")
+        q-input(v-model="form.password" type="password" :rules="[rules.required, rules.length]" label="密碼" counter maxlength="20")
         .text-center.my-5
-          v-btn(color="success" type="submit" size="large" :loading="loading") 登入
+          q-btn(color="primary" type="submit" size="large" :loading="loading" text-color="white" label="登入" )
 </template>
 
 <script setup>
@@ -18,7 +17,7 @@ import { useUserStore } from '@/stores/user'
 
 const user = useUserStore()
 
-const valid = ref(false)
+// const valid = ref(false)
 const loading = ref(false)
 const form = reactive({
   account: '',
