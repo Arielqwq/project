@@ -36,8 +36,10 @@ export const useUserStore = defineStore('user', () => {
         title: '成功',
         text: '登入成功'
       })
+      console.log(router)
       router.push('/')
     } catch (error) {
+      console.log(error)
       Swal.fire({
         icon: 'error',
         title: '失敗',
