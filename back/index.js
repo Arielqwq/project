@@ -7,6 +7,9 @@ import productRoute from './routes/products.js'
 import orderRoute from './routes/orders.js'
 import './passport/passport.js'
 
+//  => localhost
+// mongoose.connect(process.env.DB_URL, { family: 4 })
+
 mongoose.connect(process.env.DB_URL)
 // 消毒:過濾
 mongoose.set('sanitizeFilter', true)

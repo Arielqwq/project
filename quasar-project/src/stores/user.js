@@ -2,11 +2,8 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { api, apiAuth } from '@/boot/axios'
 import Swal from 'sweetalert2'
-import { useRouter } from 'vue-router'
 
-export const useUserStore = defineStore('user', () => {
-  const router = useRouter()
-
+export const useUserStore = defineStore('user', function () {
   const token = ref('')
   const account = ref('')
   const email = ref('')
@@ -20,11 +17,10 @@ export const useUserStore = defineStore('user', () => {
     return role.value === 1
   })
   const avatar = computed(() => {
-    // return `https://source.boringavatars.com/beam/256/${account.value}?colors=59483e,f5a3af,f8afb8,fecdd0,fff7e5`
     return `https://source.boringavatars.com/beam/256/${account.value}?colors=84bfc3,fff5d6,e9c46a,D96153,000511`
   })
 
-  const login = async (form) => {
+  async function login (form) {
     try {
       const { data } = await api.post('/users/login', form)
       token.value = data.result.token
@@ -37,8 +33,7 @@ export const useUserStore = defineStore('user', () => {
         title: '成功',
         text: '登入成功'
       })
-      console.log(router)
-      router.push('/')
+      this.router.push('/')
     } catch (error) {
       console.log(error)
       Swal.fire({
@@ -49,14 +44,14 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
-  const logout = async () => {
+  async function logout () {
     try {
       await apiAuth.delete('/users/logout')
       token.value = ''
       account.value = ''
       role.value = 0
       cart.value = 0
-      router.push('/')
+      this.router.push('/')
       Swal.fire({
         icon: 'success',
         title: '成功',
@@ -71,7 +66,7 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
-  const getUser = async () => {
+  async function getUser () {
     if (token.value.length === 0) return
     try {
       const { data } = await apiAuth.get('/users/me')
@@ -84,14 +79,14 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
-  const editCart = async ({ _id, quantity, text }) => {
+  async function editCart ({ _id, quantity, text }) {
     if (token.value.length === 0) {
       Swal.fire({
         icon: 'error',
         title: '失敗',
         text: '請先登入'
       })
-      router.push('/login')
+      this.router.push('/login')
       return
     }
     try {
@@ -112,7 +107,7 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
-  const checkout = async () => {
+  async function checkout () {
     try {
       await apiAuth.post('/orders')
       cart.value = 0
@@ -145,12 +140,58 @@ export const useUserStore = defineStore('user', () => {
     editCart,
     checkout
   }
-}, {
+},
+{
   persist: {
-    key: '20230103',
+    key: 'WprojectW',
     paths: ['token']
   }
-})
+}
+
+  // {
+  //     state: () => ({
+  //     token:'',
+  //     account:'',
+  //     email:'',
+  //     cart:0,
+  //     role:0
+  //   }),
+  //   getters: {
+  //     isLogin(){
+  //     return token.value.length > 0
+  //     }
+  //   },
+  //   actions: {
+  //      login (form) {
+  //       try {
+  //         const { data } = await api.post('/users/login', form)
+  //         this.token = data.result.token
+  //         this.account = data.result.account
+  //         this.email = data.result.email
+  //         this.cart = data.result.cart
+  //         this.role = data.result.role
+  //         Swal.fire({
+  //           icon: 'success',
+  //           title: '成功',
+  //           text: '登入成功'
+  //         })
+  //         router.push('/')
+  //       } catch (error) {
+  //         console.log(error)
+  //         Swal.fire({
+  //           icon: 'error',
+  //           title: '失敗',
+  //           text: error?.response?.data?.message || '發生錯誤'
+  //         })
+  //       }
+  //     }
+  //   },
+  //   persist: {
+  //         key: '20230103',
+  //         paths: ['token']
+  //       }
+  // }
+)
 
 // export const useCounterStore = defineStore('counter', {
 //   state: () => ({
