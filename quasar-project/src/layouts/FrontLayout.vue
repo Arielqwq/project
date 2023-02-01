@@ -7,14 +7,14 @@ q-layout
         q-avatar
           img(src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg")
         title ~快樂的地方~
-      q-btn(v-if="!isLogin" push round font-awesome-icon icon="fa-solid fa-user" @click="registerShow = true")
+      q-btn(v-if="!isLogin" push round  icon="fa-solid fa-user" @click="registerShow = true")
       //- <q-btn v-if="!isLogin" font-awesome-icon icon="fa-solid fa-user" to="/register" label="註冊"/>
       //- <q-btn v-if="!isLogin" font-awesome-icon icon="fa-solid fa-right-to-bracket" to="/login" label="登入"/>
-      q-btn( v-if="isLogin" font-awesome-icon icon="fa-solid fa-cart-shopping" to="/cart")
+      q-btn( v-if="isLogin"  icon="fa-solid fa-cart-shopping" to="/cart")
         q-badge( color="red" :label="cart" rounded floating)
-      q-btn(v-if="isLogin" font-awesome-icon icon="fa-solid fa-list" to="/orders" label="訂單")
-      q-btn(v-if="isLogin && isAdmin" font-awesome-icon icon="fa-solid fa-hammer" to="/admin" label="管理")
-      q-btn(v-if="isLogin" font-awesome-icon icon="fa-solid fa-right-from-bracket" @click="logout" label="登出")
+      q-btn(v-if="isLogin"  icon="fa-solid fa-list" to="/orders" label="訂單")
+      q-btn(v-if="isLogin && isAdmin"  icon="fa-solid fa-hammer" to="/admin" label="管理")
+      q-btn(v-if="isLogin"  icon="fa-solid fa-right-from-bracket" @click="logout" label="登出")
 
       q-tabs(align="left")
         q-route-tab(to="/" label="首頁" )
@@ -23,10 +23,11 @@ q-layout
         q-route-tab(to="/ContactUs" label="聯絡我們")
         q-route-tab(to="/AboutUs" label="關於我們")
 
-      q-dialog(v-model="registerShow")
+      q-dialog(v-if="!isLogin" v-model="registerShow")
         q-card(class="q-dialog-plugin")
-          LoginShow(v-if="registerShow")
-          RegisterShow(v-if="!registerShow")
+          LoginShow(v-if="loginShow")
+          RegisterShow(v-if="!loginShow")
+          q-btn(:label='loginShow ? "註冊" : "登入"' @click="loginShow = !loginShow")
 
   q-page-container
     router-view
@@ -52,12 +53,13 @@ const { isLogin, isAdmin, cart } = storeToRefs(user)
 const { logout } = user
 
 const registerShow = ref(false)
+const loginShow = ref(true)
 
-// const leftDrawerOpen = ref(false)
+const leftDrawerOpen = ref(false)
 
-// const toggleLeftDrawer = () => {
-//   leftDrawerOpen.value = !leftDrawerOpen.value
-// }
+const toggleLeftDrawer = () => {
+  leftDrawerOpen.value = !leftDrawerOpen.value
+}
 
 // script 寫法
 // export default{
