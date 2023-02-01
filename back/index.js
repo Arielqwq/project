@@ -16,6 +16,7 @@ const app = express()
 
 // 跨域請求設定
 app.use(cors({
+  // 順序有差
   // origin 代表請求來源, Postman 等後端的請求會是 undefined (增加 || origin === undefined 為允許 postman 請求)
   // callback(錯誤, 是否允許)
   origin (origin, callback) {

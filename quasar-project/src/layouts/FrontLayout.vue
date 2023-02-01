@@ -13,7 +13,7 @@
         <q-btn v-if="!isLogin" font-awesome-icon icon="fa-solid fa-user" to="/register" label="註冊"/>
         <q-btn v-if="!isLogin" font-awesome-icon icon="fa-solid fa-right-to-bracket" to="/login" label="登入"/>
         <q-btn v-if="isLogin" font-awesome-icon icon="fa-solid fa-cart-shopping" to="/cart">
-          <q-badge color="red" rounded floating/>
+          <q-badge color="red" :label="cart" rounded floating/>
         </q-btn>
         <q-btn v-if="isLogin" font-awesome-icon icon="fa-solid fa-list" to="/orders" label="訂單"/>
         <q-btn v-if="isLogin && isAdmin" font-awesome-icon icon="fa-solid fa-hammer" to="/admin" label="管理"/>
