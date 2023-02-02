@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { api, apiAuth } from '@/boot/axios'
 import Swal from 'sweetalert2'
+import router from '@/router/routes'
 
 export const useUserStore = defineStore('user', function () {
   const token = ref('')
@@ -9,6 +10,8 @@ export const useUserStore = defineStore('user', function () {
   const email = ref('')
   const cart = ref(0)
   const role = ref(0)
+
+  const showLogin = ref(false)
 
   const isLogin = computed(() => {
     return token.value.length > 0
@@ -28,12 +31,13 @@ export const useUserStore = defineStore('user', function () {
       email.value = data.result.email
       cart.value = data.result.cart
       role.value = data.result.role
+      router.push('/')
+      showLogin.value = false
       Swal.fire({
         icon: 'success',
         title: '成功',
         text: '登入成功'
       })
-      this.router.push('/')
     } catch (error) {
       console.log(error)
       Swal.fire({
@@ -51,7 +55,8 @@ export const useUserStore = defineStore('user', function () {
       account.value = ''
       role.value = 0
       cart.value = 0
-      this.router.push('/')
+      router.push('/')
+      console.log('push')
       Swal.fire({
         icon: 'success',
         title: '成功',
@@ -131,6 +136,7 @@ export const useUserStore = defineStore('user', function () {
     email,
     cart,
     role,
+    showLogin,
     login,
     logout,
     getUser,

@@ -1,6 +1,6 @@
 <template lang="pug">
 q-drawer(v-model="drawer" show-if-above :mini="miniState" @mouseover="miniState = false" @mouseout="miniState = true" :width="200" :breakpoint="500" bordered content-class="bg-grey-3")
-  q-scroll-area .fit (:horizontal-thumb-style="{ opacity: 0 }")
+  q-scroll-area.fit(:horizontal-thumb-style="{ opacity: 0 }")
     q-list(padding)
       q-item(clickable v-ripple)
         q-item-section(avatar)
@@ -10,7 +10,7 @@ q-drawer(v-model="drawer" show-if-above :mini="miniState" @mouseover="miniState 
       q-separator
 
 q-page-container
-  q-page (padding)
+  q-page(padding)
     .p(v-for="n in 15" :key="n")
         //- router-view
     Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit nihil praesentium molestias a adipisci, dolore vitae odit, quidem consequatur optio voluptates asperiores pariatur eos numquam rerum delectus commodi perferendis voluptate?
