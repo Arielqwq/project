@@ -104,6 +104,46 @@ const routes = [
           login: true,
           admin: true
         }
+      },
+      {
+        path: 'news',
+        name: 'admin-news',
+        component: () => import('@/pages/admin/NewsView.vue'),
+        meta: {
+          title: '購物網 | 商品管理',
+          login: true,
+          admin: true
+        }
+      },
+      {
+        path: 'customers',
+        name: 'admin-customers',
+        component: () => import('@/pages/admin/CustomersView.vue'),
+        meta: {
+          title: '購物網 | 訂單管理',
+          login: true,
+          admin: true
+        }
+      },
+      {
+        path: 'feedbacks',
+        name: 'admin-feedbacks',
+        component: () => import('@/pages/admin/FeedbacksView.vue'),
+        meta: {
+          title: '購物網 | 回應管理',
+          login: true,
+          admin: true
+        }
+      },
+      {
+        path: 'aboutus',
+        name: 'admin-aboutus',
+        component: () => import('@/pages/admin/AboutusView.vue'),
+        meta: {
+          title: '購物網 | 關於我們管理',
+          login: true,
+          admin: true
+        }
       }
     ]
   },

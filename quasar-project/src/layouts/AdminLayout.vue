@@ -17,7 +17,7 @@ q-layout(height="300" class="shadow-2 rounded-borders")
     q-scroll-area(class="fit" style="height: calc(100% - 150px); margin-top: 150px;" )
       q-list
         template(v-for="(menuItem, index) in menuList" :key="index")
-          q-item(clickable :active="menuItem.label === 'Outbox'" v-ripple)
+          q-item(clickable :active="menuItem.label === 'Outbox'" v-ripple :to="menuItem.route")
             q-item-section(q-avatar)
               q-icon(:icon="menuItem.icon")
             q-item-section {{ menuItem.label }}
@@ -25,7 +25,7 @@ q-layout(height="300" class="shadow-2 rounded-borders")
 
   q-page-container
     q-page
-      p(v-for="n in 15" :key="n") Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit nihil praesentium molestias a adipisci, dolore vitae odit, quidem consequatur optio voluptates asperiores pariatur eos numquam rerum delectus commodi perferendis voluptate?
+      p(v-for="n in 7" :key="n") Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit nihil praesentium molestias a adipisci, dolore vitae odit, quidem consequatur optio voluptates asperiores pariatur eos numquam rerum delectus commodi perferendis voluptate?
 
 //- v-navigation-drawer(permanent)
 //-   v-list
@@ -53,38 +53,45 @@ const miniState = ref(true)
 const menuList = [
   {
     icon: 'inbox',
-    label: 'Inbox',
+    label: '商品管理',
+    route: '/admin/products',
     separator: true
   },
   {
     icon: 'send',
-    label: 'Outbox',
+    label: '貼文管理',
+    route: '/admin/news',
     separator: false
   },
   {
     icon: 'delete',
-    label: 'Trash',
+    label: '訂單管理',
+    route: '/admin/orders',
     separator: false
   },
   {
     icon: 'error',
-    label: 'Spam',
+    label: '會員管理',
+    route: '/admin/customers',
     separator: true
   },
   {
     icon: 'settings',
-    label: 'Settings',
+    label: '回應管理',
+    route: '/admin/feedbacks',
     separator: false
   },
   {
     icon: 'feedback',
-    label: 'Send Feedback',
+    label: '關於我們管理',
+    route: '/admin/aboutus',
     separator: false
   },
   {
     icon: 'help',
     iconColor: 'primary',
-    label: 'Help',
+    label: '回首頁',
+    route: '/',
     separator: false
   }
 ]
