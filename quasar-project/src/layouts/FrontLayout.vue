@@ -13,8 +13,8 @@ q-layout
       q-btn( v-if="isLogin"  icon="fa-solid fa-cart-shopping" to="/cart")
         q-badge( color="red" :label="cart" rounded floating)
       q-btn(v-if="isLogin"  icon="fa-solid fa-list" to="/orders" label="訂單")
-      q-btn(v-if="isLogin && isAdmin"  icon="fa-solid fa-hammer" to="/admin" label="管理")
-      q-btn#logoutBtn(v-if="isLogin"  icon="fa-solid fa-right-from-bracket" @click="logout" label="登出")
+      q-btn(v-if="isLogin && isAdmin" icon="fa-solid fa-hammer" to="/admin" label="管理")
+      q-btn#logoutBtn(v-if="isLogin" icon="fa-solid fa-right-from-bracket" @click="logout" label="登出")
 
     q-tabs(align="left")
       q-route-tab(to="/" label="首頁" )

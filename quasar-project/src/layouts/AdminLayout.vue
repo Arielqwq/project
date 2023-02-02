@@ -1,19 +1,31 @@
 <template lang="pug">
-q-drawer(v-model="drawer" show-if-above :mini="miniState" @mouseover="miniState = false" @mouseout="miniState = true" :width="200" :breakpoint="500" bordered content-class="bg-grey-3")
-  q-scroll-area.fit(:horizontal-thumb-style="{ opacity: 0 }")
-    q-list(padding)
-      q-item(clickable v-ripple)
-        q-item-section(avatar)
-          q-icon(name="inbox")
-        q-item-section(:account)
-          Inbox
-      q-separator
+q-layout(height="300" class="shadow-2 rounded-borders")
+  q-header(elevated class="bg-black")
+    q-toolbar
+      q-btn(flat @click="drawer = !drawer" round dense icon="menu" )
+      q-toolbar-title 會員管理頁面
+      //- @mouseover="miniState = false" @mouseout="miniState = true"
+  q-drawer(v-model="drawer" :width="200" :breakpoint="500" bordered)
+    q-img( class="absolute-top" src="https://cdn.quasar.dev/img/material.png"  style="height: 150px")
+      .div(class="absolute-bottom bg-transparent")
+        q-avatar( size="56px" class="q-mb-sm")
+          img(src="https://cdn.quasar.dev/img/boy-avatar.png")
+          //- {{  }}
+        .div(class="text-weight-bold")
+        .div @rstoenescu
 
-q-page-container
-  q-page(padding)
-    .p(v-for="n in 15" :key="n")
-        //- router-view
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit nihil praesentium molestias a adipisci, dolore vitae odit, quidem consequatur optio voluptates asperiores pariatur eos numquam rerum delectus commodi perferendis voluptate?
+    q-scroll-area(class="fit" style="height: calc(100% - 150px); margin-top: 150px;" )
+      q-list
+        template(v-for="(menuItem, index) in menuList" :key="index")
+          q-item(clickable :active="menuItem.label === 'Outbox'" v-ripple)
+            q-item-section(q-avatar)
+              q-icon(:icon="menuItem.icon")
+            q-item-section {{ menuItem.label }}
+              q-separator
+
+  q-page-container
+    q-page
+      p(v-for="n in 15" :key="n") Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit nihil praesentium molestias a adipisci, dolore vitae odit, quidem consequatur optio voluptates asperiores pariatur eos numquam rerum delectus commodi perferendis voluptate?
 
 //- v-navigation-drawer(permanent)
 //-   v-list
@@ -31,7 +43,49 @@ q-page-container
 <script setup>
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/stores/user'
+import { ref } from 'vue'
 
 const user = useUserStore()
 const { avatar, account } = storeToRefs(user)
+const drawer = ref(false)
+const miniState = ref(true)
+
+const menuList = [
+  {
+    icon: 'inbox',
+    label: 'Inbox',
+    separator: true
+  },
+  {
+    icon: 'send',
+    label: 'Outbox',
+    separator: false
+  },
+  {
+    icon: 'delete',
+    label: 'Trash',
+    separator: false
+  },
+  {
+    icon: 'error',
+    label: 'Spam',
+    separator: true
+  },
+  {
+    icon: 'settings',
+    label: 'Settings',
+    separator: false
+  },
+  {
+    icon: 'feedback',
+    label: 'Send Feedback',
+    separator: false
+  },
+  {
+    icon: 'help',
+    iconColor: 'primary',
+    label: 'Help',
+    separator: false
+  }
+]
 </script>
