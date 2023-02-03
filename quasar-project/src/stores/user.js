@@ -24,6 +24,7 @@ export const useUserStore = defineStore('user', function () {
   })
 
   async function login (form) {
+    showLogin.value = false
     try {
       const { data } = await api.post('/users/login', form)
       token.value = data.result.token
@@ -32,7 +33,6 @@ export const useUserStore = defineStore('user', function () {
       cart.value = data.result.cart
       role.value = data.result.role
       router.push('/')
-      showLogin.value = false
       Swal.fire({
         icon: 'success',
         title: '成功',
@@ -130,6 +130,26 @@ export const useUserStore = defineStore('user', function () {
     }
   }
 
+  const register = async (form) => {
+    showLogin.value = false
+    try {
+      await api.post('/users', form)
+      await Swal.fire({
+        icon: 'success',
+        title: '成功',
+        text: '註冊成功'
+      })
+      router.push('/')
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: '失敗',
+        text: error?.response?.data?.message || '發生錯誤'
+      })
+      console.log(error)
+    }
+  }
+
   return {
     token,
     account,
@@ -144,7 +164,8 @@ export const useUserStore = defineStore('user', function () {
     isAdmin,
     avatar,
     editCart,
-    checkout
+    checkout,
+    register
   }
 },
 {

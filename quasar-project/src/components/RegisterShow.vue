@@ -4,7 +4,7 @@
     .col-12
       h1.text-center 註冊
     .col.text-left(cols="12")
-      q-form( @submit="register")
+      q-form( @submit.prevent="registerSumbit")
         //- 需要哪些規則再引進
         q-input(v-model="form.email" type="email" :rules="[rules.email, rules.required]" label="信箱")
         q-input(v-model="form.account" type="text" :rules="[rules.required, rules.length]" label="帳號" counter maxlength="20")
@@ -20,6 +20,10 @@ import validator from 'validator'
 import { api } from '@/boot/axios'
 import Swal from 'sweetalert2'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user'
+
+const users = useUserStore()
+const { register } = users
 
 const router = useRouter()
 
@@ -47,25 +51,10 @@ const rules = {
   }
 }
 
-const register = async () => {
+const registerSumbit = async () => {
   // if (!valid.value) return
   loading.value = true
-  try {
-    await api.post('/users', form)
-    await Swal.fire({
-      icon: 'success',
-      title: '成功',
-      text: '註冊成功'
-    })
-    router.push('/')
-  } catch (error) {
-    Swal.fire({
-      icon: 'error',
-      title: '失敗',
-      text: error?.response?.data?.message || '發生錯誤'
-    })
-    console.log(error)
-  }
+  await register(form)
   loading.value = false
 }
 </script>

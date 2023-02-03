@@ -5,28 +5,28 @@ q-layout(height="300" class="shadow-2 rounded-borders")
       q-btn(flat @click="drawer = !drawer" round dense icon="menu" )
       q-toolbar-title 會員管理頁面
       //- @mouseover="miniState = false" @mouseout="miniState = true"
-  q-drawer(v-model="drawer" :width="200" :breakpoint="500" bordered)
-    q-img( class="absolute-top" src="https://cdn.quasar.dev/img/material.png"  style="height: 150px")
+  q-drawer(v-model="drawer"  :width="300" :breakpoint="500" bordered)
+
+    q-scroll-area(class="fit" style="height: calc(100% - 150px); margin-top: 150px;")
+      q-list(padding class="menu-list")
+        template(v-for="(menuItem, index) in menuList" :key="index")
+          q-item.col-12(clickable v-ripple :active="menuItem.label === 'Outbox'" :to="menuItem.route")
+            q-item-section.col-3
+              q-icon(:name="menuItem.icon" :color="menuItem.iconColor")
+            q-item-section {{ menuItem.label }}
+              q-separator
+
+    q-img(class="absolute-top" src="https://cdn.quasar.dev/img/material.png"  style="height: 150px")
       .div(class="absolute-bottom bg-transparent")
         q-avatar( size="56px" class="q-mb-sm")
           img(src="https://cdn.quasar.dev/img/boy-avatar.png")
           //- {{  }}
         .div(class="text-weight-bold")
-        .div @rstoenescu
-
-    q-scroll-area(class="fit" style="height: calc(100% - 150px); margin-top: 150px;" )
-      q-list
-        template(v-for="(menuItem, index) in menuList" :key="index")
-          q-item(clickable :active="menuItem.label === 'Outbox'" v-ripple :to="menuItem.route")
-            q-item-section(q-avatar)
-              q-icon(:icon="menuItem.icon")
-            q-item-section {{ menuItem.label }}
-              q-separator
+        .div Hi !  {{ account }}
 
   q-page-container
     q-page
-      p(v-for="n in 7" :key="n") Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit nihil praesentium molestias a adipisci, dolore vitae odit, quidem consequatur optio voluptates asperiores pariatur eos numquam rerum delectus commodi perferendis voluptate?
-
+      router-view
 //- v-navigation-drawer(permanent)
 //-   v-list
 //-     v-list-item(:prepend-avatar="avatar" :title="account")
@@ -52,7 +52,7 @@ const miniState = ref(true)
 
 const menuList = [
   {
-    icon: 'inbox',
+    icon: 'fa-solid fa-bag-shopping',
     label: '商品管理',
     route: '/admin/products',
     separator: true
@@ -70,25 +70,25 @@ const menuList = [
     separator: false
   },
   {
-    icon: 'error',
+    icon: 'fa-solid fa-user-group',
     label: '會員管理',
     route: '/admin/customers',
     separator: true
   },
   {
-    icon: 'settings',
+    icon: 'fa-solid fa-comments',
     label: '回應管理',
     route: '/admin/feedbacks',
     separator: false
   },
   {
-    icon: 'feedback',
+    icon: 'error',
     label: '關於我們管理',
     route: '/admin/aboutus',
     separator: false
   },
   {
-    icon: 'help',
+    icon: 'fa-solid fa-house',
     iconColor: 'primary',
     label: '回首頁',
     route: '/',

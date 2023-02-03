@@ -1,11 +1,11 @@
 <template lang="pug">
 #orders
-  v-row
-    v-col(cols="12")
+  .row
+    .col-12
       h1.text-center 訂單管理
-    v-divider
-    v-col(cols="12")
-      v-table
+    //- v-divider
+    .col-12
+      q-table
         thead
           tr
             th ID
