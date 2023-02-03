@@ -1,7 +1,7 @@
 <template lang="pug">
 #customersview
   q-page
-    h1 customers
+    h3 customers
 </template>
 
 <script setup>

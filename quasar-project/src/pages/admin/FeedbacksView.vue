@@ -1,7 +1,7 @@
 <template lang="pug">
 #feedbackview
   q-page
-    h1 feedbacks
+    h3 feedbacks
 </template>
 
 <script setup>

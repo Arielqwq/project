@@ -1,7 +1,7 @@
 <template lang="pug">
 #admin-news
   q-page
-    h1 news
+    h3 news
 </template>
 
 <script setup>

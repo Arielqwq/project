@@ -1,7 +1,7 @@
 <template lang="pug">
 #aboutUs
   q-page
-    h1 aboutUs
+    h3 aboutUs
 </template>
 
 <script setup>

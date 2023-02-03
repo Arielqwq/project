@@ -1,6 +1,6 @@
 <template lang="pug">
 #admin-products
-  h1.text-center 商品管理
+  h3.text-center 商品管理
   .row
     .col-12
       q-btn(color="success" @click="openDialog(-1)") 新增商品
