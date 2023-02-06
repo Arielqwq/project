@@ -28,7 +28,7 @@ const schema = new Schema(
       required: [true, '缺少分類'],
       // enum 限制欄位的值只能是裡面的其中一個
       enum: {
-        values: ['衣服', '皮件', '鞋子', '飾品', '3C', '其他'],
+        values: ['葡萄酒', '白蘭地', '清酒', '燒酒', '香檳氣泡酒', '啤酒', '奶酒', '其他'],
         message: '分類錯誤'
       }
     }
