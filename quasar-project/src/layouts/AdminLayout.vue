@@ -5,12 +5,12 @@ q-layout(height="300" class="shadow-2 rounded-borders")
       q-btn(flat @click="drawer = !drawer" round dense icon="menu" )
       q-toolbar-title 會員管理頁面
       //- @mouseover="miniState = false" @mouseout="miniState = true"
-  q-drawer(v-model="drawer"  :width="300" :breakpoint="500" bordered)
+  q-drawer(v-model="drawer"  :width="250" :breakpoint="500" bordered)
 
     q-scroll-area(class="fit" style="height: calc(100% - 150px); margin-top: 150px;")
       q-list(padding class="menu-list")
         template(v-for="(menuItem, index) in menuList" :key="index")
-          q-item.col-12(clickable v-ripple :active="menuItem.label === 'Outbox'" :to="menuItem.route")
+          q-item.col-10(class="q-px-xl" clickable v-ripple :active="menuItem.label === 'Outbox'" :to="menuItem.route")
             q-item-section.col-3
               q-icon(:name="menuItem.icon" :color="menuItem.iconColor")
             q-item-section {{ menuItem.label }}

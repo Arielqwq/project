@@ -1,64 +1,38 @@
 <template lang="pug">
 #admin-products
-  q-page
-    h3.text-center 商品管理
-    .div(class="q-pa-md row")
-      .col-12
-        q-btn( @click="openDialog(-1)" color="primary" label="新增商品")
-          //- :rows='rows' :columns='columns' row-key='name' binary-state-sort
-    .div(class="q-pa-md")
-      q-table( title='新增商品' :columns="columns")
+  h3.text-center 商品管理
+  .div(class="q-px-xl row")
+    .col-12
+      q-btn( @click="openDialog(-1)" color="primary" label="新增商品")
+        //- :rows='rows' :columns='columns' row-key='name' binary-state-sort
+  .div(class="q-px-xl q-mt-md")
+    q-table( title='新增商品' :columns="columns")
 
-      q-dialog(align="center" v-model="form.dialog" persistent)
-        q-card(style="width: 700px; max-width: 80vw;")
-          q-card-actions(align="right")
-            q-btn( dense flat icon='close' v-close-popup)
+    q-dialog(align="center" v-model="form.dialog" persistent)
+      q-card( class="column" style="width: 700px; max-width: 80vw;")
+        q-form(@submit="submit" @reset="onReset")
+          q-card-actions.row.flex.justify-between
+            q-card-title(align="left" class="q-pa-md row" )
+              .text-center {{ form._id.length > 0 ? '編輯商品' : '新增商品' }}
+            q-btn(dense flat icon='close' v-close-popup)
               q-tooltip Close
-          q-card-section.row.items-center
-            q-avatar(icon='signal_wifi_off' color='primary' text-color='white')
-            span.q-ml-sm You are currently not connected to any network.
-          q-card-actions(align='right')
-            q-btn(flat label='reset' color='primary' v-close-popup)
-            q-btn(flat label='submit' color='primary' v-close-popup).
+          q-card-section.column.q-gutter-md
+            .col-12
+              q-input(square filled v-model="form.name" label="商品名稱" :rules="[rules.required]")
+            .col-12
+              q-input(square filled v-model="form.price" type="number" prefix="$" label="商品單價" :rules="[rules.required, rules.price]")
+            .col-12
+              q-input(square filled v-model="form.description" type="textarea" label="商品說明" :rules="[rules.required]")
+            .col-12
+              q-select(filled v-model="form.category" :options="options" label="分類" :rules="[rules.required]")
+            .col-12
+              q-checkbox(v-model="form.sell" label="上架")
+            .col-12
+              v-image-input.q-pa-md( v-model="form.image" removeable:max-file-size)
 
-      //-
-        thead
-          tr
-            th 圖片
-            th 名稱
-            th 管理
-        tbody
-          tr(v-for="(product, idx) in products" :key="product._id")
-            td
-              v-img(:src="product.image" :aspect-ratio="1" :width="200")
-            td {{ product.name }}
-            td
-              v-btn(color="primary" icon="mdi-pencil" variant="text" @click="openDialog(idx)")
-//-
-  v-dialog(v-model="form.dialog" persistent)
-    v-form(v-model="form.valid" @submit.prevent="submit")
-      v-card
-        v-card-title
-          h1.text-center {{ form._id.length > 0 ? '編輯商品' : '新增商品' }}
-        v-card-text
-          v-row
-            v-col(cols="12")
-              v-text-field(v-model="form.name" type="text" label="名稱" :rules="[rules.required]")
-            v-col(cols="12")
-              v-text-field(v-model="form.price" type="number" label="價格" :rules="[rules.required, rules.price]")
-            v-col(cols="12")
-              v-textarea(v-model="form.description" rows="3" auto-grow label="說明" :rules="[rules.required]")
-            v-col(cols="12")
-              v-select(v-model="form.category" :items="categories" :rules="[rules.required]")
-            v-col(cols="12")
-              v-checkbox(v-model="form.sell" label="上架")
-            v-col(cols="12")
-              v-image-input.mx-auto(v-model="form.image" removable :max-file-size="1")
-              //- 可自己放檔案格式 :accepted-types="['jpg','svg']"
-        v-card-actions
-          v-spacer
-          v-btn(:disabled="form.loading" color="red" @click="form.dialog = false") 取消
-          v-btn(:disabled="form.loading" color="green" type="submit") 送出
+          q-card-actions(align='right')
+            q-btn(flat label='reset' type="reset" color='primary')
+            q-btn(flat label='submit' type="submit" color='primary' v-close-popup).
 
 </template>
 
@@ -70,7 +44,19 @@ import { ref, reactive } from 'vue'
 const dialog = ref(false)
 
 const products = reactive([])
+const model = ref(null)
+const val = ref(true)
 // 新增，編輯 共用同一個 form 物件
+
+const rules = {
+  required (value) {
+    return !!value || '欄位必填'
+  },
+  price (value) {
+    return value >= 0 || '價格錯誤'
+  }
+}
+
 const form = reactive({
   // 如果 id 有東西就是編輯，沒有是新增
   _id: '',
@@ -125,9 +111,77 @@ const columns = [
     sortable: true
   },
   { name: '商品圖片', align: 'center', label: '商品圖片', field: 'productName', sortable: true },
-  { name: '單價', label: '單價', field: 'productPicture', sortable: true, style: 'width: 10px' },
-  { name: '編輯', label: '編輯', field: 'edit' }
+  // style: 'width: 30px'
+  { name: '單價', label: '單價', field: 'productPicture', sortable: true },
+  { name: '編輯', label: '編輯', field: 'edit', sortable: true }
 ]
+
+const options = [
+  '威士忌', '啤酒', '奶酒', '香檳', '清酒'
+]
+
+const submit = async () => {
+  if (!form.valid) return
+  form.loading = true
+  // fd.append(key, value)
+  const fd = new FormData()
+  fd.append('name', form.name)
+  fd.append('price', form.price)
+  fd.append('description', form.description)
+  fd.append('image', form.image)
+  fd.append('sell', form.sell)
+  fd.append('category', form.category)
+
+  try {
+    if (form._id.length === 0) {
+      const { data } = await apiAuth.post('/products', fd)
+      products.push(data.result)
+      Swal.fire({
+        icon: 'success',
+        title: '成功',
+        text: '新增成功'
+      })
+    } else {
+      const { data } = await apiAuth.patch('/products/' + form._id, fd)
+      products[form.idx] = data.result
+      Swal.fire({
+        icon: 'success',
+        title: '成功',
+        text: '編輯成功'
+      })
+    }
+    form.dialog = false
+  } catch (error) {
+    Swal.fire({
+      icon: 'error',
+      title: '失敗',
+      text: error?.response?.data?.message || '發生錯誤'
+    })
+  }
+  form.loading = false
+}
+
+const onReset = () => {
+  form.name = null
+  form.price = null
+  form.description = null
+  form.category = null
+  form.sell = false
+  form.image = undefined
+}
+
+(async () => {
+  try {
+    const { data } = await apiAuth.get('/products/all')
+    products.push(...data.result)
+  } catch (error) {
+    Swal.fire({
+      icon: 'error',
+      title: '失敗',
+      text: error?.response?.data?.message || '發生錯誤'
+    })
+  }
+})()
 
 // const rows = [
 //   {
@@ -350,3 +404,9 @@ const submit = async () => {
 })()
 */
 </script>
+
+<style lang="sass">
+// $v-image-input-width: 100px !default;
+// $v-image-input-height: 100px !default;
+// @import "vue3-img-input/src/styles/style.sass"
+</style>
