@@ -3,6 +3,9 @@ import express from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
 import userRoute from './routes/users.js'
+// 錯誤測試
+// import userRoute from './routes/users'
+
 import productRoute from './routes/products.js'
 import orderRoute from './routes/orders.js'
 import './passport/passport.js'

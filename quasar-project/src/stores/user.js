@@ -51,24 +51,18 @@ export const useUserStore = defineStore('user', function () {
   async function logout () {
     try {
       await apiAuth.delete('/users/logout')
-      token.value = ''
-      account.value = ''
-      role.value = 0
-      cart.value = 0
-      router.push('/')
-      console.log('push')
-      Swal.fire({
-        icon: 'success',
-        title: '成功',
-        text: '登出成功'
-      })
-    } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: '失敗',
-        text: error?.response?.data?.message || '發生錯誤'
-      })
-    }
+    } catch (_) {}
+    token.value = ''
+    account.value = ''
+    role.value = 0
+    cart.value = 0
+    router.push('/')
+    console.log('push')
+    Swal.fire({
+      icon: 'success',
+      title: '成功',
+      text: '登出成功'
+    })
   }
 
   async function getUser () {
