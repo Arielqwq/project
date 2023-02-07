@@ -18,27 +18,27 @@ const routes = [
           admin: false
         }
       },
-      {
-        path: 'register',
-        name: 'register',
-        component: () => import('@/pages/front/RegisterView.vue'),
-        meta: {
-          title: '購物網 | 註冊',
-          // 是否登入才能看
-          login: false,
-          admin: false
-        }
-      },
-      {
-        path: 'login',
-        name: 'login',
-        component: () => import('@/pages/front/LoginView.vue'),
-        meta: {
-          title: '購物網 | 登入',
-          login: false,
-          admin: false
-        }
-      },
+      // {
+      //   path: 'register',
+      //   name: 'register',
+      //   component: () => import('@/pages/front/RegisterView.vue'),
+      //   meta: {
+      //     title: '購物網 | 註冊',
+      //     // 是否登入才能看
+      //     login: false,
+      //     admin: false
+      //   }
+      // },
+      // {
+      //   path: 'login',
+      //   name: 'login',
+      //   component: () => import('@/pages/front/LoginView.vue'),
+      //   meta: {
+      //     title: '購物網 | 登入',
+      //     login: false,
+      //     admin: false
+      //   }
+      // },
       {
         path: 'products/:id',
         name: 'product',

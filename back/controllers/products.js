@@ -2,11 +2,13 @@ import products from '../models/products.js'
 
 export const createProduct = async (req, res) => {
   try {
+    console.log(req.files)
     const result = await products.create({
       name: req.body.name,
       price: req.body.price,
       description: req.body.description,
-      image: req.file?.path || '',
+      image: req.files?.image?.[0]?.path || '',
+      images: req.files?.images?.map(file => file.path) || [],
       sell: req.body.sell,
       category: req.body.category
     })
@@ -64,21 +66,23 @@ export const getProduct = async (req, res) => {
 
 export const editProduct = async (req, res) => {
   try {
-    const result = await products.findByIdAndUpdate(req.params.id, {
-      name: req.body.name,
-      price: req.body.price,
-      description: req.body.description,
-      // 記得把 ||'' 拿掉，如果留著，在沒有上傳更新的時，圖片也會不見
-      image: req.file?.path,
-      sell: req.body.sell,
-      category: req.body.category
-      // Mongoose 有 upsert:true ，當找不到東西時，可自動新增一筆 => ,{ new: true, upsert:true})
-    }, { new: true })
-    if (!result) {
+    const productNew = await products.findByIdAndUpdate(req.params.id)
+    const images = products.images.fillter(image => !req.body.delImges.includes(image)).concat(req.files?.images?.map(file => file.path))
+    productNew.name = req.body.name
+    productNew.price = req.body.price
+    productNew.description = req.body.description
+    // 記得把 ||'' 拿掉，如果留著，在沒有上傳更新的時，圖片也會不見
+    productNew.image = req.file?.path
+    productNew.images = images
+    productNew.sell = req.body.sell
+    productNew.category = req.body.category
+    // Mongoose 有 upsert:true ，當找不到東西時，可自動新增一筆 => ,{ new: true, upsert:true})
+    await productNew.save()
+    if (!productNew) {
       // 找不到這個東西，無法更新
       res.status(404).json({ success: false, message: '找不到' })
     } else {
-      res.status(200).json({ success: true, message: '', result })
+      res.status(200).json({ success: true, message: '', productNew })
     }
   } catch (error) {
     if (error.name === 'ValidationError') {

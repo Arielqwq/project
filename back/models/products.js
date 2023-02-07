@@ -19,6 +19,11 @@ const schema = new Schema(
       type: String,
       required: [true, '缺少圖片']
     },
+    // 多圖
+    images: {
+      type: [String],
+      default: []
+    },
     sell: {
       type: Boolean,
       required: [true, '缺少狀態']

@@ -33,6 +33,7 @@ module.exports = configure(function (/* ctx */) {
       'i18n',
       'axios',
       'img-input'
+
     ],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css

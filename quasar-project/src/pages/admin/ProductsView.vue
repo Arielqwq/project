@@ -6,20 +6,37 @@
       q-btn( @click="openDialog(-1)" color="primary" label="新增商品")
         //- :rows='rows' :columns='columns' row-key='name' binary-state-sort
   .div(class="q-px-xl q-mt-md")
-    q-markup-table(title='新增商品' :columns="columns")
-      thead
-        tr
-          th 商品圖片
-          th 商品名稱
-          th 商品單價
-          th 編輯
-      tbody
-        tr(v-for="(product, idx) in products" :key="product._id")
-          td
-            q-img(:src="product.image" spinner-color="white" style="height: 140px; max-width: 150px")
-          td {{ product.name }}
-          td {{ product.price }}
-            q-btn( flat round color="white" icon="fa-solid fa-pen" text-color="primary" variant="text" @click="openDialog(idx)")
+    q-table(title="商品資訊" :columns="columns" :rows="products" row-key="_id" :filter="filter" :rows-per-page-options="[5]")
+      template( v-slot:body-cell-image="props")
+        img(:src='props.row.image' style='height: 100px;')
+
+      template( v-slot:top-right)
+        q-input( borderless dense debounce="300" v-model="filter" placeholder="Search")
+          template( v-slot:append)
+            q-icon( name="search")
+
+      template(#body-cell-edit="data")
+        q-btn( round color="primary" text-color="white" icon="edit" @click="openDialog(products.indexOf(data.row))")
+
+      template( v-slot:append)
+        q-icon( name="close" @click="clear")
+
+      // q-markup-table()
+      // thead
+      //   tr
+      //     th 商品圖片
+      //     th 商品名稱
+      //     th 商品單價
+      //     th 編輯
+      // tbody
+      //   tr(v-for="(product, idx) in products" :key="product._id")
+      //     td(align="center")
+      //       q-img(:src="product.image" spinner-color="white" style="height: 140px; max-width: 150px")
+      //     td(align="center") {{ product.name }}
+      //     td(align="center") {{ product.price }}
+      //     td(align="center")
+      //       q-btn( flat round color="white" icon="fa-solid fa-pen" text-color="primary" variant="text" @click="openDialog(idx)")
+
     q-dialog(align="center" v-model="form.dialog" persistent)
       q-card( class="column" style="width: 700px; max-width: 80vw;")
         q-form(@submit="onSubmit" @reset="onReset")
@@ -40,7 +57,16 @@
             .col-12
               q-checkbox(v-model="form.sell" label="上架")
             .col-12
-              v-image-input.mx-auto(v-model="form.image" removable :max-file-size="1")
+              q-file(filled v-model="form.image" label="Filled" )
+            .col-12
+              q-file(v-model="form.images" label="Pick files" filled multiple style="max-width: 300px")
+              .row
+                .col-3(v-for="img in form.displayImages" :key="img")
+                  q-img.fullwidth(:src="img")
+                    .absolute-full.flex.flex-center(v-if="form.delImages.includes(img)")
+                      q-icon(name="delete")
+                  q-checkbox(v-model="form.delImages" :val="img")
+
           q-card-actions(align='right')
             q-btn(:disabled="form.loading" flat label='reset' type="reset" color='red')
             q-btn(:disabled="form.loading" flat label='submit' type="submit" color='green')
@@ -52,10 +78,8 @@ import { apiAuth } from '@/boot/axios'
 import Swal from 'sweetalert2'
 import { ref, reactive } from 'vue'
 
-// const dialog = ref(false)
-
 const categories = [
-  '威士忌', '啤酒', '奶酒', '香檳', '清酒', '其他'
+  '葡萄酒', '白蘭地', '清酒', '燒酒', '香檳氣泡酒', '啤酒', '奶酒', '其他'
 ]
 
 const rules = {
@@ -67,7 +91,15 @@ const rules = {
   }
 }
 
+const clear = () => {
+  form.image = []
+}
+
+const clears = () => {
+  form.images = []
+}
 const products = reactive([])
+const filter = ref('')
 // const model = ref(null)
 // const val = ref(true)
 // 新增，編輯 共用同一個 form 物件
@@ -78,6 +110,8 @@ const form = reactive({
   price: 0,
   description: '',
   image: undefined,
+  images: [],
+  delImages: [],
   // 預設下架
   sell: false,
   category: '',
@@ -88,12 +122,15 @@ const form = reactive({
 })
 
 const openDialog = (idx) => {
+  // 陣列索引從 0 開始，設定 -1 代表不在陣列裡，為新增商品
   if (idx === -1) {
     form._id = ''
     form.name = ''
     form.price = 0
     form.description = ''
     form.image = undefined
+    form.images = []
+    form.delImages = []
     form.sell = false
     form.category = ''
     form.valid = false
@@ -105,6 +142,8 @@ const openDialog = (idx) => {
     form.price = products[idx].price
     form.description = products[idx].description
     form.image = undefined
+    form.images = []
+    form.delImages = []
     form.sell = products[idx].sell
     form.category = products[idx].category
     form.valid = false
@@ -120,14 +159,43 @@ const columns = [
     required: true,
     label: '商品名稱',
     align: 'left',
-    field: row => row.name,
+    field: products => products.name,
     format: val => `${val}`,
     sortable: true
   },
-  { name: '商品圖片', align: 'center', label: '商品圖片', field: 'productName', sortable: true },
-  // style: 'width: 30px'
-  { name: '單價', label: '單價', field: 'productPicture', sortable: true },
-  { name: '編輯', label: '編輯', field: 'edit', sortable: true }
+  {
+    name: 'image',
+    required: true,
+    label: '商品圖片',
+    align: 'left',
+    field: row => row.image,
+    format: val => `${val}`,
+    sortable: true
+  },
+  {
+    name: 'price',
+    required: true,
+    label: '商品價格',
+    align: 'left',
+    field: row => row.price,
+    format: val => `${val}`,
+    sortable: true
+  },
+  {
+    name: 'sell',
+    required: true,
+    label: '上架狀態',
+    align: 'left',
+    field: row => row.sell,
+    format: val => `${val}`,
+    sortable: true
+  },
+  {
+    name: 'edit',
+    required: true,
+    label: '編輯',
+    align: 'left'
+  }
 ]
 
 const onReset = () => {
@@ -138,6 +206,7 @@ const onReset = () => {
   form.sell = false
   form.image = undefined
 }
+
 const onSubmit = async () => {
   // if (!form.valid) return
   form.loading = true
@@ -148,9 +217,10 @@ const onSubmit = async () => {
   fd.append('price', form.price)
   fd.append('description', form.description)
   fd.append('image', form.image)
+  for (const i of form.images) { fd.append('imgages', i) }
+  for (const i of form.delImages) { fd.append('delImages', i) }
   fd.append('sell', form.sell)
   fd.append('category', form.category)
-
   try {
     // 當id長度為 0，新增
     if (form._id.length === 0) {
@@ -185,6 +255,7 @@ const onSubmit = async () => {
   try {
     const { data } = await apiAuth.get('/products/all')
     products.push(...data.result)
+    console.log(products)
   } catch (error) {
     Swal.fire({
       icon: 'error',
