@@ -66,13 +66,14 @@ export const getProduct = async (req, res) => {
 
 export const editProduct = async (req, res) => {
   try {
-    const productNew = await products.findByIdAndUpdate(req.params.id)
-    const images = products.images.fillter(image => !req.body.delImges.includes(image)).concat(req.files?.images?.map(file => file.path))
+    const productNew = await products.findById(req.params.id)
+    const images = productNew.images.filter(image => !req.body?.delImages?.includes(image) || true).concat(req.files?.images?.map(file => file.path))
     productNew.name = req.body.name
     productNew.price = req.body.price
     productNew.description = req.body.description
     // 記得把 ||'' 拿掉，如果留著，在沒有上傳更新的時，圖片也會不見
-    productNew.image = req.file?.path
+    productNew.image = req.files?.image?.[0]?.path
+    console.log(req.files?.image?.[0]?.path)
     productNew.images = images
     productNew.sell = req.body.sell
     productNew.category = req.body.category
@@ -82,9 +83,11 @@ export const editProduct = async (req, res) => {
       // 找不到這個東西，無法更新
       res.status(404).json({ success: false, message: '找不到' })
     } else {
-      res.status(200).json({ success: true, message: '', productNew })
+      res.status(200).json({ success: true, message: '', result: productNew })
     }
   } catch (error) {
+    console.log(error)
+
     if (error.name === 'ValidationError') {
       res.status(400).json({ success: false, message: error.errors[Object.keys(error.errors)[0]].message })
     } else if (error.name === 'CastError') {

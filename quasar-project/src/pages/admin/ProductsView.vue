@@ -18,8 +18,8 @@
       template(#body-cell-edit="data")
         q-btn( round color="primary" text-color="white" icon="edit" @click="openDialog(products.indexOf(data.row))")
 
-      template( v-slot:append)
-        q-icon( name="close" @click="clear")
+      //- template( v-slot:append)
+      //-   q-icon( name="close" @click="clear")
 
       template( v-slot:append)
         q-icon( name="close" @click="clears")
@@ -59,11 +59,11 @@
             .col-2
               q-checkbox(v-model="form.sell" label="上架")
             .col-5
-              q-file(filled v-model="form.image" label="請上傳主圖片" )
+              q-file(filled v-model="form.image" label="請上傳主圖片")
             .col-5
               q-file(v-model="form.images" label="請上傳補充圖片" filled multiple style="max-width: 300px")
               .row
-                .col-3(v-for="img in form.displayImages" :key="img")
+                .col-3(v-if="form.idx >= 0" v-for="img in products[form.idx]?.images" :key="img")
                   q-img.fullwidth(:src="img")
                     .absolute-full.flex.flex-center(v-if="form.delImages.includes(img)")
                       q-icon(name="delete")
