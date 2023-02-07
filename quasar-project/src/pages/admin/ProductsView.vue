@@ -15,6 +15,7 @@
           template( v-slot:append)
             q-icon( name="search")
 
+        //- 編輯
       template(#body-cell-edit="data")
         q-btn( round color="primary" text-color="white" icon="edit" @click="openDialog(products.indexOf(data.row))")
 
