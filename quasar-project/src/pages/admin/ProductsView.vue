@@ -143,7 +143,7 @@ const openDialog = (idx) => {
     form.name = products[idx].name
     form.price = products[idx].price
     form.description = products[idx].description
-    form.image = undefined
+    form.image = products[idx].image
     form.images = []
     form.delImages = []
     form.sell = products[idx].sell

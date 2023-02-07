@@ -71,9 +71,9 @@ export const editProduct = async (req, res) => {
     productNew.name = req.body.name
     productNew.price = req.body.price
     productNew.description = req.body.description
-    // 記得把 ||'' 拿掉，如果留著，在沒有上傳更新的時，圖片也會不見
-    productNew.image = req.files?.image?.[0]?.path
-    console.log(req.files?.image?.[0]?.path)
+    productNew.image = req.files?.image?.[0]?.path || productNew.image
+    // productNew.image = req.files?.image?.[0]?.path
+    // console.log(productNew)
     productNew.images = images
     productNew.sell = req.body.sell
     productNew.category = req.body.category
