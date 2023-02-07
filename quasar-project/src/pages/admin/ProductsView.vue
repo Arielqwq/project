@@ -21,6 +21,8 @@
       template( v-slot:append)
         q-icon( name="close" @click="clear")
 
+      template( v-slot:append)
+        q-icon( name="close" @click="clears")
       // q-markup-table()
       // thead
       //   tr
@@ -54,12 +56,12 @@
               q-input(square filled v-model="form.description" type="textarea" label="商品說明" :rules="[rules.required]")
             .col-12
               q-select(filled v-model="form.category" :options="categories" label="分類" :rules="[rules.required]")
-            .col-12
+            .col-2
               q-checkbox(v-model="form.sell" label="上架")
-            .col-12
-              q-file(filled v-model="form.image" label="Filled" )
-            .col-12
-              q-file(v-model="form.images" label="Pick files" filled multiple style="max-width: 300px")
+            .col-5
+              q-file(filled v-model="form.image" label="請上傳主圖片" )
+            .col-5
+              q-file(v-model="form.images" label="請上傳補充圖片" filled multiple style="max-width: 300px")
               .row
                 .col-3(v-for="img in form.displayImages" :key="img")
                   q-img.fullwidth(:src="img")
@@ -217,7 +219,7 @@ const onSubmit = async () => {
   fd.append('price', form.price)
   fd.append('description', form.description)
   fd.append('image', form.image)
-  for (const i of form.images) { fd.append('imgages', i) }
+  for (const i of form.images) { fd.append('images', i) }
   for (const i of form.delImages) { fd.append('delImages', i) }
   fd.append('sell', form.sell)
   fd.append('category', form.category)
