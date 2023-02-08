@@ -1,17 +1,19 @@
 <template lang="pug">
 #home
-  q-page
-    .col-12
+  div
+    div
       h4.text-center 我是首頁
-    //- q-col(v-for="product in products" :key="product._id" cols="12" md="6" lg="3")
-    //-   ProductCard(v-bind="product")
+    hr
+    div.flex.q-ma-lg.justify-center.row
+      q-card.flex.justify-center.q-ma-lg.q-pa-lg.col-12.col-md-6.col-lg-3(v-for="product in products" :key="product._id" )
+        ProductCard(v-bind="product")
 
 </template>
 <script setup>
 import { reactive } from 'vue'
 import { api } from '@/boot/axios'
 import Swal from 'sweetalert2'
-// import ProductCard from '@/components/ProductCard'
+import ProductCard from '@/components/ProductCard.vue'
 
 const products = reactive([]);
 
