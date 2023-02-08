@@ -17,7 +17,8 @@
 
         //- 編輯
       template(#body-cell-edit="data")
-        q-btn( round color="primary" text-color="white" icon="edit" @click="openDialog(products.indexOf(data.row))")
+        q-btn( round color="primary" text-color="white" icon="edit" @click="openDialog(products.findIndex((product)=> product._id === data.row._id))")
+        //- q-btn( round color="primary" text-color="white" icon="edit" @click="openDialog(products.indexOf(data.row))")
 
       //- template( v-slot:append)
       //-   q-icon( name="close" @click="clear")
@@ -60,11 +61,12 @@
             .col-2
               q-checkbox(v-model="form.sell" label="上架")
             .col-5
-              q-file(filled v-model="form.image" label="請上傳主圖片")
+              .row
+                  //- .col-3( v-for="i in products[form.idx]?.image" :key="i")
+              q-img(:src="products[form.idx].image" style="height:100px")
+              q-file(filled v-model="form.image" label="請上傳主圖片" style="max-height: 50px")
                   template(v-slot:append)
                     q-icon(name="close" @click="clear")
-              .col-3(v-if="form.idx >= 0" v-for="img in products[form.idx]?.image")
-                q-img(:src="img" style="height:50px" )
 
             .col-5
               .row
