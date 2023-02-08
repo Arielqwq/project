@@ -68,6 +68,16 @@ const routes = [
           login: true,
           admin: false
         }
+      },
+      {
+        path: 'news',
+        name: 'front-news',
+        component: () => import('@/pages/front/NewsView.vue'),
+        meta: {
+          title: '購物網 | 最新消息',
+          login: true,
+          admin: true
+        }
       }
     ]
   },
