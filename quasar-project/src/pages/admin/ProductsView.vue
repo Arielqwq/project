@@ -61,14 +61,21 @@
               q-checkbox(v-model="form.sell" label="上架")
             .col-5
               q-file(filled v-model="form.image" label="請上傳主圖片")
+                  template(v-slot:append)
+                    q-icon(name="close" @click="clear")
+              .col-3(v-if="form.idx >= 0" v-for="img in products[form.idx]?.image")
+                q-img(:src="img" style="height:50px" )
+
             .col-5
-              q-file(v-model="form.images" label="請上傳補充圖片" filled multiple style="max-width: 300px")
               .row
-                .col-3(v-if="form.idx >= 0" v-for="img in products[form.idx]?.images" :key="img")
-                  q-img.fullwidth(:src="img")
-                    .absolute-full.flex.flex-center(v-if="form.delImages.includes(img)")
-                      q-icon(name="delete")
-                  q-checkbox(v-model="form.delImages" :val="img")
+                  .col-3(v-if="form.idx >= 0" v-for="img in products[form.idx]?.images" :key="img")
+                    q-img.fullwidth(:src="img")
+                      .absolute-full.flex.flex-center(v-if="form.delImages.includes(img)")
+                        q-icon(name="delete")
+                    q-checkbox(v-model="form.delImages" :val="img")
+              q-file(v-model="form.images" label="請上傳補充圖片" filled multiple style="max-width: 300px")
+                template(v-slot:append)
+                  q-icon(name="close" @click="clears")
 
           q-card-actions(align='right')
             q-btn(:disabled="form.loading" flat label='reset' type="reset" color='red')
@@ -220,6 +227,8 @@ const onSubmit = async () => {
   fd.append('price', form.price)
   fd.append('description', form.description)
   fd.append('image', form.image)
+  // fd.append('images', form.images)
+  console.log(form.images)
   for (const i of form.images) { fd.append('images', i) }
   for (const i of form.delImages) { fd.append('delImages', i) }
   fd.append('sell', form.sell)

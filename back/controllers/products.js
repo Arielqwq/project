@@ -2,6 +2,7 @@ import products from '../models/products.js'
 
 export const createProduct = async (req, res) => {
   try {
+    console.log(req.file)
     console.log(req.files)
     const result = await products.create({
       name: req.body.name,
@@ -66,8 +67,19 @@ export const getProduct = async (req, res) => {
 
 export const editProduct = async (req, res) => {
   try {
+    console.log(req.body)
+    console.log(req.files.images)
+    // console.log(req.files.images.path)
     const productNew = await products.findById(req.params.id)
-    const images = productNew.images.filter(image => !req.body?.delImages?.includes(image) || true).concat(req.files?.images?.map(file => file.path))
+    // console.log('ya' + req.files.images.path)
+    // console.log(productNew)
+    const images = productNew.images.filter(image => !req.body?.delImages?.includes(image)).concat(req.files?.images?.map(file => file.path)).filter(image =>
+      image !== null && image !== undefined
+    )
+
+    console.log(images, 'images')
+    // const images = exhibition.images.filter(image => !req.body.delImages.includes(image)).concat(req.files?.images?.map(file => file.path))
+
     productNew.name = req.body.name
     productNew.price = req.body.price
     productNew.description = req.body.description
@@ -75,8 +87,10 @@ export const editProduct = async (req, res) => {
     // productNew.image = req.files?.image?.[0]?.path
     // console.log(productNew)
     productNew.images = images
+    // productNew.images.push(...images)
     productNew.sell = req.body.sell
     productNew.category = req.body.category
+    console.log(productNew)
     // Mongoose 有 upsert:true ，當找不到東西時，可自動新增一筆 => ,{ new: true, upsert:true})
     await productNew.save()
     if (!productNew) {
