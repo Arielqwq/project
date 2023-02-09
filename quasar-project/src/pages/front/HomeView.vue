@@ -4,7 +4,7 @@
     div
       h4.text-center 我是首頁
     hr
-    div.product-area.flex.q-ma-lg.justify-center.row
+    div.product-area.flex.q-ma-lg.justify-center.row.col-5
       q-card.flex.justify-center.q-ma-lg.q-pa-lg.col-12.col-md-6.col-lg-3(v-for="product in products" :key="product._id" )
         ProductCard(v-bind="product")
 
@@ -30,8 +30,11 @@ const products = reactive([]);
   }
 })()
 </script>
-<!-- <style lang="sass">
+<style lang="sass">
 .product-area
   height: 300px
+  margin: 0 80px
+  @media (min-width: 576px)
+    margin: 20px 300px
 
-</style> -->
+</style>
