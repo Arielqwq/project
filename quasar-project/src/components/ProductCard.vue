@@ -3,7 +3,7 @@
   .div
     img(:src="image" cover style="height:150px")
     q-card-section.q-pa-none
-      router-link.text-weight-bold.textUnderline-none(:to="'/products/' + _id") {{ name }}
+      router-link.text-weight-bold.textUnderline-none(:to="'/product/' + _id") {{ name }}
     q-card-section.q-pt-none
     .text-subtitle1 ${{ price }}
     q-card-actions(align='right')

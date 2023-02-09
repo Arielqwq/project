@@ -40,7 +40,7 @@ const routes = [
       //   }
       // },
       {
-        path: 'products/:id',
+        path: 'product/:id',
         name: 'product',
         component: () => import('@/pages/front/ProductView.vue'),
         meta: {
@@ -70,11 +70,41 @@ const routes = [
         }
       },
       {
+        path: 'productsview',
+        name: 'productsview',
+        component: () => import('@/pages/front/ProductsView.vue'),
+        meta: {
+          title: '購物網 | 最新商品',
+          login: false,
+          admin: false
+        }
+      },
+      {
         path: 'news',
         name: 'front-news',
         component: () => import('@/pages/front/NewsView.vue'),
         meta: {
           title: '購物網 | 最新消息',
+          login: true,
+          admin: true
+        }
+      },
+      {
+        path: 'aboutus',
+        name: 'front-aboutus',
+        component: () => import('@/pages/front/AboutusView.vue'),
+        meta: {
+          title: '購物網 | 最新消息',
+          login: true,
+          admin: true
+        }
+      },
+      {
+        path: 'contactus',
+        name: 'front-ContactUs',
+        component: () => import('@/pages/front/ContactusView.vue'),
+        meta: {
+          title: '購物網 | 聯絡我們',
           login: true,
           admin: true
         }

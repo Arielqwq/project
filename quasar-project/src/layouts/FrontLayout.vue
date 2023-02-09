@@ -2,7 +2,7 @@
 q-layout
   q-header(elevated class="bg-primary text-white" height-hint="98")
     q-toolbar
-      q-btn(dense flat round icon="menu" @click="toggleLeftDrawer")
+      //- q-btn(dense flat round icon="menu" @click="toggleLeftDrawer")
       q-avatar
         img(src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg")
       q-toolbar-title(align="left") ~快樂的地方~
@@ -19,7 +19,7 @@ q-layout
     q-tabs(align="left")
       q-route-tab(to="/" label="首頁" )
       q-route-tab(to="/News" label="最新消息")
-      q-route-tab(to="/ProductView" label="最新商品")
+      q-route-tab(to="/ProductsView" label="最新商品")
       q-route-tab(to="/ContactUs" label="聯絡我們")
       q-route-tab(to="/AboutUs" label="關於我們")
       //- ref="loginFalse"
@@ -56,9 +56,9 @@ const showRegister = ref(false)
 
 const leftDrawerOpen = ref(false)
 
-const toggleLeftDrawer = () => {
-  leftDrawerOpen.value = !leftDrawerOpen.value
-}
+// const toggleLeftDrawer = () => {
+//   leftDrawerOpen.value = !leftDrawerOpen.value
+// }
 
 const dialoginHide = () => {
   if (!isLogin) showLogin.value = false

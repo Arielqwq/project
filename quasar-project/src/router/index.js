@@ -1,6 +1,6 @@
 import { route } from 'quasar/wrappers'
 import { createRouter, createMemoryHistory, createWebHistory, createWebHashHistory, START_LOCATION } from 'vue-router'
-import routes from './routes'
+import routes from '@/router/routes'
 import { useUserStore } from '@/stores/user'
 
 /*
