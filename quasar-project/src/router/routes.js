@@ -116,7 +116,7 @@ const routes = [
     component: () => import('@/layouts/AdminLayout.vue'),
     children: [
       {
-        path: 'products',
+        path: ' ',
         name: 'admin-home',
         component: () => import('@/pages/admin/HomeView.vue'),
         meta: {

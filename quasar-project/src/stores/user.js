@@ -56,7 +56,7 @@ export const useUserStore = defineStore('user', function () {
     account.value = ''
     role.value = 0
     cart.value = 0
-    router.push('/')
+    this.router.push('/')
     console.log('push')
     Swal.fire({
       icon: 'success',

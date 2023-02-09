@@ -3,9 +3,9 @@
   h3.text-center 購物車
     .div(class="q-px-xl row")
       .col-12
-        q-table(title="購物車" :columns="columns" :rows="products" row-key="_id" :filter="filter" :rows-per-page-options="[5]")
-          template( v-slot:body-cell-image="props")
-            img(:src='props.row.image' style='height: 100px;')
+        q-table(:columns="columns" :rows="cart" row-key="p_id" :rows-per-page-options="[5]")
+          //- template( v-slot:body-cell-image="props")
+          //-   img(:src='props.row.image' style='height: 100px;')
   //- v-row
   //-   v-col(cols="12")
   //-     h1.text-center 購物車
@@ -42,9 +42,9 @@
 </template>
 
 <script setup>
-import { reactive, computed } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import Swal from 'sweetalert2'
-import { apiAuth } from '@/plugins/axios'
+import { apiAuth } from '@/boot/axios'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
 
@@ -52,6 +52,7 @@ const router = useRouter()
 
 const user = useUserStore()
 const { editCart, checkout } = user
+const filter = ref('')
 
 const cart = reactive([])
 
@@ -61,7 +62,7 @@ const columns = [
     required: true,
     label: '商品名稱',
     align: 'left',
-    field: products => products.name,
+    field: cart => cart.p_id.name,
     format: val => `${val}`,
     sortable: true
   },
@@ -70,7 +71,7 @@ const columns = [
     required: true,
     label: '商品圖片',
     align: 'left',
-    field: row => row.image,
+    field: row => row.p_id.image,
     format: val => `${val}`,
     sortable: true
   },
@@ -79,26 +80,16 @@ const columns = [
     required: true,
     label: '商品價格',
     align: 'left',
-    field: row => row.price,
+    field: row => row.p_id.price,
     format: val => `${val}`,
     sortable: true
   },
   {
-    name: 'sell',
-    required: true,
-    label: '數量',
-    align: 'left',
-    field: row => row.sell,
-    format: val => `${val}`,
-    sortable: true
-  },
-  {
-    name: 'sell',
+    name: 'value',
     required: true,
     label: '小計',
     align: 'left',
-    field: row => row.sell,
-    format: val => `${val}`,
+    // format: cart => cart[idx].quantity * cart[idx].p_id.price,
     sortable: true
   },
   {
