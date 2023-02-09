@@ -1,38 +1,44 @@
 <template lang="pug">
 #cart
-  v-row
-    v-col(cols="12")
-      h1.text-center 購物車
-    v-divider
-    v-col(cols="12")
-      v-table
-        thead
-          tr
-            th 圖片
-            th 名稱
-            th 單價
-            th 數量
-            th 小計
-            th 操作
-        tbody
-          tr(v-for="(product, idx) in cart" :key="product._id" :class="{'bg-red': !product.p_id.sell}")
-            td
-              v-img(:aspect-ratio="1" :width="200" :src="product.p_id.image")
-            td {{ product.p_id.name }}
-            td {{ product.p_id.price }}
-            td
-              v-btn(color="primary" @click="updateCart(idx, -1,'修改成功')") -
-              | &nbsp;{{ product.quantity }}&nbsp;
-              v-btn(color="primary" @click="updateCart(idx, 1,'修改成功')") +
-            td {{ product.quantity * product.p_id.price }}
-            td
-              v-btn(color="red" @click="updateCart(idx, product.quantity*-1 ,'刪除商品')") 刪除
-          tr(v-if="cart.length === 0")
-            td.text-center(colspan="6") 沒有商品
-    v-divider
-    v-col.text-center(cols="12")
-      p 總金額 {{ totalPrice }}
-      v-btn(color="green" :disabled="!canCheckout" @click="onCheckoutBtnClick") 結帳
+  h3.text-center 購物車
+    .div(class="q-px-xl row")
+      .col-12
+        q-table(title="購物車" :columns="columns" :rows="products" row-key="_id" :filter="filter" :rows-per-page-options="[5]")
+          template( v-slot:body-cell-image="props")
+            img(:src='props.row.image' style='height: 100px;')
+  //- v-row
+  //-   v-col(cols="12")
+  //-     h1.text-center 購物車
+  //-   v-divider
+  //-   v-col(cols="12")
+  //-     v-table
+  //-       thead
+  //-         tr
+  //-           th 圖片
+  //-           th 名稱
+  //-           th 單價
+  //-           th 數量
+  //-           th 小計
+  //-           th 操作
+  //-       tbody
+  //-         tr(v-for="(product, idx) in cart" :key="product._id" :class="{'bg-red': !product.p_id.sell}")
+  //-           td
+  //-             v-img(:aspect-ratio="1" :width="200" :src="product.p_id.image")
+  //-           td {{ product.p_id.name }}
+  //-           td {{ product.p_id.price }}
+  //-           td
+  //-             v-btn(color="primary" @click="updateCart(idx, -1,'修改成功')") -
+  //-             | &nbsp;{{ product.quantity }}&nbsp;
+  //-             v-btn(color="primary" @click="updateCart(idx, 1,'修改成功')") +
+  //-           td {{ product.quantity * product.p_id.price }}
+  //-           td
+  //-             v-btn(color="red" @click="updateCart(idx, product.quantity*-1 ,'刪除商品')") 刪除
+  //-         tr(v-if="cart.length === 0")
+  //-           td.text-center(colspan="6") 沒有商品
+  //-   v-divider
+  //-   v-col.text-center(cols="12")
+  //-     p 總金額 {{ totalPrice }}
+  //-     v-btn(color="green" :disabled="!canCheckout" @click="onCheckoutBtnClick") 結帳
 </template>
 
 <script setup>
@@ -48,6 +54,60 @@ const user = useUserStore()
 const { editCart, checkout } = user
 
 const cart = reactive([])
+
+const columns = [
+  {
+    name: 'name',
+    required: true,
+    label: '商品名稱',
+    align: 'left',
+    field: products => products.name,
+    format: val => `${val}`,
+    sortable: true
+  },
+  {
+    name: 'image',
+    required: true,
+    label: '商品圖片',
+    align: 'left',
+    field: row => row.image,
+    format: val => `${val}`,
+    sortable: true
+  },
+  {
+    name: 'price',
+    required: true,
+    label: '商品價格',
+    align: 'left',
+    field: row => row.price,
+    format: val => `${val}`,
+    sortable: true
+  },
+  {
+    name: 'sell',
+    required: true,
+    label: '數量',
+    align: 'left',
+    field: row => row.sell,
+    format: val => `${val}`,
+    sortable: true
+  },
+  {
+    name: 'sell',
+    required: true,
+    label: '小計',
+    align: 'left',
+    field: row => row.sell,
+    format: val => `${val}`,
+    sortable: true
+  },
+  {
+    name: 'edit',
+    required: true,
+    label: '編輯',
+    align: 'left'
+  }
+]
 
 const updateCart = async (idx, quantity, text) => {
   await editCart({ _id: cart[idx].p_id._id, quantity, text })

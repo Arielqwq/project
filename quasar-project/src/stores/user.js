@@ -79,16 +79,18 @@ export const useUserStore = defineStore('user', function () {
   }
 
   async function editCart ({ _id, quantity, text }) {
+    // 先判斷使用者是否登入
     if (token.value.length === 0) {
       Swal.fire({
         icon: 'error',
         title: '失敗',
         text: '請先登入'
       })
-      this.router.push('/login')
+      router.push('/login')
       return
     }
     try {
+      // parseInt(quantity) 傳入數字
       const { data } = await apiAuth.post('/users/cart', { p_id: _id, quantity: parseInt(quantity) })
       cart.value = data.result
       Swal.fire({

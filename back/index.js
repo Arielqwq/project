@@ -5,12 +5,11 @@ import cors from 'cors'
 import userRoute from './routes/users.js'
 // 錯誤測試
 // import userRoute from './routes/users'
-
 import productRoute from './routes/products.js'
 import orderRoute from './routes/orders.js'
 import './passport/passport.js'
 
-//  => localhost
+//  => localhost 免安裝版mongoDB
 // mongoose.connect(process.env.DB_URL, { family: 4 })
 
 mongoose.connect(process.env.DB_URL)

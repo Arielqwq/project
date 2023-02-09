@@ -33,6 +33,8 @@ export const login = async (req, res) => {
         token,
         account: req.user.account,
         email: req.user.email,
+        // cart: req.user.cart.lenth 購物車顯示種類數
+        // 累加器 .reduce(function, 初始值) => .reduce((目前已加的值, 目前迴圈跑到陣列的東西) => 每次的值 + current.quantity, 0),
         cart: req.user.cart.reduce((total, current) => total + current.quantity, 0),
         role: req.user.role
       }
@@ -72,6 +74,7 @@ export const getUser = (req, res) => {
       result: {
         account: req.user.account,
         email: req.user.email,
+        // cart: req.user.cart.lenth 購物車顯示種類數
         cart: req.user.cart.reduce((total, current) => total + current.quantity, 0),
         role: req.user.role
       }
@@ -87,6 +90,7 @@ export const editCart = async (req, res) => {
     const idx = req.user.cart.findIndex(cart => cart.p_id.toString() === req.body.p_id)
     if (idx > -1) {
       // 如果有，檢查新數量是多少
+      // parseInt(req.body.quantity) 傳數字
       const quantity = req.user.cart[idx].quantity + parseInt(req.body.quantity)
       console.log(req.body.quantity)
       if (quantity <= 0) {
@@ -101,16 +105,18 @@ export const editCart = async (req, res) => {
       const product = await products.findById(req.body.p_id)
       // 如果不存在，回應 404
       if (!product || !product.sell) {
-        res.status(404).send({ success: false, message: '找不到' })
+        res.status(404).send({ success: false, message: '找不到此商品' })
         return
       }
       // 如果存在，加入購物車陣列
       req.user.cart.push({
         p_id: req.body.p_id,
+        // parseInt(req.body.quantity) 傳數字
         quantity: parseInt(req.body.quantity)
       })
     }
     await req.user.save()
+    // result: req.user.cart.lenth 購物車顯示種類數
     res.status(200).json({ success: true, message: '', result: req.user.cart.reduce((total, current) => total + current.quantity, 0) })
   } catch (error) {
     if (error.name === 'ValidationError') {
@@ -123,6 +129,8 @@ export const editCart = async (req, res) => {
 
 export const getCart = async (req, res) => {
   try {
+    // .findById(要搜尋的id, '要取出的欄位')查詢使用者資料，只要取出 'cart' 欄位內容，其他資訊不需要，
+    // .populate()把資料帶到該帶的地方，只取 'cart.p_id'就好
     const result = await users.findById(req.user._id, 'cart').populate('cart.p_id')
     res.status(200).json({ success: true, message: '', result: result.cart })
   } catch (error) {

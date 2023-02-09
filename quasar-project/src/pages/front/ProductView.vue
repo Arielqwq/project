@@ -8,9 +8,11 @@
       p ${{ product.price }}
       p.pre {{ product.description }}
       q-form(@submit="submitCart")
-        q-card-section(v-model.number="quantity" type="number" label="數量" :rules="[rules.required, rules.number]")
-            q-btn(type="submit" color="primary") 加入購物車
-  q-dialog(v-model="product.sell" persistent )
+        //-v-model.number傳入數字，v-model 預設是文字
+        q-input(filled v-model.number="quantity" type="number" label="數量" :rules="[rules.required, rules.number]")
+        q-btn(type="submit" color="primary") 加入購物車
+
+  q-dialog(:v-model="!product.sell" persistent )
     q-card(class="bg-accent text-white" style="width: 300px")
       q-card-section
         h5.text-white.text-weight-bold 賣完ㄌ餒
@@ -35,7 +37,7 @@ const router = useRouter()
 const user = useUserStore()
 const { editCart } = user
 
-const valid = ref(false)
+// const valid = ref(false)
 const quantity = ref(0)
 
 const rules = {
@@ -62,7 +64,7 @@ const product = reactive({
 })
 
 const submitCart = () => {
-  if (!valid.value) return
+  // if (!valid.value) return
   editCart({ _id: product._id, quantity: quantity.value, text: '加入購物車' })
 }
 

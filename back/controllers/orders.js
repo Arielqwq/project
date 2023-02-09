@@ -3,13 +3,15 @@ import users from '../models/users.js'
 
 export const createOrder = async (req, res) => {
   try {
-    // 檢查購物車是不是空的
+    // 建立訂單前，先檢查購物車是不是空的
     if (req.user.cart.length === 0) {
-      res.status(400).json({ success: false, message: '購物車是空的' })
+      res.status(400).json({ success: false, message: '購物車空空的，趕快加點東西!' })
       return
     }
     // 檢查是否有下架商品
     let result = await users.findById(req.user._id, 'cart').populate('cart.p_id')
+    // .every 對陣列裡的每個東西跑迴圈，確定檢查陣列裡的每個東西在此 function 都是回 true
+    // 簡寫 const canCheckout = result.cart.every(cart => { cart.item.sell)
     const canCheckout = result.cart.every(cart => {
       return cart.p_id.sell
     })
@@ -22,7 +24,8 @@ export const createOrder = async (req, res) => {
     // 清空購物車
     req.user.cart = []
     await req.user.save()
-    res.status(200).json({ success: true, message: '' })
+    // 不回傳/ result (回傳整筆訂單) / result:result._id (回傳訂單 id)
+    res.status(200).json({ success: true, message: '', result })
   } catch (error) {
     if (error.name === 'ValidationError') {
       res.status(400).json({ success: false, message: error.errors[Object.keys(error.errors)[0]].message })
