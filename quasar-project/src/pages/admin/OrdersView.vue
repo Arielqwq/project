@@ -28,25 +28,25 @@
 </template>
 
 <script setup>
-// import { reactive } from 'vue'
-// import { apiAuth } from '@/boot/axios'
-// import Swal from 'sweetalert2'
+import { reactive } from 'vue'
+import { apiAuth } from '@/boot/axios'
+import Swal from 'sweetalert2'
 
-// const orders = reactive([]);
+const orders = reactive([]);
 
-// (async () => {
-//   try {
-//     const { data } = await apiAuth.get('/orders')
-//     orders.push(...data.result.map(order => {
-//       order.totalPrice = order.products.reduce((total, current) => total + current.p_id.price * current.quantity, 0)
-//       return order
-//     }))
-//   } catch (error) {
-//     Swal.fire({
-//       icon: 'error',
-//       title: '失敗',
-//       text: '取得訂單失敗'
-//     })
-//   }
-// })()
+(async () => {
+  try {
+    const { data } = await apiAuth.get('/orders')
+    orders.push(...data.result.map(order => {
+      order.totalPrice = order.products.reduce((total, current) => total + current.p_id.price * current.quantity, 0)
+      return order
+    }))
+  } catch (error) {
+    Swal.fire({
+      icon: 'error',
+      title: '失敗',
+      text: '取得訂單失敗'
+    })
+  }
+})()
 </script>

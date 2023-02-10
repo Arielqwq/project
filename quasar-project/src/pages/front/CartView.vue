@@ -3,17 +3,55 @@
   h3.text-center 購物車
     .div(class="q-px-xl row")
       .col-12
-        q-table(:columns="columns" :rows="cart" row-key="p_id" :rows-per-page-options="[5]")
-          template( v-slot:body-cell-image="props")
-            img(:src='props.row.p_id.image' style='height: 100px;')
-          //- //- 新增數量
-          //- template(v-slot:body-cell-quantity="props")
-          //-   q-btn
+        q-table(:columns="columns" :rows="cart" row-key="p_id"  :filter="filter"  )
 
-          //-刪除
+          //- 下架商品出現在購物車，要變紅色，且不能結帳
+          template(v-slot:body-cell='props')
+            q-td( :class="{'bg-red': !props.row.p_id.sell}")
+
+            //- 過濾
+          template(v-slot:top-right)
+            q-input(borderless dense debounce="300" v-model="filter" placeholder="Search")
+              template( v-slot:append)
+                q-icon( name="search")
+          //- 商品名稱
+          template(v-slot:body-cell-name='props')
+            q-td
+              p {{props.row.p_id.name}}
+
+          //- 商品圖片
+          template( v-slot:body-cell-image="props")
+            q-td
+              img(:src='props.row.p_id.image' style='height: 100px;')
+
+          //- 商品價格
+          template(v-slot:body-cell-price='props')
+            q-td
+              p {{props.row.p_id.price}}
+
+          //- 增減商品數量
+          template(#body-cell-quantity="props")
+            q-td
+              div.flex
+                q-btn(color="primary" @click="updateCart(props.row._id, -1,'修改成功')" label="-")
+                p &nbsp;{{ props.row.quantity }}&nbsp;
+                q-btn(color="primary" @click="updateCart(props.row._id, +1,'修改成功')" label="+")
+
+          //-刪除商品
           template(#body-cell-edit="data")
-            //- span {{ data.row._id }}
-            q-btn(round color="red" @click="updateCart(data.row._id, data.row.quantity*-1 ,'刪除商品')" icon="fa-solid fa-trash-can")
+            q-td
+              //- span {{ data.row._id }}
+              q-btn(round color="red" @click="updateCart(data.row._id, data.row.quantity*-1 ,'刪除商品')" icon="fa-solid fa-trash-can")
+
+          //- 商品小計
+          //- template(v-slot:body-cell-quantity="props")
+          //-   q-td
+          //-     p {{ columns.value }}
+
+      .col-12
+        p 總金額 {{ totalPrice }}
+        q-btn(color="green" :disabled="!canCheckout" @click="onCheckoutBtnClick" label="結帳")
+
 </template>
 
 <script setup>
@@ -23,6 +61,7 @@ import { apiAuth } from '@/boot/axios'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
 import { data } from 'browserslist'
+// import router from '@/router/routes'
 
 const router = useRouter()
 
@@ -93,9 +132,25 @@ const updateCart = async (id, quantity, text) => {
 }
 
 const onCheckoutBtnClick = async () => {
-  await checkout()
-  router.push('/orders')
+  console.log('1')
+  try {
+    await checkout()
+    console.log('2')
+    router.push('/orders')
+  } catch (error) {
+    console.log(error)
+    Swal.fire({
+      icon: 'error',
+      title: '失敗',
+      text: '結帳失敗'
+    })
+  }
 }
+
+// const onCheckoutBtnClick = async () => {
+//   await checkout()
+//   router.push('/orders')
+// }
 
 const totalPrice = computed(() => {
   return cart.reduce((total, current) => {
