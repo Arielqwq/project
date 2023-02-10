@@ -4,41 +4,16 @@
     .div(class="q-px-xl row")
       .col-12
         q-table(:columns="columns" :rows="cart" row-key="p_id" :rows-per-page-options="[5]")
-          //- template( v-slot:body-cell-image="props")
-          //-   img(:src='props.row.image' style='height: 100px;')
-  //- v-row
-  //-   v-col(cols="12")
-  //-     h1.text-center 購物車
-  //-   v-divider
-  //-   v-col(cols="12")
-  //-     v-table
-  //-       thead
-  //-         tr
-  //-           th 圖片
-  //-           th 名稱
-  //-           th 單價
-  //-           th 數量
-  //-           th 小計
-  //-           th 操作
-  //-       tbody
-  //-         tr(v-for="(product, idx) in cart" :key="product._id" :class="{'bg-red': !product.p_id.sell}")
-  //-           td
-  //-             v-img(:aspect-ratio="1" :width="200" :src="product.p_id.image")
-  //-           td {{ product.p_id.name }}
-  //-           td {{ product.p_id.price }}
-  //-           td
-  //-             v-btn(color="primary" @click="updateCart(idx, -1,'修改成功')") -
-  //-             | &nbsp;{{ product.quantity }}&nbsp;
-  //-             v-btn(color="primary" @click="updateCart(idx, 1,'修改成功')") +
-  //-           td {{ product.quantity * product.p_id.price }}
-  //-           td
-  //-             v-btn(color="red" @click="updateCart(idx, product.quantity*-1 ,'刪除商品')") 刪除
-  //-         tr(v-if="cart.length === 0")
-  //-           td.text-center(colspan="6") 沒有商品
-  //-   v-divider
-  //-   v-col.text-center(cols="12")
-  //-     p 總金額 {{ totalPrice }}
-  //-     v-btn(color="green" :disabled="!canCheckout" @click="onCheckoutBtnClick") 結帳
+          template( v-slot:body-cell-image="props")
+            img(:src='props.row.p_id.image' style='height: 100px;')
+          //- //- 新增數量
+          //- template(v-slot:body-cell-quantity="props")
+          //-   q-btn
+
+          //-刪除
+          template(#body-cell-edit="data")
+            //- span {{ data.row._id }}
+            q-btn(round color="red" @click="updateCart(data.row._id, data.row.quantity*-1 ,'刪除商品')" icon="fa-solid fa-trash-can")
 </template>
 
 <script setup>
@@ -47,6 +22,7 @@ import Swal from 'sweetalert2'
 import { apiAuth } from '@/boot/axios'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
+import { data } from 'browserslist'
 
 const router = useRouter()
 
@@ -63,7 +39,6 @@ const columns = [
     label: '商品名稱',
     align: 'left',
     field: cart => cart.p_id.name,
-    format: val => `${val}`,
     sortable: true
   },
   {
@@ -72,7 +47,6 @@ const columns = [
     label: '商品圖片',
     align: 'left',
     field: row => row.p_id.image,
-    format: val => `${val}`,
     sortable: true
   },
   {
@@ -81,7 +55,14 @@ const columns = [
     label: '商品價格',
     align: 'left',
     field: row => row.p_id.price,
-    format: val => `${val}`,
+    sortable: true
+  },
+  {
+    name: 'quantity',
+    required: true,
+    label: '商品數量',
+    align: 'left',
+    field: row => row.quantity,
     sortable: true
   },
   {
@@ -89,7 +70,8 @@ const columns = [
     required: true,
     label: '小計',
     align: 'left',
-    // format: cart => cart[idx].quantity * cart[idx].p_id.price,
+    field: row => row,
+    format: cart => cart.p_id.price * cart.quantity,
     sortable: true
   },
   {
@@ -100,7 +82,9 @@ const columns = [
   }
 ]
 
-const updateCart = async (idx, quantity, text) => {
+const updateCart = async (id, quantity, text) => {
+  const idx = cart.findIndex((cart) => cart._id === id)
+  console.log(idx)
   await editCart({ _id: cart[idx].p_id._id, quantity, text })
   cart[idx].quantity += quantity
   if (cart[idx].quantity <= 0) {
