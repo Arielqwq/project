@@ -7,6 +7,8 @@ import userRoute from './routes/users.js'
 // import userRoute from './routes/users'
 import productRoute from './routes/products.js'
 import orderRoute from './routes/orders.js'
+import aboutusRoute from './routes/aboutus.js'
+
 import './passport/passport.js'
 
 //  => localhost 免安裝版mongoDB
@@ -50,13 +52,14 @@ app.use('/users', userRoute)
 app.use('/products', productRoute)
 // orders
 app.use('/orders', orderRoute)
+app.use('/aboutus', aboutusRoute)
 
 app.get('/', (req, res) => {
   res.status(200).json({ success: true, message: '' })
 })
 
 app.all('*', (req, res) => {
-  res.status(404).json({ success: false, message: '我找不到~' })
+  res.status(404).json({ success: false, message: '~我找不到~' })
 })
 
 app.listen(process.env.PORT || 4000, () => {
