@@ -4,7 +4,8 @@ export const createAboutus = async (req, res) => {
   try {
     const result = await aboutus.create({
       title: req.body.title,
-      description: req.body.description
+      description: req.body.description,
+      image: req.files?.image?.[0]?.path || ''
     })
     res.status(200).json({ success: true, message: '', result })
   } catch (error) {
@@ -30,6 +31,7 @@ export const editAboutus = async (req, res) => {
     const aboutusNew = await aboutus.find()
     aboutusNew.title = req.body.title
     aboutusNew.description = req.body.description
+    aboutusNew.image = req.files?.image?.[0]?.path || aboutusNew.image
     await aboutusNew.save()
   } catch (error) {
     console.log(error)
