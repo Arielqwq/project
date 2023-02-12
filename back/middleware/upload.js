@@ -21,7 +21,7 @@ const upload = multer({
     fileSize: 1024 * 1024
   }
 })
-
+// 12/26 03:06:24 => 多種欄位時(audio)
 export default (req, res, next) => {
   upload.fields([
     { name: 'image', maxCount: 1 },

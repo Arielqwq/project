@@ -80,7 +80,7 @@ const routes = [
         }
       },
       {
-        path: 'news',
+        path: 'News',
         name: 'front-news',
         component: () => import('@/pages/front/NewsView.vue'),
         meta: {

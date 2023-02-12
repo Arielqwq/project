@@ -5,9 +5,11 @@
         .col-12
           q-table(:columns="columns" :rows="orders")
             //- 商品內容
-            //- template(v-slot:body-cell-content='orders')
-            //-   q-td
-            //-     p {{order.products.product.quantity + ' 個 ' + order.products.product.p_id.name}}
+            template(v-slot:body-cell-content='orders')
+              q-td
+                ul
+                  li(v-for="product in orders.products")
+                    p {{product.quantity + ' 個 ' + product.p_id.name}}
 </template>
 
 <script setup>
@@ -55,7 +57,8 @@ const columns = [
     required: true,
     label: '訂單內容',
     align: 'left',
-    field: orders => orders,
+    // field: orders => orders.products,
+    field: orders => orders.products.map(product => product.quantity + ' 個 ' + product.p_id.name).join(', '),
     sortable: true
   }
 ];
@@ -63,7 +66,6 @@ const columns = [
 (async () => {
   try {
     const { data } = await apiAuth.get('/orders/all')
-    console.log(data)
     orders.push(...data.result.map(order => {
       order.totalPrice = order.products.reduce((total, current) => total + current.p_id.price * current.quantity, 0)
       // order.products.product.quantity = orders.findIndex((product) => product in orders.products)

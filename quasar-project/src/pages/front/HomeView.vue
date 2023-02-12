@@ -1,12 +1,12 @@
 <template lang="pug">
 #home
   div
-    div
-      h4.text-center 我是首頁
-    hr
+    h4.text-center 我是首頁
     div.product-area.flex.q-ma-lg.justify-center.row.col-5
-      q-card.flex.justify-center.q-ma-lg.q-pa-lg.col-12.col-md-6.col-lg-3(v-for="product in products" :key="product._id" )
-        ProductCard(v-bind="product")
+      swiper
+        swiper-slide(v-for="product in products" :key="product._id" :slidesPerView="3")
+          q-card(style="width:250px").flex.justify-center.q-pa-lg.col-12.col-md-6.col-lg-3
+            ProductCard(v-bind="product")
 
 </template>
 <script setup>
@@ -14,6 +14,11 @@ import { reactive } from 'vue'
 import { api } from '@/boot/axios'
 import Swal from 'sweetalert2'
 import ProductCard from '@/components/ProductCard.vue'
+import { SwiperSlide, Swiper } from 'swiper/vue'
+
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
 
 const products = reactive([]);
 
@@ -31,10 +36,5 @@ const products = reactive([]);
 })()
 </script>
 <style lang="sass">
-.product-area
-  height: 300px
-  margin: 0 80px
-  @media (min-width: 576px)
-    margin: 20px 300px
 
 </style>

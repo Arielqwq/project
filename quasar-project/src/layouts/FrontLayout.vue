@@ -1,43 +1,52 @@
 <template lang="pug">
-q-layout
-  q-header(elevated class="bg-primary text-white" height-hint="98")
-    q-toolbar
-      //- q-btn(dense flat round icon="menu" @click="toggleLeftDrawer")
-      q-avatar
-        img(src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg")
-      q-toolbar-title(align="left") ~快樂的地方~
+#front-layout
+  q-layout
+    //- .headerImage
+    //-   q-img(src="https://cdn.quasar.dev/img/quasar.jpg")
 
-      q-btn(v-if="!isLogin" push round icon="fa-solid fa-user" @click="showLogin = true")
-      //- <q-btn v-if="!isLogin" font-awesome-icon icon="fa-solid fa-user" to="/register" label="註冊"/>
-      //- <q-btn v-if="!isLogin" font-awesome-icon icon="fa-solid fa-right-to-bracket" to="/login" label="登入"/>
-      q-btn( v-if="isLogin"  icon="fa-solid fa-cart-shopping" to="/cart")
-        q-badge( color="red" :label="cart" rounded floating)
-      q-btn(v-if="isLogin"  icon="fa-solid fa-list" to="/orders" label="訂單")
-      q-btn(v-if="isLogin && isAdmin" icon="fa-solid fa-hammer" to="/admin" label="管理")
-      q-btn#logoutBtn(v-if="isLogin" icon="fa-solid fa-right-from-bracket" @click="logout" label="登出")
+    q-header.q-header(elevated height-hint="98")
+      q-toolbar.q-toolbar(align="right" col-6)
+        q-btn(v-if="!isLogin" push round icon="fa-solid fa-user" @click="showLogin = true")
+        //- <q-btn v-if="!isLogin" font-awesome-icon icon="fa-solid fa-user" to="/register" label="註冊"/>
+        //- <q-btn v-if="!isLogin" font-awesome-icon icon="fa-solid fa-right-to-bracket" to="/login" label="登入"/>
+        q-btn(flat rounded v-if="isLogin"  icon="fa-solid fa-cart-shopping" to="/cart")
+          q-badge( color="red" :label="cart" rounded floating)
+        q-btn(flat rounded v-if="isLogin"  icon="fa-solid fa-list" to="/orders" label="訂單")
+        q-btn(flat rounded v-if="isLogin && isAdmin" icon="fa-solid fa-hammer" to="/admin" label="管理")
+        q-btn#logoutBtn(flat rounded v-if="isLogin" icon="fa-solid fa-right-from-bracket" @click="logout" label="登出")
 
-    q-tabs(align="left")
-      q-route-tab(to="/" label="首頁" )
-      q-route-tab(to="/News" label="最新消息")
-      q-route-tab(to="/ProductsView" label="最新商品")
-      q-route-tab(to="/ContactUs" label="聯絡我們")
-      q-route-tab(to="/AboutUs" label="關於我們")
-      //- ref="loginFalse"
-    q-dialog(v-if="showLogin" v-model="showLogin")
-      q-card(class="q-dialog-plugin")
-        RegisterShow(v-if="showRegister")
-        LoginShow(v-if="!showRegister")
-        q-btn(:label='showRegister ? "登入" : "註冊"' @click="showRegister = !showRegister")
+        //- q-btn(dense flat round icon="menu" @click="toggleLeftDrawer")
+      //-   q-avatar
+      //-     img(src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg")
+      //-   q-toolbar-title(align="left") ~快樂的地方~
 
-  q-page-container
-    router-view
+      q-tabs.header-tabs( indicator-color="transparent")
+        //- q-route-tab( to="/" label="首頁" )
+        q-route-tab(to="/News" label="最新消息")
+        q-route-tab(to="/ProductsView" label="最新商品")
+        q-route-tab(to="/" indicator-color="none")
+          img(src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg")
+        q-route-tab(to="/ContactUs" label="聯絡我們")
+        q-route-tab(to="/AboutUs" label="關於我們")
 
-  q-footer( elevated class="bg-grey-8 text-white")
-    q-toolbar
-      q-toolbar-title
-        q-avatar
-          img( src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg")
-        .div Title
+        //- div(align="right")
+
+        //- ref="loginFalse"
+      q-dialog(v-if="showLogin" v-model="showLogin")
+        q-card(class="q-dialog-plugin")
+          RegisterShow(v-if="showRegister")
+          LoginShow(v-if="!showRegister")
+          q-btn(:label='showRegister ? "登入" : "註冊"' @click="showRegister = !showRegister")
+
+    div.q-carousel(style="margin-top:130px")
+      q-carousel(animated v-model="slide" navigation infinite :autoplay="autoplay" arrows transition-prev="slide-right" transition-next="slide-left" @mouseenter="autoplay = false" @mouseleave="autoplay = true")
+        q-carousel-slide(:name="1" img-src="https://images.unsplash.com/photo-1525268323446-0505b6fe7778?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=872&q=80")
+        q-carousel-slide(:name="2" img-src="https://images.unsplash.com/photo-1481833761820-0509d3217039?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80")
+        q-carousel-slide(:name="3" img-src="https://images.unsplash.com/photo-1597290282695-edc43d0e7129?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=875&q=80")
+        q-carousel-slide(:name="4" img-src="https://images.unsplash.com/photo-1566417713940-fe7c737a9ef2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2029&q=80")
+
+    q-page-container(style="padding:0px")
+      router-view
 
 </template>
 
@@ -47,6 +56,10 @@ import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/stores/user'
 import LoginShow from '@/components/LoginShow.vue'
 import RegisterShow from 'components/RegisterShow.vue'
+
+// quasar-swiper
+const slide = ref(1)
+const autoplay = ref(true)
 
 const user = useUserStore()
 const { isLogin, isAdmin, cart, showLogin } = storeToRefs(user)

@@ -5,9 +5,11 @@
         .col-12
           q-table(:columns="columns" :rows="orders")
             //- 商品內容
-            //- template(v-slot:body-cell-content='orders')
-            //-   q-td
-            //-     p {{order.products.product.quantity + ' 個 ' + order.products.product.p_id.name}}
+            template(v-slot:body-cell-content='orders')
+              q-td
+                ul
+                  li(v-for="orders.product in orders.products")
+                    p {{order.product.quantity + ' 個 ' + order.product.p_id.name}}
 </template>
 
 <script setup>
@@ -55,15 +57,12 @@ const columns = [
 (async () => {
   try {
     const { data } = await apiAuth.get('/orders')
-    console.log(data)
     orders.push(...data.result.map(order => {
       order.totalPrice = order.products.reduce((total, current) => total + current.p_id.price * current.quantity, 0)
-      // order.products.product.quantity = orders.findIndex((product) => product in orders.products)
       return order
-    }
-    ))
+      // order.products.product.quantity = orders.findIndex((product) => product in orders.products)
+    }))
   } catch (error) {
-    console.log(error)
     Swal.fire({
       icon: 'error',
       title: '失敗',

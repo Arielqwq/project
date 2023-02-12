@@ -54,6 +54,5 @@ const { editCart } = user
 </script>
 
 <style lang="sass">
-.textUnderline-none
-  text-decoration: none
+
 </style>

@@ -63,7 +63,7 @@
             .col-5
               .row
                   //- .col-3( v-for="i in products[form.idx]?.image" :key="i")
-              q-img(:src="products[form.idx].image" style="height:100px")
+              q-img(:src="products[form.idx]?.image" style="height:100px")
               q-file(filled v-model="form.image" label="請上傳主圖片" style="max-height: 50px")
                   template(v-slot:append)
                     q-icon(name="close" @click="clear")

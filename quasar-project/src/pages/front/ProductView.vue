@@ -101,8 +101,5 @@ function back () {
 })()
 </script>
 <style lang="sass">
-#product-img
-  height: 300px
-  width: 300px
 
 </style>
