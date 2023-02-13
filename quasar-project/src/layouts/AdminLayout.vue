@@ -44,7 +44,13 @@ const menuList = [
   {
     icon: 'fa-solid fa-bag-shopping',
     label: '商品管理',
-    route: '/admin/products',
+    route: '/admin',
+    separator: true
+  },
+  {
+    icon: 'fa-solid fa-martini-glass-citrus',
+    label: '活動管理',
+    route: '/admin/events',
     separator: true
   },
   {

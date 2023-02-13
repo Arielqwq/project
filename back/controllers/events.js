@@ -7,10 +7,15 @@ export const createEvent = async (req, res) => {
     const result = await events.create({
       title: req.body.title,
       price: req.body.price,
-      date: req.body.date,
+      daysfrom: req.body.daysfrom,
+      daysto: req.body.daysto,
       description: req.body.description,
+      pplNum: req.body.pplNum,
+      lecturer: req.body.lecturer || '',
+      lecturerInfo: req.body.lecturerInfo || '',
       image: req.files?.image?.[0]?.path || '',
-      sell: req.body.sell
+      sell: req.body.sell,
+      category: req.body.category
     })
     // .send() 或 .json() 都可，統一.json()。
     // .send() 會根據資料型態去改變回傳內容， .send('asdasd') 就預設回傳文字
@@ -67,19 +72,19 @@ export const getEvent = async (req, res) => {
 export const editEvent = async (req, res) => {
   try {
     console.log(req.body)
-    console.log(req.files.images)
+    // console.log(req.files.images)
     // console.log(req.files.images.path)
     const eventNew = await events.findById(req.params.id)
-    // console.log('ya' + req.files.images.path)
-    // console.log(productNew)
 
-    // const images = exhibition.images.filter(image => !req.body.delImages.includes(image)).concat(req.files?.images?.map(file => file.path))
-
-    eventNew.name = req.body.name
+    eventNew.title = req.body.title
     eventNew.price = req.body.price
+    eventNew.daysfrom = req.body.daysfrom
+    eventNew.daysto = req.body.daysto
     eventNew.description = req.body.description
+    eventNew.lecturer = req.body.lecturer || ''
+    eventNew.lecturerInfo = req.body.lecturerInfo || ''
+    eventNew.pplNum = req.body.pplNum
     eventNew.image = req.files?.image?.[0]?.path || eventNew.image
-    // eventNew.image = req.files?.image?.[0]?.path
     // console.log(eventNew)
     eventNew.sell = req.body.sell
     eventNew.category = req.body.category
@@ -104,25 +109,3 @@ export const editEvent = async (req, res) => {
     }
   }
 }
-
-// export const deleteProduct = async (req, res) => {
-//   try {
-//     const result = await products.findByIdAndUpdate(req.params.id, {
-//       status: req.body.status
-//     }, { new: true })
-//     if (!result) {
-//       res.status(404).json({ success: false, message: '找不到' })
-//     } else {
-//       console.log(result)
-//       res.status(200).json({ success: true, message: '' })
-//     }
-//   } catch (error) {
-//     if (error.name === 'ValidationError') {
-//       res.status(400).json({ success: false, message: error.errors[Object.keys(error.errors)[0]].message })
-//     } else if (error.name === 'CastError') {
-//       res.status(404).json({ success: false, message: '找不到' })
-//     } else {
-//       res.status(500).json({ success: false, message: '未知錯誤' })
-//     }
-//   }
-// }

@@ -24,6 +24,7 @@
         //- q-route-tab( to="/" label="首頁" )
         q-route-tab(to="/News" label="最新消息")
         q-route-tab(to="/ProductsView" label="最新商品")
+        q-route-tab(to="/Events" label="課程活動")
         q-route-tab(to="/" indicator-color="none")
           img(src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg")
         q-route-tab(to="/ContactUs" label="聯絡我們")
@@ -73,9 +74,9 @@ const leftDrawerOpen = ref(false)
 //   leftDrawerOpen.value = !leftDrawerOpen.value
 // }
 
-const dialoginHide = () => {
-  if (!isLogin) showLogin.value = false
-}
+// const dialoginHide = () => {
+//   if (!isLogin) showLogin.value = false
+// }
 
 // const logoutBtn = document.querySelector('#logoutBtn')
 

@@ -3,9 +3,11 @@
   .div
     img(:src="image" cover style="height:150px")
     q-card-section.q-pa-none
-      router-link.text-weight-bold.textUnderline-none(:to="'/product/' + _id") {{ name }}
+      router-link.text-weight-bold.text.Underline-none(:to="'/events/' + _id") {{ title }}
     q-card-section.q-pt-none
-      .text-subtitle1 ${{ price }}
+      .text-subtitle 日期： {{ daysfrom }} ~ {{ daysto }}
+    q-card-section.q-pt-none
+      .text-subtitle 費用： ${{ price }}
     q-card-actions(align='right')
       q-btn(flat round color='red' icon='favorite')
       q-btn(flat round color='teal' icon='fa-solid fa-cart-plus' @click="editCart({_id, quantity: 1, text:'加入成功'})")
@@ -14,7 +16,7 @@
 </template>
 
 <script setup>
-import { useUserStore } from '@/stores/user'
+// import { useUserStore } from '@/stores/'
 
 defineProps({
   /* eslint-disable */
@@ -23,13 +25,21 @@ defineProps({
       default: ''
   },
   /* eslint-enable */
-  name: {
+  title: {
     type: String,
     default: ''
   },
   price: {
     type: Number,
     default: 0
+  },
+  daysfrom: {
+    type: String,
+    default: ''
+  },
+  daysto: {
+    type: String,
+    default: ''
   },
   // description: {
   //   type: String,
@@ -49,8 +59,8 @@ defineProps({
   }
 })
 
-const user = useUserStore()
-const { editCart } = user
+// const user = useUserStore()
+// const { editCart } = user
 </script>
 
 <style lang="sass">

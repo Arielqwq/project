@@ -19,32 +19,12 @@
       template(#body-cell-edit="data")
         q-td(class="q-pa-md q-gutter-sm")
           q-btn( round color="primary" text-color="white" icon="edit" @click="openDialog(products.findIndex((product)=> product._id === data.row._id))")
-
-          //- q-btn(round color="red" text-color="white" icon="fa-solid fa-trash-can" @click="deleteProduct(data.row._id)")
           //- 編輯商品按鈕的另一種寫法
           //- q-btn( round color="primary" text-color="white" icon="edit" @click="openDialog(products.indexOf(data.row))")
+          //- 刪除(但不適用)
+          //- q-btn(round color="red" text-color="white" icon="fa-solid fa-trash-can" @click="deleteProduct(data.row._id)")
 
-      //- template( v-slot:append)
-      //-   q-icon( name="close" @click="clear")
-
-      template( v-slot:append)
-        q-icon( name="close" @click="clears")
-      //-  q-markup-table()
-      //-  thead
-      //-    tr
-      //-      th 商品圖片
-      //-      th 商品名稱
-      //-      th 商品單價
-      //-      th 編輯
-      //-  tbody
-      //-    tr(v-for="(product, idx) in products" :key="product._id")
-      //-      td(align="center")
-      //-        q-img(:src="product.image" spinner-color="white" style="height: 140px; max-width: 150px")
-      //-      td(align="center") {{ product.name }}
-      //-      td(align="center") {{ product.price }}
-      //-      td(align="center")
-      //-        q-btn( flat round color="white" icon="fa-solid fa-pen" text-color="primary" variant="text" @click="openDialog(idx)")
-
+    //- 新增編輯商品
     q-dialog(align="center" v-model="form.dialog" persistent)
       q-card( class="column" style="width: 700px; max-width: 80vw;")
         q-form(@submit="onSubmit" @reset="onReset")

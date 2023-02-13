@@ -8,6 +8,7 @@ import userRoute from './routes/users.js'
 import productRoute from './routes/products.js'
 import orderRoute from './routes/orders.js'
 import aboutusRoute from './routes/aboutus.js'
+import eventsRoute from './routes/events.js'
 
 import './passport/passport.js'
 
@@ -50,10 +51,12 @@ app.use((_, req, res, next) => {
 app.use('/users', userRoute)
 // 商品
 app.use('/products', productRoute)
-// orders
+// 訂單
 app.use('/orders', orderRoute)
-// aboutus
+// 關於我們
 app.use('/aboutus', aboutusRoute)
+// 活動頁
+app.use('/events', eventsRoute)
 
 app.get('/', (req, res) => {
   res.status(200).json({ success: true, message: '' })

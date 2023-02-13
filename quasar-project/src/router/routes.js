@@ -85,8 +85,8 @@ const routes = [
         component: () => import('@/pages/front/NewsView.vue'),
         meta: {
           title: '購物網 | 最新消息',
-          login: true,
-          admin: true
+          login: false,
+          admin: false
         }
       },
       {
@@ -94,9 +94,9 @@ const routes = [
         name: 'front-aboutus',
         component: () => import('@/pages/front/AboutusView.vue'),
         meta: {
-          title: '購物網 | 最新消息',
-          login: true,
-          admin: true
+          title: '購物網 | 關於我們',
+          login: false,
+          admin: false
         }
       },
       {
@@ -105,8 +105,18 @@ const routes = [
         component: () => import('@/pages/front/ContactusView.vue'),
         meta: {
           title: '購物網 | 聯絡我們',
-          login: true,
-          admin: true
+          login: false,
+          admin: false
+        }
+      },
+      {
+        path: 'events',
+        name: 'front-Events',
+        component: () => import('@/pages/front/EventsView.vue'),
+        meta: {
+          title: '購物網 | 課程活動',
+          login: false,
+          admin: false
         }
       }
     ]
@@ -115,18 +125,18 @@ const routes = [
     path: '/admin',
     component: () => import('@/layouts/AdminLayout.vue'),
     children: [
+      // {
+      //   path: ' ',
+      //   name: 'admin-home',
+      //   component: () => import('@/pages/admin/HomeView.vue'),
+      //   meta: {
+      //     title: '購物網 | 管理',
+      //     login: true,
+      //     admin: true
+      //   }
+      // },
       {
-        path: ' ',
-        name: 'admin-home',
-        component: () => import('@/pages/admin/HomeView.vue'),
-        meta: {
-          title: '購物網 | 管理',
-          login: true,
-          admin: true
-        }
-      },
-      {
-        path: 'products',
+        path: '',
         name: 'admin-products',
         component: () => import('@/pages/admin/ProductsView.vue'),
         meta: {
@@ -181,6 +191,16 @@ const routes = [
         component: () => import('@/pages/admin/AboutusView.vue'),
         meta: {
           title: '購物網 | 關於我們管理',
+          login: true,
+          admin: true
+        }
+      },
+      {
+        path: 'events',
+        name: 'admin-events',
+        component: () => import('@/pages/admin/EventsView.vue'),
+        meta: {
+          title: '購物網 | 課程活動管理',
           login: true,
           admin: true
         }
