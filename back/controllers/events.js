@@ -1,17 +1,16 @@
-import products from '../models/products.js'
+import events from '../models/events.js'
 
-export const createProduct = async (req, res) => {
+export const createEvent = async (req, res) => {
   try {
     console.log(req.file)
     console.log(req.files)
-    const result = await products.create({
-      name: req.body.name,
+    const result = await events.create({
+      title: req.body.title,
       price: req.body.price,
+      date: req.body.date,
       description: req.body.description,
       image: req.files?.image?.[0]?.path || '',
-      images: req.files?.images?.map(file => file.path) || [],
-      sell: req.body.sell,
-      category: req.body.category
+      sell: req.body.sell
     })
     // .send() 或 .json() 都可，統一.json()。
     // .send() 會根據資料型態去改變回傳內容， .send('asdasd') 就預設回傳文字
@@ -27,9 +26,9 @@ export const createProduct = async (req, res) => {
 }
 
 // 上架，查詢方法是 sell: true
-export const getSellProducts = async (req, res) => {
+export const getSellEvents = async (req, res) => {
   try {
-    const result = await products.find({ sell: true })
+    const result = await events.find({ sell: true })
     res.status(200).json({ success: true, message: '', result })
   } catch (error) {
     res.status(500).json({ success: false, message: '未知錯誤' })
@@ -37,10 +36,10 @@ export const getSellProducts = async (req, res) => {
 }
 
 // 只有管理員看得到
-export const getAllProducts = async (req, res) => {
+export const getAllEvents = async (req, res) => {
   try {
     // 沒有任何查詢條件
-    const result = await products.find()
+    const result = await events.find()
     res.status(200).json({ success: true, message: '', result })
   } catch (error) {
     res.status(500).json({ success: false, message: '未知錯誤' })
@@ -48,9 +47,9 @@ export const getAllProducts = async (req, res) => {
 }
 
 // 查單一個商品
-export const getProduct = async (req, res) => {
+export const getEvent = async (req, res) => {
   try {
-    const result = await products.findById(req.params.id)
+    const result = await events.findById(req.params.id)
     if (!result) {
       res.status(404).json({ success: false, message: '找不到此商品' })
     } else {
@@ -65,17 +64,14 @@ export const getProduct = async (req, res) => {
   }
 }
 
-export const editProduct = async (req, res) => {
+export const editEvent = async (req, res) => {
   try {
     console.log(req.body)
     console.log(req.files.images)
     // console.log(req.files.images.path)
-    const productNew = await products.findById(req.params.id)
+    const eventNew = await events.findById(req.params.id)
     // console.log('ya' + req.files.images.path)
     // console.log(productNew)
-    const images = productNew.images.filter(image => !req.body?.delImages?.includes(image)).concat(req.files?.images?.map(file => file.path)).filter(image =>
-      image !== null && image !== undefined
-    )
 
     console.log(images, 'images')
     // const images = exhibition.images.filter(image => !req.body.delImages.includes(image)).concat(req.files?.images?.map(file => file.path))

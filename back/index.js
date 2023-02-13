@@ -52,6 +52,7 @@ app.use('/users', userRoute)
 app.use('/products', productRoute)
 // orders
 app.use('/orders', orderRoute)
+// aboutus
 app.use('/aboutus', aboutusRoute)
 
 app.get('/', (req, res) => {

@@ -5,7 +5,7 @@
       q-img(:src="product.image" cover )
     .flex.column.no-wrap.col-12.col-lg-6
       h3 {{ product.name }}
-      p ${{ product.price }}
+      p $ {{ product.price }}
       p.pre {{ product.description }}
       q-form(@submit="submitCart")
         //-v-model.number傳入數字，v-model 預設是文字
@@ -57,7 +57,6 @@ const product = reactive({
   description: '',
   image: '',
   images: [],
-
   // 預設是 false 會看到已下架
   sell: true,
   category: ''
@@ -84,11 +83,11 @@ function back () {
     product.images = data.result.images
     product.sell = data.result.sell
     product.category = data.result.category
-
     // 對使用者來說，頁面標題有變化
     document.title = '購物網 | ' + product.name
     // 修改 og 的 title 無效，
     // document.querySelector('meta[property="og:title"]').setAttribute('content', product.name)
+    console.log(data.result)
   } catch (error) {
     Swal.fire({
       icon: 'error',

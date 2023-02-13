@@ -1,11 +1,11 @@
 <template lang="pug">
 q-layout(height="300" class="shadow-2 rounded-borders")
-  q-header(elevated class="bg-black")
-    q-toolbar
+  q-header(elevated style="background-color: #230b0b")
+    q-toolbar(style="height:100px")
       q-btn(flat @click="drawer = !drawer" round dense icon="menu" )
-      q-toolbar-title 會員管理頁面
+      q-toolbar-title 管理者後台
       //- @mouseover="miniState = false" @mouseout="miniState = true"
-  q-drawer(v-model="drawer"  :width="250" :breakpoint="500" bordered)
+  q-drawer( show-if-above v-model="drawer"  :width="250" :breakpoint="500" bordered )
 
     q-scroll-area(class="fit" style="height: calc(100% - 150px); margin-top: 150px;")
       q-list(padding class="menu-list")

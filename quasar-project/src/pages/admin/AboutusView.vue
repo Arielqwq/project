@@ -3,9 +3,13 @@
   h3.text-center 關於我們管理
   .div(class="q-px-xl row")
     .col-12
-      q-btn(@click="openDialog(-1)" color="primary" label="新增商品")
-  .div(class="q-px-xl q-mt-md")
-    q-markup-table
+      q-btn(@click="openDialog(form._id.length > 0 ? 0 : -1)" color="primary" label="編輯")
+  div(class="q-px-xl q-mt-md " )
+    div( style="width:80% ;height:500px ;border-radius: 30px; background-color:rgb(255, 245, 238); padding:20px ")
+      h5 標題： {{ aboutus[0]?.title}}
+      h6 內容： {{ aboutus[0]?.description }}
+      h6 圖片：
+        img(:src='aboutus[0]?.image' style='height: 100px;')
 
     q-dialog(align="center" v-model="form.dialog" persistent)
       q-card( class="column" style="width: 700px; max-width: 80vw;")
@@ -17,14 +21,14 @@
               q-tooltip Close
           q-card-section.column.q-gutter-md
             .col-12
-              q-input(square filled v-model="form.name" label="標題" :rules="[rules.required]")
+              q-input(square filled v-model="form.name" label="關於我們標題" :rules="[rules.required]")
             .col-12
-              q-input(square filled v-model="form.description" type="textarea" label="內容" :rules="[rules.required]")
+              q-input(square filled v-model="form.description" type="textarea" label="關於我們內容" :rules="[rules.required]")
             .col-5
               .row
                   //- .col-3( v-for="i in aboutus[form.idx]?.image" :key="i")
-              q-img(:src="aboutus[form.idx].image" style="height:100px")
-              q-file(filled v-model="form.image" label="請上傳主圖片" style="max-height: 50px")
+              q-img(:src="aboutus[form.idx]?.image" style="height:100px")
+              q-file(filled v-model="form.image" label="請上傳圖片" style="max-height: 50px")
                   template(v-slot:append)
                     q-icon(name="close" @click="clear")
 
@@ -52,28 +56,26 @@ const clear = () => {
 const aboutus = reactive([])
 
 const form = reactive({
+  _id: '',
   title: '',
   image: undefined,
   description: ''
 })
 
 const openDialog = (idx) => {
+  // console.log(idx)
   if (idx === -1) {
     form.title = ''
     form.image = undefined
     form.description = ''
-  } else {
-    form.title = aboutus[idx].title
-    form.image = aboutus[idx].image
-    form.description = aboutus[idx].description
   }
   form.dialog = true
 }
 
 const onReset = () => {
-  form.title = null
+  form.title = ''
   form.image = undefined
-  form.description = null
+  form.description = ''
 }
 
 const onSubmit = async () => {
@@ -98,7 +100,7 @@ const onSubmit = async () => {
       })
     } else {
       const { data } = await apiAuth.patch('/aboutus/' + form._id, fd)
-      aboutus[form.idx] = data.result
+      aboutus[0] = data.result
       Swal.fire({
         icon: 'success',
         title: '成功',
@@ -118,9 +120,13 @@ const onSubmit = async () => {
 
 (async () => {
   try {
-    const { data } = await apiAuth.get('/aboutus/all')
+    const { data } = await apiAuth.get('/aboutus')
     aboutus.push(...data.result)
-    console.log(aboutus)
+    form._id = aboutus[0]._id
+    form.title = aboutus[0].title
+    form.image = aboutus[0].image
+    form.description = aboutus[0].description
+    console.log(form)
   } catch (error) {
     Swal.fire({
       icon: 'error',

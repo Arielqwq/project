@@ -17,29 +17,33 @@
 
         //- 編輯
       template(#body-cell-edit="data")
-        q-btn( round color="primary" text-color="white" icon="edit" @click="openDialog(products.findIndex((product)=> product._id === data.row._id))")
-        //- q-btn( round color="primary" text-color="white" icon="edit" @click="openDialog(products.indexOf(data.row))")
+        q-td(class="q-pa-md q-gutter-sm")
+          q-btn( round color="primary" text-color="white" icon="edit" @click="openDialog(products.findIndex((product)=> product._id === data.row._id))")
+
+          //- q-btn(round color="red" text-color="white" icon="fa-solid fa-trash-can" @click="deleteProduct(data.row._id)")
+          //- 編輯商品按鈕的另一種寫法
+          //- q-btn( round color="primary" text-color="white" icon="edit" @click="openDialog(products.indexOf(data.row))")
 
       //- template( v-slot:append)
       //-   q-icon( name="close" @click="clear")
 
       template( v-slot:append)
         q-icon( name="close" @click="clears")
-      // q-markup-table()
-      // thead
-      //   tr
-      //     th 商品圖片
-      //     th 商品名稱
-      //     th 商品單價
-      //     th 編輯
-      // tbody
-      //   tr(v-for="(product, idx) in products" :key="product._id")
-      //     td(align="center")
-      //       q-img(:src="product.image" spinner-color="white" style="height: 140px; max-width: 150px")
-      //     td(align="center") {{ product.name }}
-      //     td(align="center") {{ product.price }}
-      //     td(align="center")
-      //       q-btn( flat round color="white" icon="fa-solid fa-pen" text-color="primary" variant="text" @click="openDialog(idx)")
+      //-  q-markup-table()
+      //-  thead
+      //-    tr
+      //-      th 商品圖片
+      //-      th 商品名稱
+      //-      th 商品單價
+      //-      th 編輯
+      //-  tbody
+      //-    tr(v-for="(product, idx) in products" :key="product._id")
+      //-      td(align="center")
+      //-        q-img(:src="product.image" spinner-color="white" style="height: 140px; max-width: 150px")
+      //-      td(align="center") {{ product.name }}
+      //-      td(align="center") {{ product.price }}
+      //-      td(align="center")
+      //-        q-btn( flat round color="white" icon="fa-solid fa-pen" text-color="primary" variant="text" @click="openDialog(idx)")
 
     q-dialog(align="center" v-model="form.dialog" persistent)
       q-card( class="column" style="width: 700px; max-width: 80vw;")
@@ -63,10 +67,10 @@
             .col-5
               .row
                   //- .col-3( v-for="i in products[form.idx]?.image" :key="i")
-              q-img(:src="products[form.idx]?.image" style="height:100px")
-              q-file(filled v-model="form.image" label="請上傳主圖片" style="max-height: 50px")
-                  template(v-slot:append)
-                    q-icon(name="close" @click="clear")
+                  q-img(:src="products[form.idx]?.image" style="height:100px")
+                  q-file(filled v-model="form.image" label="請上傳主圖片" style="max-height: 50px")
+                    template(v-slot:append)
+                      q-icon(name="close" @click="clear")
 
             .col-5
               .row
@@ -210,6 +214,16 @@ const columns = [
   }
 ]
 
+// const updateproducts = async (id, quantity, text) => {
+//   const idx = products.findIndex((products) => products._id === id)
+//   console.log(idx)
+//   await editproducts({ _id: products[idx].p_id._id, quantity, text })
+//   products[idx].quantity += quantity
+//   if (products[idx].quantity <= 0) {
+//     products.splice(idx, 1)
+//   }
+// }
+
 const onReset = () => {
   form.name = null
   form.price = null
@@ -265,12 +279,36 @@ const onSubmit = async () => {
   form.loading = false
 }
 
+// const deleteProduct = async (_id) => {
+//   try {
+//     console.log(111)
+//     await apiAuth.patch('/products/delete/' + _id, {
+//       status: 1
+//     })
+//     const index = products.findIndex(item => item._id === _id)
+//     console.log(index)
+//     products.splice(index, 1)
+//     Swal.fire({
+//       icon: 'success',
+//       title: '成功',
+//       text: '刪除成功'
+//     })
+//   } catch (error) {
+//     Swal.fire({
+//       icon: 'error',
+//       title: '刪除失敗',
+//       text: error?.response?.data?.message || '發生錯誤'
+//     })
+//   }
+// };
+
 (async () => {
   try {
     const { data } = await apiAuth.get('/products/all')
     products.push(...data.result)
     console.log(products)
   } catch (error) {
+    console.log(error)
     Swal.fire({
       icon: 'error',
       title: '失敗',

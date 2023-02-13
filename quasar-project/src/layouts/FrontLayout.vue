@@ -38,14 +38,14 @@
           LoginShow(v-if="!showRegister")
           q-btn(:label='showRegister ? "登入" : "註冊"' @click="showRegister = !showRegister")
 
-    div.q-carousel(style="margin-top:130px")
-      q-carousel(animated v-model="slide" navigation infinite :autoplay="autoplay" arrows transition-prev="slide-right" transition-next="slide-left" @mouseenter="autoplay = false" @mouseleave="autoplay = true")
-        q-carousel-slide(:name="1" img-src="https://images.unsplash.com/photo-1525268323446-0505b6fe7778?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=872&q=80")
-        q-carousel-slide(:name="2" img-src="https://images.unsplash.com/photo-1481833761820-0509d3217039?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80")
-        q-carousel-slide(:name="3" img-src="https://images.unsplash.com/photo-1597290282695-edc43d0e7129?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=875&q=80")
-        q-carousel-slide(:name="4" img-src="https://images.unsplash.com/photo-1566417713940-fe7c737a9ef2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2029&q=80")
+    //- div.q-carousel(style="margin-top:130px")
+    //-   q-carousel(animated v-model="slide" navigation infinite :autoplay="autoplay" arrows transition-prev="slide-right" transition-next="slide-left" @mouseenter="autoplay = false" @mouseleave="autoplay = true")
+    //-     q-carousel-slide(:name="1" img-src="https://images.unsplash.com/photo-1525268323446-0505b6fe7778?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=872&q=80")
+    //-     q-carousel-slide(:name="2" img-src="https://images.unsplash.com/photo-1481833761820-0509d3217039?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80")
+    //-     q-carousel-slide(:name="3" img-src="https://images.unsplash.com/photo-1597290282695-edc43d0e7129?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=875&q=80")
+    //-     q-carousel-slide(:name="4" img-src="https://images.unsplash.com/photo-1566417713940-fe7c737a9ef2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2029&q=80")
 
-    q-page-container(style="padding:0px")
+    q-page-container()
       router-view
 
 </template>
@@ -58,8 +58,8 @@ import LoginShow from '@/components/LoginShow.vue'
 import RegisterShow from 'components/RegisterShow.vue'
 
 // quasar-swiper
-const slide = ref(1)
-const autoplay = ref(true)
+// const slide = ref(1)
+// const autoplay = ref(true)
 
 const user = useUserStore()
 const { isLogin, isAdmin, cart, showLogin } = storeToRefs(user)
