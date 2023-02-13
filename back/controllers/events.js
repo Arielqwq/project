@@ -73,27 +73,24 @@ export const editEvent = async (req, res) => {
     // console.log('ya' + req.files.images.path)
     // console.log(productNew)
 
-    console.log(images, 'images')
     // const images = exhibition.images.filter(image => !req.body.delImages.includes(image)).concat(req.files?.images?.map(file => file.path))
 
-    productNew.name = req.body.name
-    productNew.price = req.body.price
-    productNew.description = req.body.description
-    productNew.image = req.files?.image?.[0]?.path || productNew.image
-    // productNew.image = req.files?.image?.[0]?.path
-    // console.log(productNew)
-    productNew.images = images
-    // productNew.images.push(...images)
-    productNew.sell = req.body.sell
-    productNew.category = req.body.category
-    console.log(productNew)
+    eventNew.name = req.body.name
+    eventNew.price = req.body.price
+    eventNew.description = req.body.description
+    eventNew.image = req.files?.image?.[0]?.path || eventNew.image
+    // eventNew.image = req.files?.image?.[0]?.path
+    // console.log(eventNew)
+    eventNew.sell = req.body.sell
+    eventNew.category = req.body.category
+    console.log(eventNew)
     // Mongoose 有 upsert:true ，當找不到東西時，可自動新增一筆 => ,{ new: true, upsert:true})
-    await productNew.save()
-    if (!productNew) {
+    await eventNew.save()
+    if (!eventNew) {
       // 找不到這個東西，無法更新
       res.status(404).json({ success: false, message: '找不到' })
     } else {
-      res.status(200).json({ success: true, message: '', result: productNew })
+      res.status(200).json({ success: true, message: '', result: eventNew })
     }
   } catch (error) {
     console.log(error)
