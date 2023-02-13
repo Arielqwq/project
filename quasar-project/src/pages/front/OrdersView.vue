@@ -1,15 +1,15 @@
 <template lang="pug">
 #orders
-  h3.text-center 購物車
+  h3.text-center 我的訂單
       .div(class="q-px-xl row")
         .col-12
           q-table(:columns="columns" :rows="orders")
             //- 商品內容
-            template(v-slot:body-cell-content='orders')
+            template(v-slot:body-cell-content='data')
               q-td
                 ul
-                  li(v-for="orders.product in orders.products")
-                    p {{order.product.quantity + ' 個 ' + order.product.p_id.name}}
+                  li(v-for="product in data.row.products")
+                    p {{product.quantity + ' 個 ' + product.p_id.name}}
 </template>
 
 <script setup>
@@ -46,11 +46,8 @@ const columns = [
   },
   {
     name: 'content',
-    required: true,
     label: '訂單內容',
-    align: 'left',
-    field: orders => orders,
-    sortable: true
+    align: 'left'
   }
 ];
 
