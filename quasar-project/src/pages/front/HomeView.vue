@@ -2,6 +2,12 @@
 #home
   div
     h4.text-center 我是首頁
+    q-carousel(animated v-model='slide' navigation infinite :autoplay='autoplay' arrows transition-prev='slide-right' transition-next='slide-left' @mouseenter='autoplay = false' @mouseleave='autoplay = true')
+      q-carousel-slide(:name='1' img-src='https://images.unsplash.com/photo-1533050487297-09b450131914?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80')
+      q-carousel-slide(:name='2' img-src='https://images.unsplash.com/photo-1564284369929-026ba231f89b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80')
+      q-carousel-slide(:name='3' img-src='https://plus.unsplash.com/premium_photo-1668989820310-8e2e3684bdb4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80')
+      q-carousel-slide(:name='4' img-src='https://images.unsplash.com/photo-1557008525-73e7bf440f76?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80')
+
     div.product-area.flex.q-ma-lg.justify-center.row.col-5
       swiper(v-bind='swiperOptions' )
         swiper-slide(v-for="product in products" :key="product._id" :slidesPerView="3")
@@ -31,6 +37,9 @@ import 'swiper/css/pagination'
 
 const products = reactive([])
 const events = reactive([])
+
+const slide = ref(1)
+const autoplay = ref(true)
 
 const swiperOptions = {
   slidesPerView: 1,
