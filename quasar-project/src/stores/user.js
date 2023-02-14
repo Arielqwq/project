@@ -126,6 +126,34 @@ export const useUserStore = defineStore('user', function () {
     }
   }
 
+  async function editEventParticipant (id, phone) {
+    // 先判斷是否登入
+    if (token.value.length === 0) {
+      Swal.fire({
+        icon: 'error',
+        title: '失敗',
+        text: '請先登入'
+      })
+      router.push('/login')
+    }
+    try {
+      const { data } = await apiAuth.patch('/events/' + id + '/participant', { phone })
+      cart.value = data.result
+      Swal.fire({
+        icon: 'success',
+        title: '成功',
+        // text: '加入購物車成功'
+        text: '報名成功'
+      })
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: '失敗',
+        text: error?.response?.data?.message || '發生錯誤'
+      })
+    }
+  }
+
   const register = async (form) => {
     showLogin.value = false
     try {
@@ -161,7 +189,8 @@ export const useUserStore = defineStore('user', function () {
     avatar,
     editCart,
     checkout,
-    register
+    register,
+    editEventParticipant
   }
 },
 {

@@ -12,7 +12,7 @@ const participantInfo = new Schema({
     required: [true, '缺少信箱']
   },
   phone: {
-    type: Number,
+    type: String,
     validate: {
       validator (phone) {
         return validator.isMobilePhone(phone, 'zh-TW')

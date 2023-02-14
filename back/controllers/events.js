@@ -119,9 +119,10 @@ export const editEventParticipant = async (req, res) => {
     } else {
       event.participant.push({
         account: req.user._id,
-        email: req.body.email,
+        email: req.user.email,
         phone: req.body.phone
       })
+      await event.save()
       res.status(200).json({ success: true, message: '' })
     }
   } catch (error) {

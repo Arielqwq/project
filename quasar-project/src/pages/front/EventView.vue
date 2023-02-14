@@ -10,12 +10,11 @@
       p 講師簡介：{{ event. lecturerInfo }}
       p 參加人數：{{event.pplNum}} 人 ||  費用： $ {{ event.price }}
       p.pre 活動簡介：{{ event.description }}
-      q-form(@submit="submitCart")
         //-v-model.number傳入數字，v-model 預設是文字
         //- q-input(filled v-model.number="quantity" type="number" label="數量" :rules="[rules.required, rules.number]" min="1")
         //- q-btn(type="submit" color="primary") 參加活動
         //- :disabled="quantity < 1"
-        q-btn(@click="addCart=true" color="primary" ) 參加活動
+      q-btn(@click="addCart=true" color="primary" ) 參加活動
 
   //-參加活動
   q-dialog(v-model="addCart" persistent )
@@ -64,6 +63,7 @@ const router = useRouter()
 
 const user = useUserStore()
 const { editCart, isLogin } = storeToRefs(user)
+const { editEventParticipant } = user
 
 // 打開輸入電話號碼dialog
 const addCart = ref(false)
@@ -72,9 +72,9 @@ const text = ref('')
 const value = ref('')
 const quantity = ref(0)
 
-const submitCart = () => {
+const onSubmit = () => {
   // if (!valid.value) return
-  editCart({ _id: event._id, quantity: quantity.value, text: '加入購物車' })
+  editEventParticipant(route.params.id, value.value)
 }
 
 const onReset = () => {
