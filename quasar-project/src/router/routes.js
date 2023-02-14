@@ -39,16 +39,7 @@ const routes = [
       //     admin: false
       //   }
       // },
-      {
-        path: 'product/:id',
-        name: 'product',
-        component: () => import('@/pages/front/ProductView.vue'),
-        meta: {
-          title: '購物網 | 商品',
-          login: false,
-          admin: false
-        }
-      },
+
       {
         path: 'cart',
         name: 'cart',
@@ -70,11 +61,21 @@ const routes = [
         }
       },
       {
-        path: 'productsview',
-        name: 'productsview',
+        path: 'Products',
+        name: 'Products',
         component: () => import('@/pages/front/ProductsView.vue'),
         meta: {
           title: '購物網 | 最新商品',
+          login: false,
+          admin: false
+        }
+      },
+      {
+        path: 'product/:id',
+        name: 'product',
+        component: () => import('@/pages/front/ProductView.vue'),
+        meta: {
+          title: '購物網 | 商品',
           login: false,
           admin: false
         }
@@ -110,11 +111,21 @@ const routes = [
         }
       },
       {
-        path: 'events',
+        path: 'Events',
         name: 'front-Events',
         component: () => import('@/pages/front/EventsView.vue'),
         meta: {
           title: '購物網 | 課程活動',
+          login: false,
+          admin: false
+        }
+      },
+      {
+        path: 'event/:id',
+        name: 'event',
+        component: () => import('@/pages/front/EventView.vue'),
+        meta: {
+          title: '購物網 | 商品',
           login: false,
           admin: false
         }

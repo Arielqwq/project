@@ -39,17 +39,17 @@
             .col-12
               q-input(square filled v-model="form.title" label="活動名稱" :rules="[rules.required]")
             .col-6
-              q-input(square filled v-model="form.price" type="number" prefix="$" label="活動費用" :rules="[rules.required, rules.price]")
+              q-input(square filled v-model.number="form.price" type="number" prefix="$" label="活動費用" :rules="[rules.price]")
             .col-6
               q-checkbox(v-model="form.sell" label="上架")
             .col-12
-              q-input(square filled v-model="form.daysfrom" type="date"  label="活動開始日期" :rules="[rules.required]")
+              q-input.daysfrom(square filled v-model="form.daysfrom" type="date"  label="活動開始日期" :rules="[rules.required, rules.daysfrom]" @update:model-value="form.daysto = ''")
               //-   p 活動開始日期： {{ days }}
               //- q-date(v-model='form.days' range multiple)
             .col-12
-              q-input(square filled v-model="form.daysto" type="date"  label="活動結束日期" :rules="[rules.required]")
+              q-input.daysfrom(square filled v-model="form.daysto" type="date"  label="活動結束日期" :rules="[rules.required, rules.daysto]" :disable="form.daysfrom.length === 0")
             .col-12
-              q-input(square filled v-model="form.description" type="textarea" label="活動說明" :rules="[rules.required]")
+              q-input.daysto(square filled v-model="form.description" type="textarea" label="活動說明" :rules="[rules.required]")
             .col-12
               q-select(filled v-model="form.category" :options="categories" label="活動分類" :rules="[rules.required]")
             .col-2
@@ -57,14 +57,13 @@
             .col-2
               q-input(square filled v-model="form.lecturer" label="講師姓名" )
             .col-2
-              q-input(v-if='!haslecturer' square filled v-model="form.lecturerInfo" label="講師簡介" )
+              q-input(v-bind:disable="form.lecturer.length === 0" square filled v-model="form.lecturerInfo" label="講師簡介" )
 
               .row
                   q-img(:src="events[form.idx]?.image" style="height:100px")
                   q-file(filled v-model="form.image" label="請上傳圖片" style="max-height: 50px")
                     template(v-slot:append)
                       q-icon(name="close" @click="clear")
-
           q-card-actions(align='right')
             q-btn(:disabled="form.loading" flat label='reset' type="reset" color='red')
             q-btn(:disabled="form.loading" flat label='submit' type="submit" color='green')
@@ -76,10 +75,10 @@ import { apiAuth } from '@/boot/axios'
 import Swal from 'sweetalert2'
 import { ref, reactive } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useEventStore } from '@/stores/event'
+// import { useEventStore } from '@/stores/event'
 
-const event = useEventStore()
-const { haslecturer } = storeToRefs(event)
+// const event = useEventStore()
+// const { haslecturer } = storeToRefs(event)
 
 const categories = ['體驗', '線上課程', '實體課程', '其他']
 
@@ -89,11 +88,29 @@ const rules = {
   },
   price (value) {
     return value >= 0 || '價格錯誤'
+  },
+  daysfrom: value => {
+    if (!value) {
+      return 'Required'
+    }
+    const today = new Date().toISOString().split('T')[0]
+    return value >= today || 'Date must be greater than or equal to today'
+  },
+  daysto: value => {
+    if (!value) return '此欄位必須填寫'
+    if (!form.daysfrom) return '活動開始日期必須先輸入'
+    return (new Date(value) >= new Date(form.daysfrom)) || '活動結束日期必須大於開始日期'
   }
 }
 
 const clear = () => {
-  form.image = []
+  form.image = undefined
+}
+// const lecturerInfo = document.querySelector('.lecturerInfo')
+// const teacher = ref(false)
+
+const hasteacher = () => {
+  console.log('123')
 }
 
 const events = reactive([])
@@ -149,7 +166,7 @@ const openDialog = (idx) => {
     form.pplNum = events[idx].pplNum
     form.lecturer = events[idx].lecturer
     form.lecturerInfo = events[idx].lecturerInfo
-    form.image = events[idx].image
+    form.image = undefined
     form.sell = events[idx].sell
     form.category = events[idx].category
     form.valid = false
@@ -300,5 +317,19 @@ const onSubmit = async () => {
     })
   }
   form.loading = false
-}
+};
+
+(async () => {
+  try {
+    const { data } = await apiAuth.get('/events')
+    events.push(...data.result)
+  } catch (error) {
+    console.log(error)
+    Swal.fire({
+      icon: 'error',
+      title: '失敗',
+      text: error?.response?.data?.message || '發生錯誤'
+    })
+  }
+})()
 </script>

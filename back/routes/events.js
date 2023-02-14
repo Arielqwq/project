@@ -3,7 +3,7 @@ import content from '../middleware/content.js'
 import admin from '../middleware/admin.js'
 import upload from '../middleware/upload.js'
 import { jwt } from '../middleware/auth.js'
-import { createEvent, getAllEvents, getEvent, getSellEvents, editEvent } from '../controllers/events.js'
+import { createEvent, getAllEvents, getEvent, getSellEvents, editEvent, editEventParticipant } from '../controllers/events.js'
 
 const router = Router()
 
@@ -18,5 +18,7 @@ router.get('/all', jwt, admin, getAllEvents)
 router.get('/:id', getEvent)
 // 更新，管理員權限
 router.patch('/:id', content('multipart/form-data'), jwt, admin, upload, editEvent)
+
+router.patch('/:id/participant', content('application/json'), jwt, editEventParticipant)
 
 export default router

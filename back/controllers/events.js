@@ -109,3 +109,28 @@ export const editEvent = async (req, res) => {
     }
   }
 }
+
+export const editEventParticipant = async (req, res) => {
+  try {
+    const event = await events.findById(req.params.id)
+    const idx = event.participant.findIndex(data => data.account === req.user._id)
+    if (idx > -1) {
+      res.status(400).json({ success: false, message: '已報名' })
+    } else {
+      event.participant.push({
+        account: req.user._id,
+        email: req.body.email,
+        phone: req.body.phone
+      })
+      res.status(200).json({ success: true, message: '' })
+    }
+  } catch (error) {
+    if (error.name === 'ValidationError') {
+      res.status(400).json({ success: false, message: error.errors[Object.keys(error.errors)[0]].message })
+    } else if (error.name === 'CastError') {
+      res.status(404).json({ success: false, message: '找不到' })
+    } else {
+      res.status(500).json({ success: false, message: '未知錯誤' })
+    }
+  }
+}

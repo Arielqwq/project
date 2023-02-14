@@ -9,7 +9,7 @@
         q-btn(v-if="!isLogin" push round icon="fa-solid fa-user" @click="showLogin = true")
         //- <q-btn v-if="!isLogin" font-awesome-icon icon="fa-solid fa-user" to="/register" label="註冊"/>
         //- <q-btn v-if="!isLogin" font-awesome-icon icon="fa-solid fa-right-to-bracket" to="/login" label="登入"/>
-        q-btn(flat rounded v-if="isLogin"  icon="fa-solid fa-cart-shopping" to="/cart")
+        q-btn(flat rounded v-if="isLogin" icon="fa-solid fa-cart-shopping" to="/cart")
           q-badge( color="red" :label="cart" rounded floating)
         q-btn(flat rounded v-if="isLogin"  icon="fa-solid fa-list" to="/orders" label="訂單")
         q-btn(flat rounded v-if="isLogin && isAdmin" icon="fa-solid fa-hammer" to="/admin" label="管理")
@@ -23,7 +23,7 @@
       q-tabs.header-tabs( indicator-color="transparent")
         //- q-route-tab( to="/" label="首頁" )
         q-route-tab(to="/News" label="最新消息")
-        q-route-tab(to="/ProductsView" label="最新商品")
+        q-route-tab(to="/Products" label="最新商品")
         q-route-tab(to="/Events" label="課程活動")
         q-route-tab(to="/" indicator-color="none")
           img(src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg")

@@ -1,4 +1,26 @@
 import { Schema, model } from 'mongoose'
+import validator from 'validator'
+
+const participantInfo = new Schema({
+  account: {
+    type: String,
+    ref: 'users',
+    required: [true, '缺少帳號']
+  },
+  email: {
+    type: String,
+    required: [true, '缺少信箱']
+  },
+  phone: {
+    type: Number,
+    validate: {
+      validator (phone) {
+        return validator.isMobilePhone(phone, 'zh-TW')
+      },
+      message: '手機格式錯誤'
+    }
+  }
+})
 
 const schema = new Schema(
   {
@@ -53,7 +75,7 @@ const schema = new Schema(
       }
     },
     participant: {
-      type: Array,
+      type: [participantInfo],
       default: []
     }
   },
