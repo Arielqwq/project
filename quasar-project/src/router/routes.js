@@ -39,27 +39,26 @@ const routes = [
       //     admin: false
       //   }
       // },
-
-      {
-        path: 'cart',
-        name: 'cart',
-        component: () => import('@/pages/front/CartView.vue'),
-        meta: {
-          title: '購物網 | 購物車',
-          login: true,
-          admin: false
-        }
-      },
-      {
-        path: 'orders',
-        name: 'orders',
-        component: () => import('@/pages/front/OrdersView.vue'),
-        meta: {
-          title: '購物網 | 訂單',
-          login: true,
-          admin: false
-        }
-      },
+      // {
+      //   path: 'cart',
+      //   name: 'cart',
+      //   component: () => import('@/pages/front/CartView.vue'),
+      //   meta: {
+      //     title: '購物網 | 購物車',
+      //     login: true,
+      //     admin: false
+      //   }
+      // },
+      // {
+      //   path: 'orders',
+      //   name: 'orders',
+      //   component: () => import('@/pages/front/OrdersView.vue'),
+      //   meta: {
+      //     title: '購物網 | 訂單',
+      //     login: true,
+      //     admin: false
+      //   }
+      // },
       {
         path: 'Products',
         name: 'Products',
@@ -132,6 +131,7 @@ const routes = [
       }
     ]
   },
+  // 管理員
   {
     path: '/admin',
     component: () => import('@/layouts/AdminLayout.vue'),
@@ -214,6 +214,63 @@ const routes = [
           title: '購物網 | 課程活動管理',
           login: true,
           admin: true
+        }
+      }
+    ]
+  },
+  // 會員
+  {
+    path: '/Mypage',
+    component: () => import('@/layouts/MypageLayout.vue'),
+    children: [
+      {
+        path: '',
+        name: 'Mypageinfo',
+        component: () => import('@/pages/mypage/InfoView.vue'),
+        meta: {
+          title: '購物網 | 會員後台',
+          login: true,
+          admin: false
+        }
+      },
+      {
+        path: 'Mypagecart',
+        name: 'Mypagecart',
+        component: () => import('@/pages/mypage/CartView.vue'),
+        meta: {
+          title: '購物網 | 購物車',
+          login: true,
+          admin: false
+        }
+      },
+      {
+        path: 'Paymentcards',
+        name: 'Paymentcards',
+        component: () => import('@/pages/mypage/PaymentcardsView.vue'),
+        meta: {
+          title: '購物網 | 付款資訊',
+          login: true,
+          admin: false
+        }
+      },
+      {
+        path: 'MypageOrders',
+        name: 'MypageOrders',
+        component: () => import('@/pages/mypage/OrdersView.vue'),
+        meta: {
+          title: '購物網 | 我的訂單',
+          login: true,
+          admin: false
+        }
+      },
+      {
+        path: 'Wishlist',
+        name: 'Wishlist',
+        component: () => import('@/pages/mypage/WishlistView.vue'),
+        meta: {
+          title: '購物網 | 我的願望清單',
+          login: true,
+          admin: false
         }
       }
     ]
