@@ -11,6 +11,7 @@
         //-v-model.number傳入數字，v-model 預設是文字
         q-input(filled v-model.number="quantity" type="number" label="數量" :rules="[rules.required, rules.number]")
         q-btn(type="submit" color="primary") 加入購物車
+        q-btn(flat round color='red' :icon=" love ? 'fa-solid fa-heart':'fa-regular fa-heart'" @click="editLove({_id:product._id})")
 
   q-dialog(:v-model="!product.sell" persistent )
     q-card(class="bg-accent text-white" style="width: 300px")
@@ -23,11 +24,12 @@
 
 <script setup>
 import { reactive, ref } from 'vue'
-import { api } from '@/boot/axios'
+import { api, apiAuth } from '@/boot/axios'
 // 有沒有 r 的區別，有 r 是跳頁，沒 r 是取資料(在哪一頁)
 import { useRoute, useRouter } from 'vue-router'
-import { Swal } from 'sweetalert2'
+import Swal from 'sweetalert2'
 import { useUserStore } from '@/stores/user'
+import { storeToRefs } from 'pinia'
 
 // 取資訊
 const route = useRoute()
@@ -35,10 +37,12 @@ const route = useRoute()
 const router = useRouter()
 
 const user = useUserStore()
-const { editCart } = user
+const { editCart, isLogin } = storeToRefs(user)
 
 // const valid = ref(false)
 const quantity = ref(0)
+
+const love = ref(false)
 
 const rules = {
   required (value) {
@@ -67,9 +71,33 @@ const submitCart = () => {
   editCart({ _id: product._id, quantity: quantity.value, text: '加入購物車' })
 }
 
-function back () {
-  console.log('yayayya')
+const editLove = async () => {
+  try {
+    const { data } = await apiAuth.post('/users/love', { p_id: route.params.id, love: !love.value })
+    love.value = !love.value
+    if (love.value === true) {
+      Swal.fire({
+        title: '加入收藏',
+        color: 'pink'
+      })
+    } else {
+      Swal.fire({
+        title: '移除收藏',
+        color: 'pink'
+      })
+    }
+  } catch (error) {
+    Swal.fire({
+      message: '失敗',
+      caption: error?.response?.data?.message || '發生錯誤',
+      color: 'pink'
+    })
+  }
 }
+
+// function back () {
+//   console.log('yayayya')
+// }
 
 (async () => {
   try {
@@ -85,9 +113,11 @@ function back () {
     product.category = data.result.category
     // 對使用者來說，頁面標題有變化
     document.title = '購物網 | ' + product.name
-    // 修改 og 的 title 無效，
-    // document.querySelector('meta[property="og:title"]').setAttribute('content', product.name)
-    console.log(data.result)
+
+    if (isLogin.value) {
+      const { data } = await apiAuth.get('/users/love/' + route.params.id)
+      love.value = data.result
+    }
   } catch (error) {
     Swal.fire({
       icon: 'error',

@@ -10,6 +10,7 @@ export const useUserStore = defineStore('user', function () {
   const email = ref('')
   const cart = ref(0)
   const role = ref(0)
+  const love = ref([])
 
   const showLogin = ref(false)
 
@@ -73,6 +74,8 @@ export const useUserStore = defineStore('user', function () {
       email.value = data.result.email
       cart.value = data.result.cart
       role.value = data.result.role
+      //
+      love.value = data.result.love
     } catch (error) {
       logout()
     }
@@ -154,6 +157,30 @@ export const useUserStore = defineStore('user', function () {
     }
   }
 
+  async function removeLove (_id) {
+    try {
+      // parseInt(quantity) 傳入數字
+      console.log('123')
+      const { data } = await apiAuth.post('/users/love', { _id, action: 'remove' })
+      console.log(_id)
+      console.log(data)
+      love.value = data.result
+
+      Swal.fire({
+        icon: 'success',
+        title: '成功',
+        // text: '加入購物車成功'
+        text: '移除成功'
+      })
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: '失敗',
+        text: error?.response?.data?.message || '發生錯誤'
+      })
+    }
+  }
+
   const register = async (form) => {
     showLogin.value = false
     try {
@@ -190,7 +217,8 @@ export const useUserStore = defineStore('user', function () {
     editCart,
     checkout,
     register,
-    editEventParticipant
+    editEventParticipant,
+    removeLove
   }
 },
 {

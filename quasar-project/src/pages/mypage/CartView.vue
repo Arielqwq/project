@@ -136,7 +136,7 @@ const onCheckoutBtnClick = async () => {
   try {
     await checkout()
     console.log('2')
-    router.push('/orders')
+    router.push('/Mypage/MypageOrders')
   } catch (error) {
     console.log(error)
     Swal.fire({

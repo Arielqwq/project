@@ -47,6 +47,12 @@ const schema = new Schema(
       type: [cartSchema],
       default: []
     },
+    love: {
+      type: [ObjectId],
+      default: [],
+      ref: 'products',
+      required: [true, '缺少ID']
+    },
     role: {
       type: Number,
       // 0 = 使用者
