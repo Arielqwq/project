@@ -40,6 +40,18 @@ export const getSellEvents = async (req, res) => {
   }
 }
 
+//
+// 會員查自己參加的活動
+export const getMyEvents = async (req, res) => {
+  try {
+    const result = await events.find({ u_id: req.user._id }).populate('events.p_id')
+    res.status(200).json({ success: true, message: '', result })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ success: false, message: '未知錯誤' })
+  }
+}
+
 // 只有管理員看得到
 export const getAllEvents = async (req, res) => {
   try {
@@ -69,6 +81,7 @@ export const getEvent = async (req, res) => {
   }
 }
 
+// 編輯活動內容
 export const editEvent = async (req, res) => {
   try {
     console.log(req.body)
@@ -110,6 +123,7 @@ export const editEvent = async (req, res) => {
   }
 }
 
+// 編輯活動參與成員
 export const editEventParticipant = async (req, res) => {
   try {
     const event = await events.findById(req.params.id)

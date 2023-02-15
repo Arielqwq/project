@@ -1,6 +1,6 @@
 <template lang="pug">
 #orders
-  h3.text-center 我的訂單
+  h3.text-center 我的商品訂單
     .div(class="q-px-xl row")
       .col-12
         q-table(:columns="columns" :rows="orders")
@@ -10,6 +10,12 @@
               ul
                 li(v-for="product in data.row.products")
                   p {{product.quantity + ' 個 ' + product.p_id.name}}
+
+  hr
+  h3.text-center 我的課程
+    .div(class="q-px-xl row")
+      .col-12
+        q-table(:columns="columnsOfEvents" :rows="events")
 </template>
 
 <script setup>
@@ -18,6 +24,7 @@ import { apiAuth } from '@/boot/axios'
 import Swal from 'sweetalert2'
 
 const orders = reactive([])
+const events = reactive([])
 
 const columns = [
   {
@@ -49,7 +56,60 @@ const columns = [
     label: '訂單內容',
     align: 'left'
   }
-];
+]
+
+const columnsOfEvents = [
+  {
+    name: 'title',
+    required: true,
+    label: '名稱',
+    align: 'left',
+    field: events => events.title
+  },
+  {
+    name: 'price',
+    required: true,
+    label: '費用',
+    align: 'left',
+    field: events => events.price,
+    format: val => `${val}`,
+    sortable: true
+  },
+  {
+    name: 'daysfrom',
+    required: true,
+    label: '開始日期',
+    align: 'left',
+    field: events => events.daysfrom
+  },
+  {
+    name: 'daysto',
+    required: true,
+    label: '結束日期',
+    align: 'left',
+    field: events => events.daysto
+  },
+  {
+    name: 'description',
+    required: true,
+    label: '簡介',
+    align: 'left',
+    field: events => events.description
+  },
+  {
+    name: 'lecturer',
+    required: true,
+    label: '講者',
+    align: 'left',
+    field: events => events.lecturer
+  },
+  {
+    name: 'image',
+    required: true,
+    label: '圖片',
+    align: 'left',
+    field: events => events.image
+  }];
 
 (async () => {
   try {
@@ -64,6 +124,20 @@ const columns = [
       icon: 'error',
       title: '失敗',
       text: '取得訂單失敗'
+    })
+  }
+})();
+
+(async () => {
+  try {
+    const { eventsData } = await apiAuth.get('/events/me')
+    events.push(...eventsData.result)
+  } catch (error) {
+    console.log(error)
+    Swal.fire({
+      icon: 'error',
+      title: '失敗',
+      text: error?.response?.data?.message || '發生錯誤'
     })
   }
 })()

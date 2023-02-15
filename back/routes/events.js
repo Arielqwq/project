@@ -3,7 +3,7 @@ import content from '../middleware/content.js'
 import admin from '../middleware/admin.js'
 import upload from '../middleware/upload.js'
 import { jwt } from '../middleware/auth.js'
-import { createEvent, getAllEvents, getEvent, getSellEvents, editEvent, editEventParticipant } from '../controllers/events.js'
+import { createEvent, getAllEvents, getMyEvents, getEvent, getSellEvents, editEvent, editEventParticipant } from '../controllers/events.js'
 
 const router = Router()
 
@@ -11,10 +11,13 @@ const router = Router()
 router.post('/', content('multipart/form-data'), jwt, admin, upload, createEvent)
 // 不用登入也可以查所有架上活動
 router.get('/', getSellEvents)
+
+// 取自己訂單
+router.get('/me', jwt, getMyEvents)
 // .get('/all') 跟 .get('/:id') 順序有差，若 get all放後面，all會被認為是 id
 // 取全部活動是管理員
 router.get('/all', jwt, admin, getAllEvents)
-// 取單個商品
+// 取單個活動
 router.get('/:id', getEvent)
 // 更新，管理員權限
 router.patch('/:id', content('multipart/form-data'), jwt, admin, upload, editEvent)
