@@ -35,10 +35,12 @@ const removeFromWishlist = async (_id) => {
   try {
     console.log(_id)
     console.log(loves)
-    // await apiAuth.get('/users/love', { _id, love: false })
-    const idx = loves.findIndex((loves) => loves._id === _id)
+    // findindex 第一個參數是找每個東西的id
+    const idx = loves.findIndex((love) => love._id === _id)
+
+    console.log(loves[idx]._id)
+    await removeLove(loves[idx]._id)
     loves.splice(idx, 1)
-    await removeLove({ _id: loves[idx]._id })
 
     Swal.fire({
       icon: 'success',

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref, computed, reactive } from 'vue'
 import { api, apiAuth } from '@/boot/axios'
 import Swal from 'sweetalert2'
 import router from '@/router/routes'
@@ -94,6 +94,7 @@ export const useUserStore = defineStore('user', function () {
     }
     try {
       // parseInt(quantity) 傳入數字
+      console.log(cart)
       const { data } = await apiAuth.post('/users/cart', { p_id: _id, quantity: parseInt(quantity) })
       cart.value = data.result
       Swal.fire({
@@ -160,10 +161,12 @@ export const useUserStore = defineStore('user', function () {
   async function removeLove (_id) {
     try {
       // parseInt(quantity) 傳入數字
-      console.log('123')
-      const { data } = await apiAuth.post('/users/love', { _id, action: 'remove' })
+      console.log('removeLove')
+      console.log(love)
+      const { data } = await apiAuth.post('/users/love', { p_id: _id, love: false })
       console.log(_id)
       console.log(data)
+      console.log('love' + love.value)
       love.value = data.result
 
       Swal.fire({
