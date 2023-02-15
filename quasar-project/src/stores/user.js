@@ -10,6 +10,7 @@ export const useUserStore = defineStore('user', function () {
   const email = ref('')
   const cart = ref(0)
   const role = ref(0)
+  // 資料是放陣列
   const love = ref([])
 
   const showLogin = ref(false)
@@ -160,9 +161,9 @@ export const useUserStore = defineStore('user', function () {
 
   async function removeLove (_id) {
     try {
-      // parseInt(quantity) 傳入數字
       console.log('removeLove')
       console.log(love)
+      // 使商品變成沒有收藏
       const { data } = await apiAuth.post('/users/love', { p_id: _id, love: false })
       console.log(_id)
       console.log(data)

@@ -1,15 +1,15 @@
 <template lang="pug">
 #orders
   h3.text-center 我的訂單
-      .div(class="q-px-xl row")
-        .col-12
-          q-table(:columns="columns" :rows="orders")
-            //- 商品內容
-            template(v-slot:body-cell-content='data')
-              q-td
-                ul
-                  li(v-for="product in data.row.products")
-                    p {{product.quantity + ' 個 ' + product.p_id.name}}
+    .div(class="q-px-xl row")
+      .col-12
+        q-table(:columns="columns" :rows="orders")
+          //- 商品內容
+          template(v-slot:body-cell-content='data')
+            q-td
+              ul
+                li(v-for="product in data.row.products")
+                  p {{product.quantity + ' 個 ' + product.p_id.name}}
 </template>
 
 <script setup>

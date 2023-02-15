@@ -10,10 +10,10 @@
         //- <q-btn v-if="!isLogin" font-awesome-icon icon="fa-solid fa-user" to="/register" label="註冊"/>
         //- <q-btn v-if="!isLogin" font-awesome-icon icon="fa-solid fa-right-to-bracket" to="/login" label="登入"/>
         //- q-btn(flat rounded v-if="isLogin" icon="fa-solid fa-cart-shopping" to="/cart")
-        q-btn(flat rounded v-if="isLogin" icon="fa-solid fa-cart-shopping" to="/Mypage/Mypagecart")
+        q-btn(flat rounded v-if="isLogin && !isAdmin" icon="fa-solid fa-cart-shopping" to="/Mypage/Mypagecart")
           q-badge( color="red" :label="cart" rounded floating)
         //- q-btn(flat rounded v-if="isLogin"  icon="fa-solid fa-list" to="/orders" label="訂單")
-        q-btn(flat rounded v-if="isLogin"  icon="fa-solid fa-list" to="/Mypage/MypageOrders" label="訂單")
+        q-btn(flat rounded v-if="isLogin && !isAdmin"  icon="fa-solid fa-list" to="/Mypage/MypageOrders" label="訂單")
         q-btn(flat rounded v-if="isLogin && isAdmin" icon="fa-solid fa-hammer" to="/admin" label="管理")
         q-btn#logoutBtn(flat rounded v-if="isLogin" icon="fa-solid fa-right-from-bracket" @click="logout" label="登出")
 
