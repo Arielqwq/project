@@ -1,11 +1,11 @@
 <template lang="pug">
 #admin-events
-  h3 admin-events
+  h3.text-center 活動管理
   div(class="q-px-xl row")
     .col-12
       q-btn( @click="openDialog(-1)" color="primary" label="新增活動")
   div(class="q-px-xl q-mt-md")
-    q-table(title="活動資訊" :columns="columns" :rows="events" row-key="_id" :filter="filter" :rows-per-page-options="[5]")
+    q-table(title="活動資訊" :columns="columns" :rows="events" row-key="_id" :filter="filter")
       //- 搜尋
       template( v-slot:top-right)
           q-input( borderless dense debounce="300" v-model="filter" placeholder="Search")
@@ -14,6 +14,7 @@
 
       //- 圖片顯示
       template( v-slot:body-cell-image="props")
+        q-td
           img(:src='props.row.image' style='height: 100px;')
 
       //- 日期顯示

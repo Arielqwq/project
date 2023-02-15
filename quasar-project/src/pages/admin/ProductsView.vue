@@ -1,14 +1,14 @@
 <template lang="pug">
 #admin-products
   h3.text-center 商品管理
-  .div(class="q-px-xl row")
+  div(class="q-px-xl row")
     .col-12
       q-btn( @click="openDialog(-1)" color="primary" label="新增商品")
-        //- :rows='rows' :columns='columns' row-key='name' binary-state-sort
-  .div(class="q-px-xl q-mt-md")
-    q-table(title="商品資訊" :columns="columns" :rows="products" row-key="_id" :filter="filter" :rows-per-page-options="[5]")
+  div(class="q-px-xl q-mt-md")
+    q-table(title="商品資訊" :columns="columns" :rows="products" row-key="_id" :filter="filter" )
       template( v-slot:body-cell-image="props")
-        img(:src='props.row.image' style='height: 100px;')
+        q-td
+          img(:src='props.row.image' style='height: 100px;')
 
       template( v-slot:top-right)
         q-input( borderless dense debounce="300" v-model="filter" placeholder="Search")

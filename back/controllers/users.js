@@ -138,3 +138,15 @@ export const getCart = async (req, res) => {
     res.status(500).json({ success: false, message: '未知錯誤' })
   }
 }
+
+// 取所有會員
+// 只有管理員看得到
+export const getAllUsers = async (req, res) => {
+  try {
+    // 沒有任何查詢條件
+    const result = await users.find()
+    res.status(200).json({ success: true, message: '', result })
+  } catch (error) {
+    res.status(500).json({ success: false, message: '未知錯誤' })
+  }
+}
