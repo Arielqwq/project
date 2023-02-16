@@ -19,9 +19,10 @@ router.get('/me', jwt, getMyEvents)
 router.get('/all', jwt, admin, getAllEvents)
 // 取單個活動
 router.get('/:id', getEvent)
+
+router.patch('/participant/:id', content('application/json'), jwt, editEventParticipant)
+
 // 更新，管理員權限
 router.patch('/:id', content('multipart/form-data'), jwt, admin, upload, editEvent)
-
-router.patch('/:id/participant', content('application/json'), jwt, editEventParticipant)
 
 export default router

@@ -6,20 +6,28 @@
       q-btn( @click="openDialog(-1)" color="primary" label="新增活動")
   div(class="q-px-xl q-mt-md")
     q-table(title="活動資訊" :columns="columns" :rows="events" row-key="_id" :filter="filter")
+
       //- 搜尋
       template( v-slot:top-right)
           q-input( borderless dense debounce="300" v-model="filter" placeholder="Search")
             template( v-slot:append)
               q-icon( name="search")
 
+      //- 活動名稱顯示
+      template(v-slot:body-cell-title="props")
+        q-td
+          q-btn(@click="openParticipantInfo(props.row._id)") {{ props.row.title }}
+
+            //- q-list.rounded-borders(bordered)
+            //-   q-expansion-item(expand-separator icon='perm_identity' label='參加者資訊' caption='')
+            //-     q-card
+            //-       q-card-section
+            //-         p
+
       //- 圖片顯示
       template( v-slot:body-cell-image="props")
         q-td
           img(:src='props.row.image' style='height: 100px;')
-
-      //- 日期顯示
-      template( v-slot:body-cell-days="props")
-        p
 
       //- 編輯按鈕
       template(#body-cell-edit="data")
@@ -69,6 +77,10 @@
             q-btn(:disabled="form.loading" flat label='reset' type="reset" color='red')
             q-btn(:disabled="form.loading" flat label='submit' type="submit" color='green')
 
+    q-dialog(align="center" v-model="participantInfoDialog" )
+      q-card(class="column" style="width: 700px; max-width: 80vw;")
+        q-table(:columns="columnsOfEventParti" :rows="participantInfos")
+
 </template>
 
 <script setup>
@@ -107,8 +119,6 @@ const rules = {
 const clear = () => {
   form.image = undefined
 }
-// const lecturerInfo = document.querySelector('.lecturerInfo')
-// const teacher = ref(false)
 
 const hasteacher = () => {
   console.log('123')
@@ -117,6 +127,7 @@ const hasteacher = () => {
 const events = reactive([])
 const filter = ref('')
 // const days = ref([])
+const participantInfos = reactive([])
 
 const form = reactive({
   // 如果 id 有東西就是編輯，沒有是新增
@@ -175,6 +186,23 @@ const openDialog = (idx) => {
     form.idx = idx
   }
   form.dialog = true
+}
+
+const participantInfoDialog = ref(false)
+
+const openParticipantInfo = async (_id) => {
+  participantInfoDialog.value = true
+  try {
+    const { data } = await apiAuth.get('/events/' + _id)
+    participantInfos.push(...data.result.participant)
+  } catch (error) {
+    console.log(error)
+    Swal.fire({
+      icon: 'error',
+      title: '失敗',
+      text: error?.response?.data?.message || '發生錯誤'
+    })
+  }
 }
 
 const columns = [
@@ -255,6 +283,32 @@ const columns = [
     label: '編輯',
     align: 'left'
   }]
+
+const columnsOfEventParti = [
+  {
+    name: 'account',
+    required: true,
+    label: '帳號',
+    align: 'left',
+    field: participantInfos => participantInfos.account
+  },
+  {
+    name: 'email',
+    required: true,
+    label: '信箱',
+    align: 'left',
+    field: participantInfos => participantInfos.email,
+    format: val => `${val}`,
+    sortable: true
+  },
+  {
+    name: 'phone',
+    required: true,
+    label: '聯絡電話',
+    align: 'left',
+    field: participantInfos => participantInfos.phone
+  }
+]
 
 const onReset = () => {
   form.title = null

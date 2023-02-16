@@ -119,6 +119,8 @@ const columnsOfEvents = [
       return order
       // order.products.product.quantity = orders.findIndex((product) => product in orders.products)
     }))
+    const { eventsData } = await apiAuth.get('/events/me')
+    events.push(...eventsData.result)
   } catch (error) {
     Swal.fire({
       icon: 'error',
@@ -126,19 +128,6 @@ const columnsOfEvents = [
       text: '取得訂單失敗'
     })
   }
-})();
-
-(async () => {
-  try {
-    const { eventsData } = await apiAuth.get('/events/me')
-    events.push(...eventsData.result)
-  } catch (error) {
-    console.log(error)
-    Swal.fire({
-      icon: 'error',
-      title: '失敗',
-      text: error?.response?.data?.message || '發生錯誤'
-    })
-  }
 })()
+
 </script>
