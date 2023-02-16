@@ -229,6 +229,8 @@ const onSubmit = async () => {
   for (const i of form.delImages) { fd.append('delImages', i) }
   fd.append('sell', form.sell)
   fd.append('category', form.category)
+  console.log(form)
+
   try {
     // 當id長度為 0，新增
     if (form._id.length === 0) {

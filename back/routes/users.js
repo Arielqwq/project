@@ -2,7 +2,7 @@ import { Router } from 'express'
 import content from '../middleware/content.js'
 import * as auth from '../middleware/auth.js'
 import admin from '../middleware/admin.js'
-import { register, login, logout, extend, getUser, editCart, getCart, getAllUsers, editLove, getLove, getLoveById } from '../controllers/users.js'
+import { register, login, logout, extend, getUser, editUser, editCart, getCart, getAllUsers, editLove, getLove, getLoveById } from '../controllers/users.js'
 const router = Router()
 
 // 不要讓別人傳太多資料，阻擋多一點，可以傳資料型態
@@ -16,6 +16,8 @@ router.delete('/logout', auth.jwt, logout)
 router.patch('/extend', auth.jwt, extend)
 // 取自己的資料
 router.get('/me', auth.jwt, getUser)
+// 修改自己的資料
+router.patch('/:id', content('application/json'), auth.jwt, editUser)
 // 加入、編輯購物車
 router.post('/cart', content('application/json'), auth.jwt, editCart)
 // 取購物車內容回傳給前端

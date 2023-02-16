@@ -2,9 +2,9 @@
 #login
   .row
     .col-12
-      h1.text-center 登入
+      h4.text-center 登入
     .col-12
-      q-form(@submit="login")
+      q-form(@submit="login").q-pa-lg
         q-input(v-model="form.account" type="text" :rules="[rules.required, rules.length]" label="帳號" counter maxlength="20")
         q-input(v-model="form.password" type="password" :rules="[rules.required, rules.length]" label="密碼" counter maxlength="20")
         .text-center.my-5

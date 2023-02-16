@@ -53,6 +53,14 @@ const schema = new Schema(
       ref: 'products',
       required: [true, '缺少ID']
     },
+    birth: {
+      type: String,
+      default: ''
+    },
+    name: {
+      type: String,
+      default: ''
+    },
     role: {
       type: Number,
       // 0 = 使用者

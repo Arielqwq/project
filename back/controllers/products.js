@@ -77,18 +77,12 @@ export const editProduct = async (req, res) => {
     const images = productNew.images.filter(image => !req.body?.delImages?.includes(image)).concat(req.files?.images?.map(file => file.path)).filter(image =>
       image !== null && image !== undefined
     )
-
     console.log(images, 'images')
-    // const images = exhibition.images.filter(image => !req.body.delImages.includes(image)).concat(req.files?.images?.map(file => file.path))
-
     productNew.name = req.body.name
     productNew.price = req.body.price
     productNew.description = req.body.description
     productNew.image = req.files?.image?.[0]?.path || productNew.image
-    // productNew.image = req.files?.image?.[0]?.path
-    // console.log(productNew)
     productNew.images = images
-    // productNew.images.push(...images)
     productNew.sell = req.body.sell
     productNew.category = req.body.category
     console.log(productNew)

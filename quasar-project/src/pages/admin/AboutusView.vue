@@ -84,7 +84,7 @@ const onSubmit = async () => {
   // 建立一個新的 formdata 物件
   // fd.append(key, value)
   const fd = new FormData()
-  fd.append('title', form.name)
+  fd.append('title', form.title)
   fd.append('description', form.description)
   fd.append('image', form.image)
   // fd.append('images', form.images)

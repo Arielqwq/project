@@ -41,6 +41,7 @@ export const login = async (req, res) => {
       }
     })
   } catch (error) {
+    console.log('login' + error)
     res.status(500).json({ success: false, message: '未知錯誤' })
   }
 }
@@ -73,8 +74,11 @@ export const getUser = (req, res) => {
       success: true,
       message: '',
       result: {
+        _id: req.user._id,
+        password: req.user.password,
         account: req.user.account,
         email: req.user.email,
+
         // cart: req.user.cart.lenth 購物車顯示種類數
         cart: req.user.cart.reduce((total, current) => total + current.quantity, 0),
         role: req.user.role
@@ -82,6 +86,30 @@ export const getUser = (req, res) => {
     })
   } catch (error) {
     res.status(500).json({ success: false, message: '未知錯誤' })
+  }
+}
+
+export const editUser = async (req, res) => {
+  try {
+    const userNew = await users.findById(req.params.id)
+    userNew.account = req.body.account
+    userNew.password = req.body.password
+    userNew.email = req.body.email
+    userNew.name = req.body.name
+    userNew.phone = req.body.phone
+    userNew.birth = req.body.birth
+    console.log(userNew)
+    await userNew.save()
+    res.status(200).json({ success: true, message: '' })
+  } catch (error) {
+    console.log(error)
+    if (error.name === 'ValidationError') {
+      res.status(400).json({ success: false, message: error.errors[Object.keys(error.errors)[0]].message })
+    } else if (error.name === 'CastError') {
+      res.status(404).json({ success: false, message: '找不到' })
+    } else {
+      res.status(500).json({ success: false, message: '未知錯誤' })
+    }
   }
 }
 

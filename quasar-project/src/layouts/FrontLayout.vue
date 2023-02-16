@@ -21,20 +21,28 @@
                 q-icon(name="fa-solid fa-gear")
               q-item-section 會員資料
             q-item(clickable v-close-popup to="/Mypage/Paymentcards")
-              q-item-section
+              q-item-section(avatar)
                 q-icon(name="fa-solid fa-gear")
               q-item-section
                 q-item-label 付款資訊
             q-item(clickable v-close-popup to="/Mypage/MypageOrders")
+              q-item-section(avatar)
+                q-icon(name="fa-solid fa-gear")
               q-item-section
                 q-item-label 我的訂單
             q-item(clickable v-close-popup to="/Mypage/Mypagecart")
+              q-item-section(avatar)
+                q-icon(name="fa-solid fa-gear")
               q-item-section
                 q-item-label 我的購物車
             q-item(clickable v-close-popup to="/Mypage/Wishlist")
+              q-item-section(avatar)
+                q-icon(name="fa-solid fa-gear")
               q-item-section
                 q-item-label 我的收藏
             q-item(clickable v-close-popup  @click="logout")
+              q-item-section(avatar)
+                q-icon(name="fa-solid fa-gear")
               q-item-section
                 q-item-label 登出
 
@@ -59,11 +67,12 @@
         //- div(align="right")
 
         //- ref="loginFalse"
-      q-dialog(v-if="showLogin" v-model="showLogin")
+      q-dialog( v-if="showLogin" v-model="showLogin")
         q-card(class="q-dialog-plugin")
           RegisterShow(v-if="showRegister")
           LoginShow(v-if="!showRegister")
-          q-btn(:label='showRegister ? "登入" : "註冊"' @click="showRegister = !showRegister")
+          .q-pa-lg
+            q-btn(:label='showRegister ? "登入" : "註冊"' @click="showRegister = !showRegister")
 
     q-page-container()
       router-view
