@@ -12,7 +12,7 @@
                   p {{product.quantity + ' 個 ' + product.p_id.name}}
 
   hr
-  h3.text-center 我的課程
+  h3.text-center 我的課程活動
     .div(class="q-px-xl row")
       .col-12
         q-table(:columns="columnsOfEvents" :rows="events")
@@ -119,9 +119,11 @@ const columnsOfEvents = [
       return order
       // order.products.product.quantity = orders.findIndex((product) => product in orders.products)
     }))
-    const { eventsData } = await apiAuth.get('/events/me')
+    // {data} 只是解構，要改名的話要再冒號後面
+    const { data: eventsData } = await apiAuth.get('/events/me')
     events.push(...eventsData.result)
   } catch (error) {
+    console.log(error)
     Swal.fire({
       icon: 'error',
       title: '失敗',

@@ -16,12 +16,14 @@
         //- :disabled="quantity < 1"
       q-btn(@click="addCart=true" color="primary" ) 參加活動
 
-  //-參加活動
+  //-參加活動的彈跳視窗
   q-dialog(v-model="addCart" persistent )
     q-card(class="bg-accent text-white" style="width: 400px")
       q-form(@submit="onSubmit" @reset="onReset")
-        q-card-section
-          h5.text-white.text-weight-bold
+        q-card-section(align="right")
+          //- h5.text-white.text-weight-bold
+          q-btn( dense flat icon='close' v-close-popup)
+              q-tooltip Close
         q-card-actions(align="center" class="bg-white text-accent")
           div.flex.column
             p 活動名稱：{{ event.title }}
@@ -32,9 +34,10 @@
             p(v-if="isLogin") 會員信箱： {{ user.email }}
             p 請輸入聯絡電話
             q-input.phoneNum(filled v-model="value" label='請輸入手機號碼' :rules="[rules.required, rules.phoneNum]")
+            q-checkbox.checkbox(v-model="checkbox" :rules="[rules.requiredCheckbox]") 請勾選同意參加活動
             div(align="center")
               q-btn(type="reset" color="red" flat label="reset")
-              q-btn(flat type='submit' label="submit" )
+              q-btn(flat type='submit' label="submit"  :disabled="!checkbox" )
 
   //-下架通知
   q-dialog(:v-model="!event.sell" persistent )
@@ -71,10 +74,12 @@ const addCart = ref(false)
 const text = ref('')
 const value = ref('')
 const quantity = ref(0)
+const checkbox = ref(false)
 
 const onSubmit = () => {
   // if (!valid.value) return
   editEventParticipant(route.params.id, value.value)
+  addCart.value = false
 }
 
 const onReset = () => {
@@ -158,7 +163,7 @@ const event = reactive({
     event.sell = data.result.sell
     event.category = data.result.category
     // 對使用者來說，頁面標題有變化
-    document.title = '購物網 | ' + event.name
+    document.title = '購物網 | ' + event.title
     // 修改 og 的 title 無效，
     // document.querySelector('meta[property="og:title"]').setAttribute('content', event.name)
     console.log(data.result)
