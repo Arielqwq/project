@@ -43,7 +43,7 @@ const miniState = ref(true)
 const menuList = [
   {
     icon: 'fa-solid fa-bag-shopping',
-    label: '會員後台',
+    label: '會員資料',
     route: '/Mypage',
     separator: true
   },

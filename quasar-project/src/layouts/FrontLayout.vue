@@ -17,9 +17,12 @@
         q-btn-dropdown(v-if="isLogin && !isAdmin" flat rounded icon="fa-solid fa-user-gear" )
           q-list
             q-item(clickable v-close-popup to="/Mypage" )
-              q-item-section
-                q-item-label 會員資料
+              q-item-section(avatar)
+                q-icon(name="fa-solid fa-gear")
+              q-item-section 會員資料
             q-item(clickable v-close-popup to="/Mypage/Paymentcards")
+              q-item-section
+                q-icon(name="fa-solid fa-gear")
               q-item-section
                 q-item-label 付款資訊
             q-item(clickable v-close-popup to="/Mypage/MypageOrders")

@@ -54,11 +54,11 @@
 
             .col-5
               .row
-                  .col-3(v-if="form.idx >= 0" v-for="img in products[form.idx]?.images" :key="img")
-                    q-img.fullwidth(:src="img")
-                      .absolute-full.flex.flex-center(v-if="form.delImages.includes(img)")
-                        q-icon(name="delete")
-                    q-checkbox(v-model="form.delImages" :val="img")
+                .col-3(v-if="form.idx >= 0" v-for="img in products[form.idx]?.images" :key="img")
+                  q-img.fullwidth(:src="img")
+                    .absolute-full.flex.flex-center(v-if="form.delImages.includes(img)")
+                      q-icon(name="delete")
+                  q-checkbox(v-model="form.delImages" :val="img")
               q-file(v-model="form.images" label="請上傳補充圖片" filled multiple style="max-width: 300px")
                 template(v-slot:append)
                   q-icon(name="close" @click="clears")

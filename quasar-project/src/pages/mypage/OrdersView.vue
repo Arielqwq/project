@@ -16,6 +16,11 @@
     .div(class="q-px-xl row")
       .col-12
         q-table(:columns="columnsOfEvents" :rows="events")
+
+          //- 商品圖片
+          template( v-slot:body-cell-image="props")
+            q-td
+              img(:src='props.row.image' style='height: 100px;')
 </template>
 
 <script setup>

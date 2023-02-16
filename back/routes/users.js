@@ -14,6 +14,7 @@ router.post('/', content('application/json'), register)
 router.post('/login', content('application/json'), auth.login, login)
 router.delete('/logout', auth.jwt, logout)
 router.patch('/extend', auth.jwt, extend)
+// 取自己的資料
 router.get('/me', auth.jwt, getUser)
 // 加入、編輯購物車
 router.post('/cart', content('application/json'), auth.jwt, editCart)

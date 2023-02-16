@@ -73,6 +73,7 @@ export const editProduct = async (req, res) => {
     const productNew = await products.findById(req.params.id)
     // console.log('ya' + req.files.images.path)
     // console.log(productNew)
+    // 因為 delImages 是陣列，.includes(image)是指陣列裡的image
     const images = productNew.images.filter(image => !req.body?.delImages?.includes(image)).concat(req.files?.images?.map(file => file.path)).filter(image =>
       image !== null && image !== undefined
     )
