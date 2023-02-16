@@ -151,6 +151,7 @@ export const useUserStore = defineStore('user', function () {
         text: '報名成功'
       })
     } catch (error) {
+      console.log(error)
       Swal.fire({
         icon: 'error',
         title: '失敗',
