@@ -14,6 +14,7 @@ export const useUserStore = defineStore('user', function () {
   const love = ref([])
   const username = ref('')
   const birth = ref('')
+  const phone = ref('')
 
   const showLogin = ref(false)
 
@@ -115,9 +116,16 @@ export const useUserStore = defineStore('user', function () {
     }
   }
 
-  async function editUser (id, username, birth) {
+  async function editUser (form) {
     try {
-      const { data } = await apiAuth.patch('/users/' + id, { username, birth })
+      const { data } = await apiAuth.patch('/users/edit', form)
+
+      account.value = data.user.account
+      email.value = data.user.email
+      username.value = data.user.username
+      phone.value = data.user.phone
+      birth.value = data.user.birth
+
       username.value = data.result.username
       birth.value = data.result.birth
       Swal.fire({

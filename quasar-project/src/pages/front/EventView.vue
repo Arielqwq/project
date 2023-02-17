@@ -66,7 +66,7 @@ const router = useRouter()
 
 const user = useUserStore()
 const { editCart, isLogin } = storeToRefs(user)
-const { editEventParticipant } = user
+const { editEventParticipant, editUser } = user
 
 // 打開輸入電話號碼dialog
 const addCart = ref(false)
@@ -78,7 +78,10 @@ const checkbox = ref(false)
 
 const onSubmit = () => {
   // if (!valid.value) return
-  editEventParticipant(route.params.id, value.value)
+  // editEventParticipant(route.params.id, value.value)
+  editUser({
+    phone: value.value
+  })
   addCart.value = false
 }
 

@@ -95,11 +95,6 @@ const inputUsername = ref('')
 const birthday = ref('')
 
 const cart = reactive([])
-const form = reactive({
-  _id: '',
-  username: '',
-  birth: ''
-})
 
 const rules = {
   required (value) {
@@ -182,8 +177,10 @@ const updateCart = async (id, quantity, text) => {
 }
 
 const onCheckoutBtnClick = async (val) => {
-  console.log(val)
-  editUser(route.params.id)
+  editUser({
+    username: inputUsername.value,
+    birth: birthday.value
+  })
   addCart.value = false
   // try {
   //   await checkout()

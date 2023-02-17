@@ -36,6 +36,8 @@ export const login = async (req, res) => {
         account: req.user.account,
         email: req.user.email,
         username: req.user.username,
+        phone: req.user.phone,
+        birth: req.user.birth,
         // cart: req.user.cart.lenth 購物車顯示種類數
         // 累加器 .reduce(function, 初始值) => .reduce((目前已加的值, 目前迴圈跑到陣列的東西) => 每次的值 + current.quantity, 0),
         cart: req.user.cart.reduce((total, current) => total + current.quantity, 0),
@@ -77,7 +79,6 @@ export const getUser = (req, res) => {
       message: '',
       result: {
         _id: req.user._id,
-        password: req.user.password,
         account: req.user.account,
         email: req.user.email,
         username: req.user.username,
@@ -96,18 +97,28 @@ export const getUser = (req, res) => {
 export const editUser = async (req, res) => {
   try {
     console.log(req.body)
-    const result = await users.findByIdAndUpdate(req.params.id, {
-      account: req.body.account,
-      password: req.body.password,
-      email: req.body.email,
-      username: req.body.username,
-      phone: req.body.phone,
-      birth: req.body.birth
-    }, { new: true })
+
+    req.user.account = req.body.account || req.user.account
+    req.user.password = req.body.password || req.user.password
+    req.user.email = req.body.email || req.user.email
+    req.user.username = req.body.username || req.user.username
+    req.user.phone = req.body.phone || req.user.phone
+    req.user.birth = req.body.birth || req.user.birth
+
+    const result = await req.user.save()
     console.log(result)
 
-    await result.save()
-    res.status(200).json({ success: true, message: '', result })
+    res.status(200).json({
+      success: true,
+      message: '',
+      result: {
+        account: req.user.account,
+        email: req.user.email,
+        username: req.user.username,
+        phone: req.user.phone,
+        birth: req.user.birth
+      }
+    })
   } catch (error) {
     console.log(error)
     if (error.name === 'ValidationError') {
