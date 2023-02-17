@@ -21,7 +21,7 @@
               q-tooltip Close
           q-card-section.column.q-gutter-md
             .col-12
-              q-input(square filled v-model="form.name" label="關於我們標題" :rules="[rules.required]")
+              q-input(square filled v-model="form.title" label="關於我們標題" :rules="[rules.required]")
             .col-12
               q-input(square filled v-model="form.description" type="textarea" label="關於我們內容" :rules="[rules.required]")
             .col-5
@@ -40,6 +40,7 @@
 
 <script setup>
 import { apiAuth } from '@/boot/axios'
+import { log } from 'console'
 import Swal from 'sweetalert2'
 import { ref, reactive } from 'vue'
 
@@ -100,7 +101,9 @@ const onSubmit = async () => {
       })
     } else {
       const { data } = await apiAuth.patch('/aboutus/' + form._id, fd)
-      aboutus[0] = data.result
+      console.log(data.result)
+      const index = aboutus.findIndex((item) => item._id === form._id)
+      aboutus[index] = data.result
       Swal.fire({
         icon: 'success',
         title: '成功',

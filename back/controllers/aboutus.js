@@ -33,7 +33,7 @@ export const editAboutus = async (req, res) => {
     aboutusNew.description = req.body.description
     aboutusNew.image = req.files?.image?.[0]?.path || aboutusNew.image
     await aboutusNew.save()
-    res.status(200).json({ success: true, message: '' })
+    res.status(200).json({ success: true, message: '', result: aboutusNew })
   } catch (error) {
     console.log(error)
     if (error.name === 'ValidationError') {

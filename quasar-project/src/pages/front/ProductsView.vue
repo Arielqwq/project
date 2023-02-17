@@ -3,7 +3,7 @@
   h3.text-center 最新商品
   q-btn.q-ml-lg.q-mb-lg(v-for="(name, i) in filterName" :key="i" :label="name" @click="filterCategory = name" push rounded color="blue")
   div.product-area.flex.q-ma-lg.justify-center.row.col-5
-    q-card.flex.justify-center.q-pa-lg.q-ma-md.col-12.col-md-6.col-lg-3(v-for="product in products" :key="product._id" )
+    q-card.flex.justify-center.q-pa-lg.q-ma-md.col-12.col-md-6.col-lg-3(v-for="product in filterData" :key="product._id" )
       ProductCard(v-bind="product")
 </template>
 
