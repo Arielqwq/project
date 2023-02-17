@@ -6,6 +6,7 @@
     .col.text-left(cols="12")
       q-form.q-pa-lg( @submit.prevent="registerSumbit")
         //- 需要哪些規則再引進
+        q-input(v-model="form.username" type="text" :rules="[rules.required, rules.maxLength ]" label="姓名")
         q-input(v-model="form.email" type="email" :rules="[rules.email, rules.required]" label="信箱")
         q-input(v-model="form.account" type="text" :rules="[rules.required, rules.length]" label="帳號" counter maxlength="20")
         q-input(v-model="form.password" type="password" :rules="[rules.required, rules.length]" label="密碼" counter maxlength="20")
@@ -33,7 +34,8 @@ const form = reactive({
   account: '',
   password: '',
   passwordConfirm: '',
-  email: ''
+  email: '',
+  username: ''
 })
 
 const rules = {
@@ -48,6 +50,9 @@ const rules = {
   },
   passwordConfirm (value) {
     return (value === form.password) || '密碼不一致'
+  },
+  maxLength (value) {
+    return value.length <= 20 || '最多輸入20個字'
   }
 }
 

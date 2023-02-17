@@ -7,7 +7,8 @@ export const register = async (req, res) => {
     await users.create({
       account: req.body.account,
       password: req.body.password,
-      email: req.body.email
+      email: req.body.email,
+      username: req.body.username
     })
     res.status(200).json({ success: true, message: '' })
   } catch (error) {
@@ -34,6 +35,7 @@ export const login = async (req, res) => {
         token,
         account: req.user.account,
         email: req.user.email,
+        username: req.user.username,
         // cart: req.user.cart.lenth 購物車顯示種類數
         // 累加器 .reduce(function, 初始值) => .reduce((目前已加的值, 目前迴圈跑到陣列的東西) => 每次的值 + current.quantity, 0),
         cart: req.user.cart.reduce((total, current) => total + current.quantity, 0),
@@ -98,7 +100,7 @@ export const editUser = async (req, res) => {
       account: req.body.account,
       password: req.body.password,
       email: req.body.email,
-      name: req.body.name,
+      username: req.body.username,
       phone: req.body.phone,
       birth: req.body.birth
     }, { new: true })

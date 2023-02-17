@@ -53,6 +53,11 @@ const schema = new Schema(
       ref: 'products',
       required: [true, '缺少ID']
     },
+    username: {
+      type: String,
+      default: '',
+      required: [true, '缺少姓名']
+    },
     birth: {
       type: String,
       default: ''
@@ -61,10 +66,7 @@ const schema = new Schema(
       type: String,
       default: ''
     },
-    username: {
-      type: String,
-      default: ''
-    },
+
     role: {
       type: Number,
       // 0 = 使用者

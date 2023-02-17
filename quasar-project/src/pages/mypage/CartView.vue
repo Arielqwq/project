@@ -50,26 +50,76 @@
 
       .col-12
         p 總金額 {{ totalPrice }}
-        q-btn(color="green" :disabled="!canCheckout" @click="onCheckoutBtnClick" label="結帳")
+        //- q-btn(color="green" :disabled="!canCheckout" @click="onCheckoutBtnClick" label="結帳")
+        q-btn(color="green" :disabled="!canCheckout" @click="addCart = true" label="結帳")
+
+    q-dialog(v-model="addCart" persistent)
+      q-card(class="bg-accent text-white" style="width: 500px")
+        q-form(@submit="onCheckoutBtnClick" @reset="onReset")
+          q-card-section(align="right")
+            q-btn(dense flat icon='close' v-close-popup)
+                q-tooltip Close
+          q-card-actions(align="center" class="bg-white text-accent")
+            div.flex.column.q-pa-md
+              h6.q-pa-none.q-ma-none 為確認您已是成年人，
+              h6.q-pa-none.q-ma-none 請輸入您真實的出生年月日及姓名。
+              p.q-mt-md 請輸入姓名
+              q-input(filled v-model="inputUsername" label='請輸入您的真實姓名' :rules="[rules.required,rules.maxLength]")
+              q-input(type="date" v-model="birthday" label="請輸入您的出生年月日" :rules="[rules.required,rules.countyYears]" )
+              q-checkbox.checkbox(v-model="checkbox" :rules="[rules.requiredCheckbox]") 我真的是成年人!!
+              div(align="center")
+                q-btn(type="reset" color="red" flat label="reset")
+                q-btn(flat type='submit' label="submit" :disabled="!checkbox" @click="onCheckoutBtnClick" )
 
 </template>
 
 <script setup>
+
 import { ref, reactive, computed } from 'vue'
 import Swal from 'sweetalert2'
 import { apiAuth } from '@/boot/axios'
 import { useUserStore } from '@/stores/user'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { data } from 'browserslist'
-// import router from '@/router/routes'
 
+const route = useRoute()
 const router = useRouter()
 
 const user = useUserStore()
-const { editCart, checkout } = user
+const { editCart, checkout, editUser } = user
 const filter = ref('')
+const checkbox = ref(false)
+// 打開輸入生日與姓名 dialog
+const addCart = ref(false)
+const inputUsername = ref('')
+const birthday = ref('')
 
 const cart = reactive([])
+const form = reactive({
+  _id: '',
+  username: '',
+  birth: ''
+})
+
+const rules = {
+  required (value) {
+    return !!value || '欄位必填'
+  },
+  maxLength (value) {
+    return value.length <= 20 || '最多輸入20個字'
+  },
+  countyYears (value) {
+    const birthday = new Date(value).getTime()
+    const toDay = new Date().getTime()
+    const year = 1000 * 60 * 60 * 24 * 365
+    const countTime = Math.abs(toDay - birthday)
+    const checkYear = Math.trunc(countTime / year)
+    return checkYear >= 18
+  },
+  requiredCheckbox (value) {
+    return value === true || '請確認您已是成年人'
+  }
+}
 
 const columns = [
   {
@@ -131,20 +181,23 @@ const updateCart = async (id, quantity, text) => {
   }
 }
 
-const onCheckoutBtnClick = async () => {
-  console.log('1')
-  try {
-    await checkout()
-    console.log('2')
-    router.push('/Mypage/MypageOrders')
-  } catch (error) {
-    console.log(error)
-    Swal.fire({
-      icon: 'error',
-      title: '失敗',
-      text: '結帳失敗'
-    })
-  }
+const onCheckoutBtnClick = async (val) => {
+  console.log(val)
+  editUser(route.params.id)
+  addCart.value = false
+  // try {
+  //   await checkout()
+  //   console.log('2')
+  //   const { data } = await apiAuth.patch('/users/' + _id + cart)
+  //   router.push('/Mypage/MypageOrders')
+  // } catch (error) {
+  //   console.log(error)
+  //   Swal.fire({
+  //     icon: 'error',
+  //     title: '失敗',
+  //     text: '結帳失敗'
+  //   })
+  // }
 }
 
 // const onCheckoutBtnClick = async () => {
@@ -168,6 +221,7 @@ const canCheckout = computed(() => {
   try {
     const { data } = await apiAuth.get('/users/cart')
     cart.push(...data.result)
+    console.log(cart)
   } catch (error) {
     Swal.fire({
       icon: 'error',

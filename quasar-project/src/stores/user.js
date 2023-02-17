@@ -12,6 +12,8 @@ export const useUserStore = defineStore('user', function () {
   const role = ref(0)
   // 資料是放陣列
   const love = ref([])
+  const username = ref('')
+  const birth = ref('')
 
   const showLogin = ref(false)
 
@@ -105,6 +107,27 @@ export const useUserStore = defineStore('user', function () {
         text
       })
     } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: '失敗',
+        text: error?.response?.data?.message || '發生錯誤'
+      })
+    }
+  }
+
+  async function editUser (id, username, birth) {
+    try {
+      const { data } = await apiAuth.patch('/users/' + id, { username, birth })
+      username.value = data.result.username
+      birth.value = data.result.birth
+      Swal.fire({
+        icon: 'success',
+        title: '成功',
+        // text: '加入購物車成功'
+        text: '報名成功'
+      })
+    } catch (error) {
+      console.log(error)
       Swal.fire({
         icon: 'error',
         title: '失敗',
@@ -223,7 +246,8 @@ export const useUserStore = defineStore('user', function () {
     checkout,
     register,
     editEventParticipant,
-    removeLove
+    removeLove,
+    editUser
   }
 },
 {

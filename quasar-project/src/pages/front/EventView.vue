@@ -96,6 +96,9 @@ const rules = {
   },
   phoneNum (value) {
     return isMobilePhone(value, 'zh-TW') || '手機號碼格式錯誤'
+  },
+  requiredCheckbox (value) {
+    return value === true || '請同意參加活動'
   }
 }
 
@@ -114,37 +117,6 @@ const event = reactive({
   sell: true,
   category: ''
 });
-
-// const userInfo = defineStore({
-//   id: 'user',
-//   state: () => ({
-//     isLoggedIn: false,
-//     user: null
-//   }),
-//   getters: {
-//     isLoggedIn: (state) => state.isLoggedIn,
-//     user: (state) => state.user
-//   },
-//   actions: {
-//     login ({ commit }, user) {
-//       commit('setUser', user)
-//       commit('setLoggedIn', true)
-//     },
-//     logout ({ commit }) {
-//       commit('setUser', null)
-//       commit('setLoggedIn', false)
-//     },
-//     setUser ({ state }, user) {
-//       state.user = user
-//     },
-//     setLoggedIn ({ state }, isLoggedIn) {
-//       state.isLoggedIn = isLoggedIn
-//     }
-//   }
-// })
-
-// const isLoggedIn = computed(() => user.isLoggedIn)
-// const currentUser = computed(() => user.user);
 
 (async () => {
   try {
