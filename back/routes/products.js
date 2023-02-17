@@ -7,6 +7,9 @@ import { createProduct, getAllProducts, getProduct, getSellProducts, editProduct
 
 const router = Router()
 
+// multipart可以上傳圖片，有上傳圖片的話用 content('multipart/form-data') => const fd = new FormData()
+// 單純字串就用 application/json 資料型態即可，form
+
 // upload要放在  jwt, admin 之後 不然不用登入就可以用了
 router.post('/', content('multipart/form-data'), jwt, admin, upload, createProduct)
 // 不用登入也可以查所有架上商品

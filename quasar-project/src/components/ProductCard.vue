@@ -31,10 +31,6 @@ defineProps({
     type: Number,
     default: 0
   },
-  // description: {
-  //   type: String,
-  //   default: ''
-  // },
   image: {
     type: String,
     default: ''

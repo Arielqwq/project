@@ -57,7 +57,11 @@ const schema = new Schema(
       type: String,
       default: ''
     },
-    name: {
+    phone: {
+      type: String,
+      default: ''
+    },
+    username: {
       type: String,
       default: ''
     },

@@ -78,7 +78,9 @@ export const getUser = (req, res) => {
         password: req.user.password,
         account: req.user.account,
         email: req.user.email,
-
+        username: req.user.username,
+        phone: req.user.phone,
+        birth: req.user.birth,
         // cart: req.user.cart.lenth 購物車顯示種類數
         cart: req.user.cart.reduce((total, current) => total + current.quantity, 0),
         role: req.user.role
@@ -91,16 +93,19 @@ export const getUser = (req, res) => {
 
 export const editUser = async (req, res) => {
   try {
-    const userNew = await users.findById(req.params.id)
-    userNew.account = req.body.account
-    userNew.password = req.body.password
-    userNew.email = req.body.email
-    userNew.name = req.body.name
-    userNew.phone = req.body.phone
-    userNew.birth = req.body.birth
-    console.log(userNew)
-    await userNew.save()
-    res.status(200).json({ success: true, message: '' })
+    console.log(req.body)
+    const result = await users.findByIdAndUpdate(req.params.id, {
+      account: req.body.account,
+      password: req.body.password,
+      email: req.body.email,
+      name: req.body.name,
+      phone: req.body.phone,
+      birth: req.body.birth
+    }, { new: true })
+    console.log(result)
+
+    await result.save()
+    res.status(200).json({ success: true, message: '', result })
   } catch (error) {
     console.log(error)
     if (error.name === 'ValidationError') {
