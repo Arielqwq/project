@@ -55,8 +55,7 @@ const schema = new Schema(
     },
     username: {
       type: String,
-      default: '',
-      required: [true, '缺少姓名']
+      default: ''
     },
     birth: {
       type: String,

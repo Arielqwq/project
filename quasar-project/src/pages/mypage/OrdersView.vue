@@ -1,15 +1,15 @@
 <template lang="pug">
 #orders
-  .q-pa-md
-    .q-gutter-y-md(style='max-width: 80%')
+  .row
+    .q-pa-xl.col-12
       q-card
-        q-tabs.text-grey(v-model='tab' dense active-color='primary' indicator-color='primary' align='justify' narrow-indicator)
-          q-tab(name='productsOrder' label='productsOrder')
-          q-tab(name='eventsOrder' label='eventsOrder')
+        q-tabs.tabs-text.text-grey(v-model='tab' dense active-color='primary' indicator-color='primary' align='justify' narrow-indicator)
+          q-tab.text-h3(name='productsOrder' label='我的商品訂單')
+          q-tab(name='eventsOrder' label='我的課程活動資訊 ')
         q-separator
         q-tab-panels(v-model='tab' animated)
           q-tab-panel(name='productsOrder')
-            .text-h6.text-center 我的商品訂單
+              //- .text-h6.text-center 我的商品訂單
               .div(class="q-px-xl row")
                 .col-12
                   q-table(:columns="columns" :rows="orders")
@@ -21,15 +21,14 @@
                             p {{product.quantity + ' 個 ' + product.p_id.name}}
 
           q-tab-panel(name='eventsOrder')
-            .text-h6.text-center 我的課程活動資訊
-              .div(class="q-px-x l row")
-                .col-12
-                  q-table(:columns="columnsOfEvents" :rows="events")
+            .div(class="q-px-x l row")
+              .col-12
+                q-table(:columns="columnsOfEvents" :rows="events")
 
-                    //- 商品圖片
-                    template( v-slot:body-cell-image="props")
-                      q-td
-                        img(:src='props.row.image' style='height: 100px;')
+                  //- 商品圖片
+                  template( v-slot:body-cell-image="props")
+                    q-td
+                      img(:src='props.row.image' style='height: 100px;')
 
         //- h3.text-center 我的商品訂單
         //-   .div(class="q-px-xl row")
@@ -61,7 +60,7 @@ import Swal from 'sweetalert2'
 
 const orders = reactive([])
 const events = reactive([])
-const tab = ref('mails')
+const tab = ref('productsOrder')
 
 const columns = [
   {
@@ -170,3 +169,9 @@ const columnsOfEvents = [
 })()
 
 </script>
+
+<style lang="sass">
+.q-tabs--dense .q-tab
+    min-height: 65px
+
+</style>

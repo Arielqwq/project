@@ -33,7 +33,7 @@ export const editNews = async (req, res) => {
     newsNew.description = req.body.description
     newsNew.image = req.files?.image?.[0]?.path || newsNew.image
     await newsNew.save()
-    res.status(200).json({ success: true, message: '' })
+    res.status(200).json({ success: true, message: '', result: newsNew })
   } catch (error) {
     console.log(error)
     if (error.name === 'ValidationError') {

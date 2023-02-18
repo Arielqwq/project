@@ -3,26 +3,25 @@ q-layout(height="300" class="shadow-2 rounded-borders")
   q-header(elevated style="background-color: #230b0b")
     q-toolbar(style="height:100px")
       q-btn(flat @click="drawer = !drawer" round dense icon="menu" )
-      q-toolbar-title 管理者後台
+      q-toolbar-title.text-h5 管理者後台
       //- @mouseover="miniState = false" @mouseout="miniState = true"
   q-drawer( show-if-above v-model="drawer"  :width="250" :breakpoint="500" bordered )
 
-    q-scroll-area(class="fit" style="height: calc(100% - 150px); margin-top: 150px;")
+    q-scroll-area(class="fit" style="height: calc(100% - 150px); margin-top: 150px; border-top:1px solid #999;")
       q-list(padding class="menu-list")
         template(v-for="(menuItem, index) in menuList" :key="index")
           q-item.col-10(class="q-px-xl" clickable v-ripple :active="menuItem.label === 'Outbox'" :to="menuItem.route")
             q-item-section.col-3
-              q-icon(:name="menuItem.icon" :color="menuItem.iconColor")
-            q-item-section {{ menuItem.label }}
-              q-separator
+              q-icon(:name="menuItem.icon" size="sm" :color="menuItem.iconColor")
+            q-item-section.text-rwd {{ menuItem.label }}
 
-    q-img(class="absolute-top" src="https://cdn.quasar.dev/img/material.png"  style="height: 150px")
-      .div(class="absolute-bottom bg-transparent")
+    div.top(class="absolute-top" color="white" style="height: 150px; background: brown;")
+      div.q-pa-md(class="absolute-bottom bg-transparent")
         q-avatar( size="56px" class="q-mb-sm")
           img(:src="avatar")
-          //- {{  }}
-        .div(class="text-weight-bold")
-        .div Hi !  {{ account }}
+        div(class="text-weight-bold")
+        div
+          .text-h5 Hi ! {{ account }}
 
   q-page-container
     q-page
@@ -92,3 +91,8 @@ const menuList = [
   }
 ]
 </script>
+<style lang="sass">
+.text-rwd
+  font-size:2.5vh
+
+</style>

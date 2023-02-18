@@ -13,6 +13,7 @@ export const login = (req, res, next) => {
         if (info.message === 'Missing credentials') info.message = '欄位錯誤'
         return res.status(401).json({ success: false, message: info.message || error.message })
       } else {
+        console.log(error)
         return res.status(500).json({ success: false, message: '未知錯誤' })
       }
     }

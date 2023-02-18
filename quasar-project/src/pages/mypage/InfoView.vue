@@ -1,43 +1,46 @@
 <template lang="pug">
 #Mypage-info
-  h3.text-center
-  div(class="q-px-xl row")
-    .col-12
-      q-btn(@click="openDialog(myInfo._id.length > 0 ? 0 : -1)" color="primary" label="編輯")
-  div(class="q-px-xl q-mt-md " )
-    div(align="left" style="width:80% ;height:500px ;border-radius: 30px; background-color:rgb(255, 245, 238); padding:20px ")
-      p 帳號 : {{ myInfo.account }}
-      p 密碼 : {{ myInfo.password }}
-      p 信箱 :{{  myInfo.email }}
-      p 姓名 :{{ myInfo.username }}
-      p 電話 :{{  myInfo.phone }}
-      p 生日 :{{ myInfo.birth }}
+  .row
+    .q-pa-xl.col-12
+      h3.text-center
+      div.flex.q-px-xl.q-mt-md
+        div(align="left" style="width:80% ;height:500px ;border-radius: 30px; background-color:rgb(255, 245, 238); padding:20px ")
+          h3 帳號 : {{ myInfo.account }}
+          //- p 密碼 : {{ myInfo.password }}
+          h3 信箱 :{{  myInfo.email }}
+          h3 姓名 :{{ myInfo.username }}
+          h3 電話 :{{  myInfo.phone }}
+          h3 生日 :{{ myInfo.birth }}
 
-    q-dialog(align="center" v-model="form.dialog" persistent)
-      q-card( class="column" style="width: 700px; max-width: 80vw;")
-        q-form(@submit="onSubmit" @reset="onReset")
-          q-card-actions.row.flex.justify-between
-            .div(align="left" class="q-pa-md row" )
-              .text-center {{ myInfo._id.length > 0 ? '編輯關於我們' : '新增關於我們' }}
-            q-btn(dense flat icon='close' v-close-popup)
-              q-tooltip Close
-          q-card-section.column.q-gutter-md
-            .col-12
-              q-input(square filled v-model="form.account" label="帳號" :rules="[rules.required]")
-            .col-12
-              q-input(square filled v-model="form.password" type="password" label="密碼" :rules="[rules.required]")
-            .col-12
-              q-input(square filled v-model="form.email" type="email" label="信箱" :rules="[rules.required]")
-            .col-12
-              q-input(square filled v-model="form.username" type="text" label="姓名" )
-            .col-12
-              q-input(square filled v-model="form.phone" type="phone" label="手機" )
-            .col-12
-              q-input(square filled v-model="form.birth" type="birth" label="出生年月日" )
+        q-dialog(align="center" v-model="form.dialog" persistent)
+          q-card( class="column" style="width: 700px; max-width: 80vw;")
+            q-form(@submit="onSubmit" @reset="onReset")
+              q-card-actions.row.flex.justify-between
+                .div(align="left" class="q-pa-md row" )
+                  .text-center {{ myInfo._id.length > 0 ? '編輯關於我們' : '新增關於我們' }}
+                q-btn(dense flat icon='close' v-close-popup)
+                  q-tooltip Close
+              q-card-section.column.q-gutter-md
+                .col-12
+                  q-input(square filled v-model="form.account" label="帳號" :rules="[rules.required]")
+                .col-12
+                  q-input(square filled v-model="form.password" type="password" label="密碼" :rules="[rules.required]")
+                .col-12
+                  q-input(square filled v-model="form.email" type="email" label="信箱" :rules="[rules.required]")
+                .col-12
+                  q-input(square filled v-model="form.username" type="text" label="姓名" )
+                .col-12
+                  q-input(square filled v-model="form.phone" type="phone" label="手機" )
+                .col-12
+                  q-input(square filled v-model="form.birth" type="birth" label="出生年月日" )
 
-          q-card-actions(align='right')
-            q-btn(:disabled="form.loading" flat label='reset' type="reset" color='red')
-            q-btn(:disabled="form.loading" flat label='submit' type="submit" color='green')
+              q-card-actions(align='right')
+                q-btn(:disabled="form.loading" flat label='reset' type="reset" color='red')
+                q-btn(:disabled="form.loading" flat label='submit' type="submit" color='green')
+
+      div.q-px-xl.row
+        .col-12.justify-center
+          q-btn(@click="openDialog(myInfo._id.length > 0 ? 0 : -1)" color="primary" label="資料修改")
 
   </template>
 
