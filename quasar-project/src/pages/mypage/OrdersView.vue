@@ -1,35 +1,67 @@
 <template lang="pug">
 #orders
-  h3.text-center 我的商品訂單
-    .div(class="q-px-xl row")
-      .col-12
-        q-table(:columns="columns" :rows="orders")
-          //- 商品內容
-          template(v-slot:body-cell-content='data')
-            q-td
-              ul
-                li(v-for="product in data.row.products")
-                  p {{product.quantity + ' 個 ' + product.p_id.name}}
+  .q-pa-md
+    .q-gutter-y-md(style='max-width: 80%')
+      q-card
+        q-tabs.text-grey(v-model='tab' dense active-color='primary' indicator-color='primary' align='justify' narrow-indicator)
+          q-tab(name='productsOrder' label='productsOrder')
+          q-tab(name='eventsOrder' label='eventsOrder')
+        q-separator
+        q-tab-panels(v-model='tab' animated)
+          q-tab-panel(name='productsOrder')
+            .text-h6.text-center 我的商品訂單
+              .div(class="q-px-xl row")
+                .col-12
+                  q-table(:columns="columns" :rows="orders")
+                    //- 商品內容
+                    template(v-slot:body-cell-content='data')
+                      q-td
+                        ul
+                          li(v-for="product in data.row.products")
+                            p {{product.quantity + ' 個 ' + product.p_id.name}}
 
-  hr
-  h3.text-center 我的課程活動
-    .div(class="q-px-xl row")
-      .col-12
-        q-table(:columns="columnsOfEvents" :rows="events")
+          q-tab-panel(name='eventsOrder')
+            .text-h6.text-center 我的課程活動資訊
+              .div(class="q-px-x l row")
+                .col-12
+                  q-table(:columns="columnsOfEvents" :rows="events")
 
-          //- 商品圖片
-          template( v-slot:body-cell-image="props")
-            q-td
-              img(:src='props.row.image' style='height: 100px;')
+                    //- 商品圖片
+                    template( v-slot:body-cell-image="props")
+                      q-td
+                        img(:src='props.row.image' style='height: 100px;')
+
+        //- h3.text-center 我的商品訂單
+        //-   .div(class="q-px-xl row")
+        //-     .col-12
+        //-       q-table(:columns="columns" :rows="orders")
+        //-         //- 商品內容
+        //-         template(v-slot:body-cell-content='data')
+        //-           q-td
+        //-             ul
+        //-               li(v-for="product in data.row.products")
+        //-                 p {{product.quantity + ' 個 ' + product.p_id.name}}
+
+        //- hr
+        //- h3.text-center 我的課程活動
+        //-   .div(class="q-px-x l row")
+        //-     .col-12
+        //-       q-table(:columns="columnsOfEvents" :rows="events")
+
+        //-         //- 商品圖片
+        //-         template( v-slot:body-cell-image="props")
+        //-           q-td
+        //-             img(:src='props.row.image' style='height: 100px;')
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { apiAuth } from '@/boot/axios'
 import Swal from 'sweetalert2'
 
 const orders = reactive([])
 const events = reactive([])
+const tab = ref('mails')
 
 const columns = [
   {
