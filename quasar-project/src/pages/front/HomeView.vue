@@ -1,26 +1,25 @@
 <template lang="pug">
 #home
-  div.q-pa-xl
+  .home-carousel.q-pa-xl
     q-carousel(animated v-model='slide' navigation infinite :autoplay='autoplay' arrows transition-prev='slide-right' transition-next='slide-left' @mouseenter='autoplay = false' @mouseleave='autoplay = true')
       q-carousel-slide(:name='1' img-src='https://images.unsplash.com/photo-1533050487297-09b450131914?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80')
       q-carousel-slide(:name='2' img-src='https://images.unsplash.com/photo-1564284369929-026ba231f89b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80')
       q-carousel-slide(:name='3' img-src='https://plus.unsplash.com/premium_photo-1668989820310-8e2e3684bdb4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80')
       q-carousel-slide(:name='4' img-src='https://images.unsplash.com/photo-1557008525-73e7bf440f76?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80')
 
-    .product-area.flex.justify-center.row.col-5
-      div
-        p 123456
-      .row
-        .col-1.position-relative
+    .product-area
+      //- .col-4
+      //-   p 123456
+      .row.align-content-center.justify-content-center
+        .col-1
           #swiper-dj-prev.swiper-button-prev
-        .col-8
-          swiper(v-bind='swiperOptions' )
-            swiper-slide(v-for="product in products" :key="product._id" :slidesPerView="3")
+        .col-10
+          swiper(v-bind='swiperOptions' @swiper='getSwiperRef')
+            swiper-slide( v-for="product in products" :key="product._id" :slidesPerView="4")
               .productCard.flex.justify-center.q-pa-lg.col-12.col-md-6.col-lg-3
                 ProductCard(v-bind="product")
-
-        .col-1.position-relative
-          #swiper-dj-prev.swiper-button-prev
+        .col-1
+          #swiper-dj-next.swiper-button-next
 
     .event-area.flex.q-ma-lg.justify-center.row.col-5
       div.flex.row.wrap(v-for="event in events" :key="event._id")
@@ -49,6 +48,13 @@ const events = reactive([])
 const slide = ref(1)
 const autoplay = ref(true)
 
+const swiperRef = ref(null)
+// Stop autoplay
+const getSwiperRef = (swiperInstance) => {
+  swiperRef.value = swiperInstance
+  swiperRef.value.autoplay.stop()
+}
+
 const swiperOptions = {
   slidesPerView: 1,
   spaceBetween: 10,
@@ -59,11 +65,11 @@ const swiperOptions = {
   modules: [Navigation, Autoplay],
   breakpoints: {
     768: {
-      slidesPerView: 2,
+      slidesPerView: 3,
       spaceBetween: 20
     },
     992: {
-      slidesPerView: 3,
+      slidesPerView: 4,
       spaceBetween: 20
     }
   },

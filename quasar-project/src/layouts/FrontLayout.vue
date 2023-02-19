@@ -24,11 +24,11 @@
           //- <q-btn v-if="!isLogin" font-awesome-icon icon="fa-solid fa-user" to="/register" label="註冊"/>
           //- <q-btn v-if="!isLogin" font-awesome-icon icon="fa-solid fa-right-to-bracket" to="/login" label="登入"/>
           //- 購物車及數量
-          q-btn(flat rounded size="sm"  v-if="isLogin && !isAdmin" icon="fa-solid fa-cart-shopping" to="/Mypage/Mypagecart")
+          q-btn(v-if="isLogin && !isAdmin" text-color="secondary" flat rounded size="sm" icon="fa-solid fa-cart-shopping" to="/Mypage/Mypagecart")
             q-badge( size="xs" color="red" :label="cart" rounded floating)
 
           //- 會員登入後的下拉選單
-          q-btn-dropdown(v-if="isLogin && !isAdmin" flat rounded size="sm" icon="fa-solid fa-user-gear")
+          q-btn-dropdown(v-if="isLogin && !isAdmin" text-color="secondary" flat rounded size="sm" icon="fa-solid fa-user-gear")
             q-list
               q-item(clickable v-close-popup to="/Mypage" )
                 q-item-section(avatar)
@@ -60,8 +60,8 @@
                 q-item-section
                   q-item-label 登出
 
-          q-btn(flat rounded v-if="isLogin && isAdmin" icon="fa-solid fa-hammer" to="/admin" label="管理")
-          q-btn#logoutBtn(flat rounded v-if="isLogin && isAdmin" icon="fa-solid fa-right-from-bracket" @click="logout" label="登出")
+          q-btn(v-if="isLogin && isAdmin" flat rounded text-color="secondary" size="sm" icon="fa-solid fa-hammer" to="/admin" label="管理")
+          q-btn#logoutBtn(v-if="isLogin && isAdmin" text-color="secondary" flat rounded size="sm" icon="fa-solid fa-right-from-bracket" @click="logout" label="登出")
 
       q-dialog( v-if="showLogin" v-model="showLogin")
         q-card(class="q-dialog-plugin")

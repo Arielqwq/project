@@ -120,10 +120,10 @@ export const useUserStore = defineStore('user', function () {
     try {
       const { data } = await apiAuth.patch('/users/edit', form)
 
-      account.value = data.user.account
-      email.value = data.user.email
-      username.value = data.user.username
-      phone.value = data.user.phone
+      account.value = data.user.account || data.result.account
+      email.value = data.user.email || data.result.email
+      username.value = data.user.username || data.result.username
+      phone.value = data.user.phone || data.result.phone
       birth.value = data.user.birth
 
       username.value = data.result.username
