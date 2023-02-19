@@ -1,17 +1,26 @@
 <template lang="pug">
 #home
-  div
+  div.q-pa-xl
     q-carousel(animated v-model='slide' navigation infinite :autoplay='autoplay' arrows transition-prev='slide-right' transition-next='slide-left' @mouseenter='autoplay = false' @mouseleave='autoplay = true')
       q-carousel-slide(:name='1' img-src='https://images.unsplash.com/photo-1533050487297-09b450131914?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80')
       q-carousel-slide(:name='2' img-src='https://images.unsplash.com/photo-1564284369929-026ba231f89b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80')
       q-carousel-slide(:name='3' img-src='https://plus.unsplash.com/premium_photo-1668989820310-8e2e3684bdb4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80')
       q-carousel-slide(:name='4' img-src='https://images.unsplash.com/photo-1557008525-73e7bf440f76?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80')
 
-    div.product-area.flex.q-ma-lg.justify-center.row.col-5
-      swiper(v-bind='swiperOptions' )
-        swiper-slide(v-for="product in products" :key="product._id" :slidesPerView="3")
-          q-card(style="width:250px").flex.justify-center.q-pa-lg.col-12.col-md-6.col-lg-3
-            ProductCard(v-bind="product")
+    .product-area.flex.justify-center.row.col-5
+      div
+        p 123456
+      .row
+        .col-1.position-relative
+          #swiper-dj-prev.swiper-button-prev
+        .col-8
+          swiper(v-bind='swiperOptions' )
+            swiper-slide(v-for="product in products" :key="product._id" :slidesPerView="3")
+              .productCard.flex.justify-center.q-pa-lg.col-12.col-md-6.col-lg-3
+                ProductCard(v-bind="product")
+
+        .col-1.position-relative
+          #swiper-dj-prev.swiper-button-prev
 
     .event-area.flex.q-ma-lg.justify-center.row.col-5
       div.flex.row.wrap(v-for="event in events" :key="event._id")
