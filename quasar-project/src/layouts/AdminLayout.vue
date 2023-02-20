@@ -10,10 +10,10 @@ q-layout(height="300" class="shadow-2 rounded-borders")
     q-scroll-area(class="fit" style="height: calc(100% - 150px); margin-top: 150px; border-top:1px solid #999;")
       q-list(padding class="menu-list")
         template(v-for="(menuItem, index) in menuList" :key="index")
-          q-item.col-10(class="q-px-xl" clickable v-ripple :active="menuItem.label === 'Outbox'" :to="menuItem.route")
+          q-item.col-10.q-pa-md(class="q-px-xl" clickable v-ripple :active="menuItem.label === 'Outbox'" :to="menuItem.route")
             q-item-section.col-3
               q-icon(:name="menuItem.icon" size="sm" :color="menuItem.iconColor")
-            q-item-section.text-rwd {{ menuItem.label }}
+            q-item-section.text-h6 {{ menuItem.label }}
 
     div.top(class="absolute-top" color="white" style="height: 150px; background: brown;")
       div.q-pa-md(class="absolute-bottom bg-transparent")

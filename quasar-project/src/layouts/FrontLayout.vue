@@ -1,5 +1,5 @@
 <template lang="pug">
-#front-layout
+#front-layout(style="height:100vh;width:100vw")
   q-layout
     q-header.q-header(elevated height-hint="98")
       //- shadow-2 整欄下底線

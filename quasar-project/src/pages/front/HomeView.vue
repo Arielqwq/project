@@ -1,6 +1,6 @@
 <template lang="pug">
-#home
-  .q-pa-xl
+#home(style="height:100vh; overflow-x: hidden;" )
+  div(style="padding:35px")
     q-carousel( style=" height:70vh" animated v-model='slide' navigation infinite :autoplay='autoplay' arrows transition-prev='slide-right' transition-next='slide-left' @mouseenter='autoplay = false' @mouseleave='autoplay = true')
       q-carousel-slide(:name='1' img-src='https://images.unsplash.com/photo-1533050487297-09b450131914?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80')
       q-carousel-slide(:name='2' img-src='https://images.unsplash.com/photo-1564284369929-026ba231f89b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80')
@@ -8,8 +8,6 @@
       q-carousel-slide(:name='4' img-src='https://images.unsplash.com/photo-1557008525-73e7bf440f76?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80')
 
     .product-area
-      //- .col-4
-      //-   p 123456
       .row.align-content-center.justify-content-center
         .col-1
           #swiper-dj-prev.swiper-button-prev

@@ -70,7 +70,7 @@ const schema = new Schema(
       required: [true, '缺少分類'],
       // enum 限制欄位的值只能是裡面的其中一個
       enum: {
-        values: ['體驗', '線上課程', '實體課程', '其他'],
+        values: ['體驗', '文章分享', '線上課程', '實體課程', '其他'],
         message: '分類錯誤'
       }
     },

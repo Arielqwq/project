@@ -93,7 +93,7 @@ import { storeToRefs } from 'pinia'
 // const event = useEventStore()
 // const { haslecturer } = storeToRefs(event)
 
-const categories = ['體驗', '線上課程', '實體課程', '其他']
+const categories = ['體驗', '文章分享', '線上課程', '實體課程', '其他']
 
 const rules = {
   required (value) {

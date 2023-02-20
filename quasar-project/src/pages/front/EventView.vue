@@ -1,19 +1,31 @@
 <template lang="pug">
 #front-event
-  div.flex.q-ma-lg.justify-center.row.col-5
-    #event-img.col-12.col-lg-6.flex.justify-center
-      q-img(:src="event.image" cover )
-    .flex.column.no-wrap.col-12.col-lg-6
-      h3 {{ event.title }}
-      p 活動期間： {{ event.daysfrom }} ~ {{ event.daysto }}
-      p 講師：{{ event. lecturer }}
-      p 講師簡介：{{ event. lecturerInfo }}
-      p 參加人數：{{event.pplNum}} 人 ||  費用： $ {{ event.price }}
-      p.pre 活動簡介：{{ event.description }}
-        //-v-model.number傳入數字，v-model 預設是文字
-        //- q-input(filled v-model.number="quantity" type="number" label="數量" :rules="[rules.required, rules.number]" min="1")
-        //- q-btn(type="submit" color="primary") 參加活動
-        //- :disabled="quantity < 1"
+  .eventContent.flex.justify-center.row
+    .col-12.q-pl-xl(align="left")
+      .text-h3 {{ event.daysfrom }}
+      .text-h3 {{ event.daysto }}
+    div.row.justify-evenly
+      .eventLeft.col-2.q-ma-md
+        .text-h7 參加人數上限：{{event.pplNum}}
+        .text-h6 費用： $ {{ event.price }}
+        .text-h7.q-mt-lg 活動分類：{{ event.category }}
+        div.q-mt-lg
+          .text-h7 講師：{{ event. lecturer }}
+          q-expansion-item(expand-separator label='講師介紹')
+            q-card
+              q-card-section.q-pl-none
+                p {{ event. lecturerInfo }}
+
+      .eventRight.col-8.q-ma-sm
+        .text-h4  {{ event.title }}
+        #event-img.q-pt-md(style="width:450px;height:300px;").col-12.col-lg-12.flex.justify-center
+          q-img(:src="event.image" style="border-radius:20px" cover )
+        p.pre.q-mt-lg 活動簡介：{{ event.description }} 講師簡介：
+      //-v-model.number傳入數字，v-model 預設是文字
+      //- q-input(filled v-model.number="quantity" type="number" label="數量" :rules="[rules.required, rules.number]" min="1")
+      //- q-btn(type="submit" color="primary") 參加活動
+      //- :disabled="quantity < 1"
+    .col-3
       q-btn(@click="addCart=true" color="primary" ) 參加活動
 
   //-參加活動的彈跳視窗
@@ -175,3 +187,6 @@ const event = reactive({
   }
 })()
 </script>
+<style lang="sass">
+
+</style>
