@@ -1,9 +1,9 @@
 <template lang="pug">
-#product
-  .row.flex
-    #product-img.col-12.col-lg-6.flex.justify-center
-      q-img(:src="product.image" cover )
-    .flex.column.no-wrap.col-12.col-lg-6
+#productView
+  div(style="height:500px; margin:0 0 110px 0").row.flex.justify-center
+    .product-img.col-12.col-lg-3.flex.justify-center
+      q-img(:src="product.image" cover style="width:200px")
+    .flex.column.no-wrap.col-12.col-lg-7
       h3 {{ product.name }}
       p $ {{ product.price }}
       p.pre {{ product.description }}
@@ -13,6 +13,9 @@
         q-btn(type="submit" color="primary") 加入購物車
         q-btn(flat round color='red' :icon=" love ? 'fa-solid fa-heart':'fa-regular fa-heart'" @click="editLove({_id:product._id})")
 
+  div(style="height:400px").row.flex.justify-center
+    .col-10
+      .text-h5 YOU MAY ALSO LIKE
   q-dialog(:v-model="!product.sell" persistent )
     q-card(class="bg-accent text-white" style="width: 300px")
       q-card-section
