@@ -1,8 +1,7 @@
 <template lang="pug">
 #front-events
-  h3 課程活動
-  div.flex.q-ma-lg.justify-center.row.col-5
-    q-card.flex.justify-center.q-pa-lg.col-12.col-md-6.col-lg-3(v-for="event in events" :key="event._id" )
+  div.flex.q-ma-sm.justify-center.row.col-6
+    .flex.justify-center.q-pa-lg.col-12.col-md-6(v-for="event in events" :key="event._id" )
       EventCard(v-bind="event")
   </template>
 
