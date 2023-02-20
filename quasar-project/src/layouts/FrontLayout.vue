@@ -79,6 +79,9 @@
     q-page-container
       router-view
 
+    q-footer.q-footer(fixed)
+      q-img(src="@/assets/drinkdontdrive.jpg")
+
 </template>
 
 <script setup>
