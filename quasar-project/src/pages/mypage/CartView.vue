@@ -177,24 +177,36 @@ const updateCart = async (id, quantity, text) => {
 }
 
 const onCheckoutBtnClick = async (val) => {
-  editUser({
-    username: inputUsername.value,
-    birth: birthday.value
-  })
-  addCart.value = false
-  // try {
-  //   await checkout()
-  //   console.log('2')
-  //   const { data } = await apiAuth.patch('/users/' + _id + cart)
-  //   router.push('/Mypage/MypageOrders')
-  // } catch (error) {
-  //   console.log(error)
-  //   Swal.fire({
-  //     icon: 'error',
-  //     title: '失敗',
-  //     text: '結帳失敗'
-  //   })
-  // }
+  try {
+    const { data } = await apiAuth.get('/users/me')
+    if (!data.result.birth || !data.result.username) {
+      await editUser({
+        username: inputUsername.value,
+        birth: birthday.value
+      })
+    } else {
+      if (birthday.value !== data.result.birth || inputUsername.value !== data.result.username) {
+        Swal.fire({
+          icon: 'error',
+          title: '失敗',
+          text: '資料錯誤'
+        })
+        return
+      }
+    }
+    addCart.value = false
+
+    await checkout()
+    console.log('2')
+    router.push('/Mypage/MypageOrders')
+  } catch (error) {
+    console.log(error)
+    Swal.fire({
+      icon: 'error',
+      title: '失敗',
+      text: '結帳失敗'
+    })
+  }
 }
 
 // const onCheckoutBtnClick = async () => {

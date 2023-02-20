@@ -108,7 +108,7 @@ const onSubmit = async () => {
   // fd.append(key, value)
 
   try {
-    const { data } = await apiAuth.patch('/users/' + form._id, form)
+    const { data } = await apiAuth.patch('/users/edit/', form)
     console.log(myInfo)
     // console.log(data.result)
     // 畫面顯示資料 => 修改前資料 = 修改後再取得的資料
