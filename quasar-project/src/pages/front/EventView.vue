@@ -33,7 +33,7 @@
             p(v-if="isLogin") 會員帳號： {{ user.account }}
             p(v-if="isLogin") 會員信箱： {{ user.email }}
             p 請輸入聯絡電話
-            q-input.phoneNum(filled v-model="value" label='請輸入手機號碼' :rules="[rules.required, rules.phoneNum]")
+            q-input.phoneNum(filled v-model="phone" label='請輸入手機號碼' :rules="[rules.required, rules.phoneNum]")
             q-checkbox.checkbox(v-model="checkbox" :rules="[rules.requiredCheckbox]") 請勾選同意參加活動
             div(align="center")
               q-btn(type="reset" color="red" flat label="reset")
@@ -51,7 +51,7 @@
 
 <script setup>
 import { reactive, ref, computed } from 'vue'
-import { api } from '@/boot/axios'
+import { api, apiAuth } from '@/boot/axios'
 import Swal from 'sweetalert2'
 import { storeToRefs, defineStore } from 'pinia'
 import EventCard from '@/components/EventCard.vue'
@@ -72,21 +72,43 @@ const { editEventParticipant, editUser } = user
 const addCart = ref(false)
 
 const text = ref('')
-const value = ref('')
+const phone = ref('')
 const quantity = ref(0)
 const checkbox = ref(false)
 
-const onSubmit = () => {
+const onSubmit = async () => {
   // if (!valid.value) return
-  // editEventParticipant(route.params.id, value.value)
-  editUser({
-    phone: value.value
-  })
-  addCart.value = false
+  await editEventParticipant(route.params.id, phone.value)
+  try {
+    const { data } = await apiAuth.get('/users/me')
+    if (!data.result.phone) {
+      await editUser({
+        phone: phone.value
+      })
+    } else {
+      if (phone.value !== data.result.phone) {
+        Swal.fire({
+          icon: 'error',
+          title: '失敗',
+          text: '資料錯誤'
+        })
+        return
+      }
+    }
+    addCart.value = false
+    router.push('/Mypage/MypageOrders')
+  } catch (error) {
+    console.log(error)
+    Swal.fire({
+      icon: 'error',
+      title: '失敗',
+      text: '參加活動失敗'
+    })
+  }
 }
 
 const onReset = () => {
-  value.value = ''
+  phone.value = ''
 }
 
 const rules = {

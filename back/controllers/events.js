@@ -127,15 +127,13 @@ export const editEvent = async (req, res) => {
 // 編輯活動參與成員
 export const editEventParticipant = async (req, res) => {
   try {
-    // 找是不有沒有此商品
-    // const eventIdx = r\eq.user.cart.findIndex(cart => cart.p_id.toString() === req.body.p_id)
-
     const event = await events.findById(req.params.id)
     console.log(req.user._id.toString())
     const idx = event.participant.findIndex(data => data.account === req.user._id.toString())
     console.log(idx)
     if (idx > -1) {
       res.status(400).json({ success: false, message: '已報名' })
+      return
     } else {
       event.participant.push({
         account: req.user._id,

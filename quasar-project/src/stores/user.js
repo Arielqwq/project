@@ -164,6 +164,7 @@ export const useUserStore = defineStore('user', function () {
 
   async function editEventParticipant (id, phone) {
     // 先判斷是否登入
+    console.log(id, phone)
     if (token.value.length === 0) {
       Swal.fire({
         icon: 'error',
