@@ -19,11 +19,78 @@
         .col-1
           #swiper-dj-next.swiper-button-next
 
-    .event-area.flex.q-ma-lg.justify-center.row.col-5
+    .homeEvent-area1.flex.column.justify-around
+      .firstEvent
+        .row.flex.justify-center(style="height:100%")
+          .homeEventLeft.col-12.col-md-4.ml-auto.flex.column.justify-around
+            q-img(style="height:100%; mix-width:270px")
+              img(src="@/assets/ivan-cortez-2FDstXKqaxI-unsplash.jpg")
+          .homeEventRight.col-12.col-md-4.ml-auto.flex.column.justify-around
+            .homeEventContent(style="height:75%").flex.column.no-wrap
+              .contentTitle.q-mb-md
+                .text-h3 這裡放活動名稱
+              .contentText.q-mb-md
+                p 活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介
+              .contentBtn
+                q-btn(style="width:250px; background: #182747 ; color: white" label="LEARN MORE")
 
-      div.flex.row.wrap(v-for="event in events" :key="event._id")
-        q-card(style="width:250px").flex.justify-center.q-pa-lg.col-12.col-md-6.col-lg-3
-          //- EventCard(v-bind="event")
+    .homeEvent-area2.flex.column.justify-around
+      .secondEvent
+        .row.flex(style="height:100%")
+          .homeEventLeft-2.col-12.col-md-7.ml-auto.flex.column
+
+            q-img(style="height:100%; width:80%")
+              img(src="@/assets/ivan-cortez-2FDstXKqaxI-unsplash.jpg")
+          .homeEventRight-2.col-12.col-md-3.ml-auto
+            .homeEventContent-2(style="height:75%").flex.column.no-wrap
+              .contentTitle.q-mb-md
+                .text-h3 這裡放活動名稱
+              .contentText.q-mb-md
+                p 活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介
+              .contentBtn
+                q-btn(style="width:250px; background: #182747 ; color: white" label="LEARN MORE")
+
+        //- div.flex.row.wrap(v-for="event in events" :key="event._id")
+        //-   q-card(style="width:250px").flex.justify-center.q-pa-lg.col-12.col-md-6.col-lg-3
+            //- EventCard(v-bind="event")
+
+            .firstEvent
+
+    .homeFooter.flex.column.justify-around
+      .row(style="height:100%").q-pa-md
+        .col-3.q-pa-md
+          q-list
+            q-item(clickable v-ripple)
+              q-item-section.text-h5 聯絡我們
+            q-item(clickable v-ripple)
+              q-item-section.text-h7 Main: 1-800-230-4321
+            q-item
+              q-btn(icon="fa-brands fa-square-facebook")
+              q-btn(icon="fa-solid fa-envelope")
+              q-btn(icon="fa-brands fa-square-twitter")
+        .col-3.q-pa-md
+          q-list
+            q-item(clickable v-ripple)
+              q-item-section.text-h5 客戶服務
+            q-item(clickable v-ripple)
+              q-item-section.text-h7 FAQ問與答
+            q-item(clickable v-ripple)
+              q-item-section.text-h7 詢問單說明
+            q-item(clickable v-ripple)
+              q-item-section.text-h7 配送資訊
+            q-item(clickable v-ripple)
+              q-item-section.text-h7 退換貨說明
+
+        .col-3.q-pa-md
+          q-list
+            q-item(clickable v-ripple)
+              q-item-section.text-h5 相關政策
+            q-item(clickable v-ripple)
+              q-item-section.text-h7 品質保證
+            q-item(clickable v-ripple)
+              q-item-section.text-h7 服務條款
+            q-item(clickable v-ripple)
+              q-item-section.text-h7 隱私權政策及法令宣告
 
 </template>
 <script setup>
