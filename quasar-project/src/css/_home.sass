@@ -60,5 +60,16 @@ q-carousel
   /*省略第n行後的文字*/
   -webkit-box-orient: vertical
   /*設定元素是垂直布局*/
-  
+
+
+/* 將 q-td 設定為 200px 寬度 */
+.q-table tbody td
+  max-width: 200px
+  position: relative
+  // display: -webkit-box
+  overflow: hidden
+  text-overflow: ellipsis
+  -webkit-line-clamp: 3
+  -webkit-box-orient: vertical
+
   

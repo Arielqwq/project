@@ -7,11 +7,11 @@ q-layout(height="300" class="shadow-2 rounded-borders")
       //- @mouseover="miniState = false" @mouseout="miniState = true"
   q-drawer( show-if-above v-model="drawer"  :width="250" :breakpoint="500" bordered )
 
-    q-scroll-area(class="fit" style="height: calc(100% - 150px); margin-top: 150px; border-top:1px solid #999;")
-      q-list(padding class="menu-list")
+    q-scroll-area( class="fit" style="height: calc(100% - 150px); margin-top: 150px; border-top:1px solid #999;")
+      q-list.q-pl-sm( class="menu-list")
         template(v-for="(menuItem, index) in menuList" :key="index")
           q-item.col-10.q-pa-md(class="q-px-xl" clickable v-ripple :active="menuItem.label === 'Outbox'" :to="menuItem.route")
-            q-item-section.col-3
+            q-item-section.col-3.q-pl-md
               q-icon(:name="menuItem.icon" size="sm" :color="menuItem.iconColor")
             q-item-section.text-h6 {{ menuItem.label }}
 

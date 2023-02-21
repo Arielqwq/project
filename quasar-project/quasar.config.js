@@ -69,7 +69,8 @@ module.exports = configure(function (/* ctx */) {
 
       // rebuildCache: true, // rebuilds Vite/linter/etc cache on startup
 
-      publicPath: '/',
+      // 部屬:要跟github專案名稱相同
+      publicPath: '/vite-shop-front',
       // analyze: true,
       env: {
         VITE_API: process.env.VITE_API

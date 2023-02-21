@@ -11,7 +11,7 @@
         q-tabs.col-11.header-tabs.rounded-borders( indicator-color="transparent")
           //- q-route-tab( to="/" label="首頁" )
           q-btn.text-h6(flat color="secondary"  to="/News" label="最新消息")
-          q-btn.text-h6(flat color="secondary"  to="/Products" label="最新商品")
+          q-btn.text-h6(flat color="secondary"  to="/Products" label="所有商品")
           q-route-tab(to="/" indicator-color="none")
             img(src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg")
           q-btn.text-h6(flat color="secondary" to="/Events" label="課程活動")

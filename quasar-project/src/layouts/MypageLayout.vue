@@ -67,7 +67,7 @@ const menuList = [
   },
   {
     icon: 'fa-solid fa-user-group',
-    label: '我的願望清單',
+    label: '我的收藏',
     route: '/Mypage/Wishlist',
     separator: true
   },

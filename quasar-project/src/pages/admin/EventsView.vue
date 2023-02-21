@@ -5,7 +5,7 @@
     .col-12
       q-btn( @click="openDialog(-1)" color="primary" label="新增活動")
   div(class="q-px-xl q-mt-md")
-    q-table(title="活動資訊" :columns="columns" :rows="events" row-key="_id" :filter="filter")
+    q-table(align="center" title="活動資訊" :columns="columns" :rows="events" row-key="_id" :filter="filter")
 
       //- 搜尋
       template( v-slot:top-right)
@@ -16,13 +16,18 @@
       //- 活動名稱顯示
       template(v-slot:body-cell-title="props")
         q-td
-          q-btn(@click="openParticipantInfo(props.row._id)") {{ props.row.title }}
+          q-btn.lessWord(@click="openParticipantInfo(props.row._id)") {{ props.row.title }}
 
             //- q-list.rounded-borders(bordered)
             //-   q-expansion-item(expand-separator icon='perm_identity' label='參加者資訊' caption='')
             //-     q-card
             //-       q-card-section
             //-         p
+
+      //- 敘述顯示
+      template(v-slot:body-cell-description="props")
+        q-td
+          p {{ props.row.description }}
 
       //- 圖片顯示
       template( v-slot:body-cell-image="props")
@@ -194,6 +199,7 @@ const openParticipantInfo = async (_id) => {
   participantInfoDialog.value = true
   try {
     const { data } = await apiAuth.get('/events/' + _id)
+    participantInfos.length = 0
     participantInfos.push(...data.result.participant)
   } catch (error) {
     console.log(error)
@@ -388,3 +394,18 @@ const onSubmit = async () => {
   }
 })()
 </script>
+<style lang="sass">
+.lessWord
+  /* 字省略 */
+  display: -webkit-box
+  overflow: hidden
+  text-overflow: ellipsis
+  -webkit-line-clamp: 2
+  /*省略第n行後的文字*/
+  -webkit-box-orient: vertical
+  /*設定元素是垂直布局*/
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+
+</style>

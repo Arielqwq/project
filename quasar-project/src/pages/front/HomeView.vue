@@ -24,13 +24,13 @@
         .row.flex.justify-center(style="height:100%")
           .homeEventLeft.col-12.col-md-4.ml-auto.flex.column.justify-around
             q-img(style="height:100%; mix-width:270px")
-              img(src="@/assets/ivan-cortez-2FDstXKqaxI-unsplash.jpg")
+              img(:src="events[0]?.image")
           .homeEventRight.col-12.col-md-4.ml-auto.flex.column.justify-around
             .homeEventContent(style="height:75%").flex.column.no-wrap
               .contentTitle.q-mb-md
-                .text-h3 這裡放活動名稱
+                .text-h3 {{ events[0]?.title }}
               .contentText.q-mb-md
-                p 活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介
+                p.lessWord {{ events[0]?.description }}
               .contentBtn
                 q-btn(style="width:250px; background: #182747 ; color: white" label="LEARN MORE")
 
@@ -40,13 +40,13 @@
           .homeEventLeft-2.col-12.col-md-7.ml-auto.flex.column
 
             q-img(style="height:100%; width:80%")
-              img(src="@/assets/ivan-cortez-2FDstXKqaxI-unsplash.jpg")
+              img(:src="events[1]?.image")
           .homeEventRight-2.col-12.col-md-3.ml-auto
             .homeEventContent-2(style="height:75%").flex.column.no-wrap
               .contentTitle.q-mb-md
-                .text-h3 這裡放活動名稱
+                .text-h3 {{ events[1]?.title }}
               .contentText.q-mb-md
-                p 活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介活動簡介
+                p.lessWord {{ events[1]?.description }}
               .contentBtn
                 q-btn(style="width:250px; background: #182747 ; color: white" label="LEARN MORE")
 
@@ -147,21 +147,19 @@ const swiperOptions = {
 
 (async () => {
   try {
-    const { data } = await api.get('/products')
-    products.push(...data.result)
-  } catch (error) {
-    Swal.fire({
-      icon: 'error',
-      title: '失敗',
-      text: error?.response?.data?.message || '發生錯誤'
-    })
-  }
-})();
+    const results = await Promise.all([api.get('/products'), api.get('/events/eventsforhome'), api.get('/news')])
 
-(async () => {
-  try {
-    const { data } = await api.get('/events')
-    events.push(...data.result)
+    const productsdata = results[0].data
+    products.push(...productsdata.result)
+    console.log(products)
+
+    const eventsforhomedata = results[1].data
+    events.push(...eventsforhomedata.result)
+    console.log(events)
+
+    const newsfordata = results[2].data
+    events.push(...eventsforhomedata.result)
+    console.log(events)
   } catch (error) {
     Swal.fire({
       icon: 'error',
@@ -170,6 +168,7 @@ const swiperOptions = {
     })
   }
 })()
+
 </script>
 <style lang="sass">
 

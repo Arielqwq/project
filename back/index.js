@@ -2,6 +2,7 @@ import 'dotenv/config'
 import express from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
+import https from 'https'
 import userRoute from './routes/users.js'
 // 錯誤測試
 // import userRoute from './routes/users'
@@ -9,6 +10,7 @@ import productRoute from './routes/products.js'
 import orderRoute from './routes/orders.js'
 import aboutusRoute from './routes/aboutus.js'
 import eventsRoute from './routes/events.js'
+import newsRoute from './routes/news.js'
 
 import './passport/passport.js'
 
@@ -57,10 +59,19 @@ app.use('/orders', orderRoute)
 app.use('/aboutus', aboutusRoute)
 // 活動頁
 app.use('/events', eventsRoute)
+// 消息頁
+app.use('/news', newsRoute)
 
-app.get('/', (req, res) => {
-  res.status(200).json({ success: true, message: '' })
-})
+// 喚醒伺服器
+if (process.env.render) {
+  setInterval(() => {
+    https.get(process.env.render)
+  }, 1000 * 60 * 5)
+}
+// // 固定回傳200
+// app.get('/', (req, res) => {
+//   res.status(200).json({ success: true, message: '' })
+// })
 
 app.all('*', (req, res) => {
   res.status(404).json({ success: false, message: '~我找不到~' })

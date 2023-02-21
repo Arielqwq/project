@@ -10,6 +10,11 @@
                 ul
                   li(v-for="product in data.row.products")
                     p {{product.quantity + ' 個 ' + product.p_id.name}}
+
+            //- 刪除
+            template(v-slot:body-cell-delete='data')
+              q-td
+                q-btn(@click="deleteOrder(data.row._id)" round icon="fa-solid fa-trash-can")
 </template>
 
 <script setup>
@@ -56,8 +61,35 @@ const columns = [
     name: 'content',
     label: '訂單內容',
     align: 'left'
+  },
+  {
+    name: 'delete',
+    label: '刪除',
+    align: 'left'
   }
-];
+]
+
+const deleteOrder = async (_id) => {
+  console.log(_id)
+  try {
+    await apiAuth.patch('/orders/delete/' + _id, {
+      status: 1
+    })
+    const index = orders.findIndex(item => item._id === _id)
+    orders.splice(index, 1)
+    Swal.fire({
+      icon: 'success',
+      title: '成功',
+      text: '成功刪除'
+    })
+  } catch (error) {
+    Swal.fire({
+      icon: 'error',
+      title: '失敗',
+      text: error?.response?.data?.message || '發生錯誤'
+    })
+  }
+}
 
 (async () => {
   try {

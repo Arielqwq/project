@@ -6,8 +6,8 @@
         q-table(:columns="columns" :rows="cart" row-key="p_id"  :filter="filter"  )
 
           //- 下架商品出現在購物車，要變紅色，且不能結帳
-          template(v-slot:body-cell='props')
-            q-td( :class="{'bg-red': !props.row.p_id.sell}")
+          //- template(v-slot:body-cell='props')
+          //-   q-td( :class="{'bg-red': !props.row.p_id.sell}")
 
             //- 過濾
           template(v-slot:top-right)
@@ -15,9 +15,14 @@
               template( v-slot:append)
                 q-icon( name="search")
           //- 商品名稱
+            <template v-slot:body="props">
           template(v-slot:body-cell-name='props')
             q-td
               p {{props.row.p_id.name}}
+          //- template(v-slot:body-cell-body='props.row.name')
+            q-tr(:props="props")
+              q-td( key="name" :props="props")
+                p {{props.row.p_id.name}}
 
           //- 商品圖片
           template( v-slot:body-cell-image="props")
@@ -37,16 +42,16 @@
                 p &nbsp;{{ props.row.quantity }}&nbsp;
                 q-btn(color="primary" @click="updateCart(props.row._id, +1,'修改成功')" label="+")
 
+          //- 商品小計
+          template(v-slot:body-cell-happy="props")
+            q-td
+              p {{ props.value }}
+
           //-刪除商品
           template(#body-cell-edit="data")
             q-td
               //- span {{ data.row._id }}
               q-btn(round color="red" @click="updateCart(data.row._id, data.row.quantity*-1 ,'刪除商品')" icon="fa-solid fa-trash-can")
-
-          //- 商品小計
-          //- template(v-slot:body-cell-quantity="props")
-          //-   q-td
-          //-     p {{ columns.value }}
 
       .col-12
         p 總金額 {{ totalPrice }}
@@ -150,12 +155,11 @@ const columns = [
     sortable: true
   },
   {
-    name: 'value',
+    name: 'happy',
     required: true,
     label: '小計',
     align: 'left',
-    field: row => row,
-    format: cart => cart.p_id.price * cart.quantity,
+    field: row => row.quantity * row.p_id.price,
     sortable: true
   },
   {
